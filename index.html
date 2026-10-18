@@ -569,7 +569,7 @@ async function carregarRegistradas(){
     if (!l.length){ box.appendChild(mk("p", "vazio", "Ninguém se registrou ainda. Seja o primeiro!")); return; }
     l.forEach(c => {
       const d = mk("div", "bloco");
-      d.append(mk("span", "nro", fmtNum(c.numero)), mk("b", "", c.fantasia), mk("small", "", c.nome));
+      d.append(mk("span", "nro", fmtNum(c.numero)), mk("b", "", (c.fantasia || "").trim() || "Fantasia não informada"), mk("small", "", c.nome || "Nome não informado"));
       box.appendChild(d);
     });
   } catch(e){ console.error(e); }
@@ -842,8 +842,9 @@ async function carregarEstado(){
         aviso("Novo jogo! Suas marcações foram limpas.");
       }
     }
-    renderJogo();
-  } catch(e){ console.error(e); }
+    if (modoAdmin) renderAdmin();
+    else renderJogo();
+  } catch(e){ console.error("Falha ao sincronizar estado do bingo:", e); }
 }
 async function carregarCartelas(){
   try { cartelas = await getCartelas(); modoAdmin ? renderAdmin() : renderJogo(); } catch(e){ console.error(e); }
@@ -857,11 +858,13 @@ function iniciarSync(){
     canal = db.channel("bingo")
       .on("postgres_changes", { event:"*", schema:"public", table:"bingo_cartelas" }, () => carregarCartelas())
       .on("postgres_changes", { event:"*", schema:"public", table:"bingo_ganhadores" }, () => carregarGanhadores())
-      .on("postgres_changes", { event:"*", schema:"public", table:"bingo_estado" }, () => { if (!modoAdmin) carregarEstado(); })
+      .on("postgres_changes", { event:"*", schema:"public", table:"bingo_estado" }, () => carregarEstado())
       .subscribe();
   }
-  polls = modoAdmin ? [setInterval(carregarCartelas, 6000), setInterval(carregarGanhadores, 8000)]
-                    : [setInterval(carregarEstado, 3000), setInterval(carregarCartelas, 12000), setInterval(carregarGanhadores, 8000)];
+  // Polling de segurança: mantém os dois painéis sincronizados mesmo se o Realtime não estiver ativo.
+  polls = modoAdmin
+    ? [setInterval(carregarEstado, 3000), setInterval(carregarCartelas, 6000), setInterval(carregarGanhadores, 8000)]
+    : [setInterval(carregarEstado, 3000), setInterval(carregarCartelas, 10000), setInterval(carregarGanhadores, 8000)];
 }
 function pararSync(){
   polls.forEach(clearInterval); polls = [];

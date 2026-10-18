@@ -15,7 +15,7 @@
   --vidro:rgba(255,255,255,.06); --borda:rgba(255,255,255,.14);
 }
 *{box-sizing:border-box;margin:0;padding:0}
-html,body{min-height:100%}
+html,body{height:100%;overflow:hidden}
 body{
   font-family:'Bricolage Grotesque',system-ui,sans-serif;color:var(--osso);
   background:
@@ -24,71 +24,78 @@ body{
     var(--noite);
   background-attachment:fixed;
 }
-.lua{position:fixed;top:28px;right:6vw;width:80px;height:80px;border-radius:50%;
+[hidden]{display:none !important}
+.lua{position:fixed;top:20px;right:5vw;width:64px;height:64px;border-radius:50%;
   background:radial-gradient(circle at 35% 35%,#fff4d6,#ffb454 70%);
-  box-shadow:0 0 80px 20px rgba(255,170,60,.3);opacity:.85;pointer-events:none;z-index:0}
+  box-shadow:0 0 70px 16px rgba(255,170,60,.28);opacity:.8;pointer-events:none;z-index:0}
 .tela{display:none;position:relative;z-index:2}
 .tela.ativa{display:block}
-.tela.centro.ativa{display:flex;min-height:100vh;align-items:center;justify-content:center;padding:24px}
-#login.ativa{display:flex;flex-direction:column;align-items:center;gap:40px;padding:7vh 20px 70px}
+.tela.centro.ativa{display:flex;height:100vh;height:100dvh;align-items:center;justify-content:center;padding:16px}
 
 /* Formulários */
-.cartao{width:100%;max-width:400px;padding:34px 28px;border-radius:26px;background:var(--vidro);
+.cartao{width:100%;max-width:400px;padding:24px 26px;border-radius:26px;background:var(--vidro);
   border:1px solid var(--borda);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
   box-shadow:0 20px 60px rgba(0,0,0,.45),0 0 0 1px rgba(255,122,26,.15) inset;text-align:center}
-.cartao .abobora{font-size:54px;filter:drop-shadow(0 0 18px rgba(255,122,26,.6))}
-h1{font-family:'Eater',cursive;font-weight:400;font-size:clamp(32px,6vw,52px);line-height:1.05;color:var(--abobora);
-  text-shadow:0 0 24px rgba(255,122,26,.45);margin:8px 0 6px}
-h2{font-size:17px;font-weight:800;margin-bottom:12px}
-.sub{opacity:.8;font-size:15px;margin-bottom:20px;line-height:1.5}
-label{display:block;text-align:left;font-size:13px;font-weight:600;margin:14px 0 6px;opacity:.9}
-input[type=text],input[type=password]{width:100%;padding:13px 15px;border-radius:12px;border:1px solid var(--borda);background:rgba(0,0,0,.35);
+.cartao .abobora{font-size:46px;filter:drop-shadow(0 0 18px rgba(255,122,26,.6))}
+h1{font-family:'Eater',cursive;font-weight:400;font-size:clamp(28px,5vw,46px);line-height:1.05;color:var(--abobora);
+  text-shadow:0 0 24px rgba(255,122,26,.45);margin:6px 0 4px}
+h2{font-size:16px;font-weight:800;margin-bottom:10px}
+.sub{opacity:.8;font-size:14px;margin-bottom:14px;line-height:1.45}
+label{display:block;text-align:left;font-size:13px;font-weight:600;margin:12px 0 5px;opacity:.9}
+input[type=text],input[type=password]{width:100%;padding:12px 14px;border-radius:12px;border:1px solid var(--borda);background:rgba(0,0,0,.35);
   color:var(--osso);font:inherit;font-size:16px;outline:none;transition:border-color .2s,box-shadow .2s}
 input:focus{border-color:var(--abobora);box-shadow:0 0 0 3px rgba(255,122,26,.25)}
-.btn{margin-top:22px;width:100%;padding:14px;border:0;border-radius:12px;font:inherit;font-weight:800;font-size:16px;
+.btn{margin-top:18px;width:100%;padding:13px;border:0;border-radius:12px;font:inherit;font-weight:800;font-size:16px;
   color:#1a0a00;background:linear-gradient(135deg,#ffa040,var(--abobora));cursor:pointer;
   box-shadow:0 8px 28px rgba(255,122,26,.4);transition:transform .15s,box-shadow .15s}
 .btn:hover{transform:translateY(-2px);box-shadow:0 12px 34px rgba(255,122,26,.55)}
 .btn:disabled{opacity:.6;cursor:wait;transform:none}
-.sec{background:var(--vidro);border:1px solid var(--borda);color:var(--osso);padding:10px 16px;border-radius:12px;
+.sec{background:var(--vidro);border:1px solid var(--borda);color:var(--osso);padding:9px 14px;border-radius:12px;
   font:inherit;font-size:14px;font-weight:600;cursor:pointer;transition:border-color .15s,background .15s}
-.sec:hover{border-color:var(--abobora)}
-.sec:disabled{opacity:.4;cursor:not-allowed}
-.link{background:none;border:0;color:var(--osso);opacity:.7;font:inherit;font-size:13px;text-decoration:underline;cursor:pointer;margin-top:16px}
+.sec:hover:not(:disabled){border-color:var(--abobora)}
+.sec:disabled{opacity:.45;cursor:not-allowed}
+.link{background:none;border:0;color:var(--osso);opacity:.7;font:inherit;font-size:13px;text-decoration:underline;cursor:pointer;margin-top:12px}
 .link:hover{opacity:1}
 button:focus-visible,input:focus-visible,summary:focus-visible{outline:3px solid var(--limo);outline-offset:3px}
-.erro{color:#ff8a8a;font-size:13px;margin-top:12px;min-height:18px}
-.abas{display:flex;gap:6px;background:rgba(0,0,0,.25);border:1px solid var(--borda);border-radius:12px;padding:4px;margin:16px 0 4px}
-.abas button{flex:1;border:0;background:transparent;color:var(--osso);font:inherit;font-size:14px;font-weight:600;padding:9px;border-radius:9px;cursor:pointer}
+.erro{color:#ff8a8a;font-size:13px;margin-top:10px;min-height:18px}
+.aviso{font-size:13px;color:#ffd27a;margin-top:8px;line-height:1.4}
+.abas{display:flex;gap:6px;background:rgba(0,0,0,.25);border:1px solid var(--borda);border-radius:12px;padding:4px;margin:12px 0 2px}
+.abas button{flex:1;border:0;background:transparent;color:var(--osso);font:inherit;font-size:14px;font-weight:600;padding:8px;border-radius:9px;cursor:pointer}
 .abas button.on{background:var(--abobora);color:#1a0a00;font-weight:800}
+.abas button:disabled{opacity:.45;cursor:not-allowed}
 .form{display:none}
 .form.on{display:block}
 
-/* Fantasias registradas */
-.registradas{width:100%;max-width:1000px}
-.registradas h2{font-size:20px;text-align:center;margin-bottom:4px}
-.registradas .sub{text-align:center;margin-bottom:18px;min-height:20px}
-.blocos{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
-.bloco{background:var(--vidro);border:1px solid var(--borda);border-radius:16px;padding:18px 14px;text-align:center;
-  display:flex;flex-direction:column;gap:4px;box-shadow:0 8px 20px rgba(0,0,0,.3)}
-.bloco b{font-size:16px;color:var(--abobora);line-height:1.2;word-break:break-word}
-.bloco small{font-size:13px;opacity:.85;word-break:break-word}
+/* Tela inicial (login) */
+#login.ativa{display:flex;justify-content:center;height:100vh;height:100dvh;padding:12px 16px}
+.loginGrid{width:100%;max-width:1100px;height:100%;min-height:0;display:flex;flex-direction:column;gap:10px;align-items:center}
+.loginGrid .cartao{flex:none}
+.registradas{flex:1;min-height:0;width:100%;display:flex;flex-direction:column}
+.registradas h2{font-size:18px;text-align:center;margin-bottom:2px}
+.registradas .sub{text-align:center;margin-bottom:8px;min-height:18px}
+.blocos{flex:1;min-height:0;overflow:auto;display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;align-content:start;padding:2px}
+.bloco{background:var(--vidro);border:1px solid var(--borda);border-radius:14px;padding:12px 10px;text-align:center;
+  display:flex;flex-direction:column;gap:3px;box-shadow:0 6px 16px rgba(0,0,0,.3)}
+.bloco b{font-size:15px;color:var(--abobora);line-height:1.2;word-break:break-word}
+.bloco small{font-size:12.5px;opacity:.85;word-break:break-word}
+@media (min-width:900px){
+  .loginGrid{flex-direction:row;align-items:stretch;gap:32px}
+  .loginGrid .cartao{align-self:center;width:400px}
+  .registradas{padding-top:7vh}
+}
+@media (max-height:720px){ .cartao .abobora,.cartao>.sub{display:none} .cartao{padding:16px 22px} }
 
-/* Topo */
-.topo{max-width:1100px;margin:0 auto;padding:30px 20px 8px;display:flex;flex-wrap:wrap;gap:14px;align-items:flex-end;justify-content:space-between}
-.topo h1{margin:0}
+/* Topo e navegação */
+.topo{max-width:1100px;margin:0 auto;padding:12px 16px 4px;display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between}
+.topo h1{margin:0;font-size:clamp(24px,4vw,34px)}
 .quem{display:flex;align-items:center;gap:10px;font-size:14px}
 .quem b{color:var(--abobora)}
-.sair{background:var(--vidro);border:1px solid var(--borda);color:var(--osso);padding:8px 14px;border-radius:10px;font:inherit;font-size:13px;cursor:pointer}
+.sair{background:var(--vidro);border:1px solid var(--borda);color:var(--osso);padding:7px 14px;border-radius:10px;font:inherit;font-size:13px;cursor:pointer}
 .sair:hover{border-color:var(--abobora)}
-.painel{background:var(--vidro);border:1px solid var(--borda);border-radius:20px;padding:20px;margin-bottom:16px;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
-details.painel summary{cursor:pointer;font-weight:800;font-size:16px}
-details.painel[open] summary{margin-bottom:12px}
-
-/* Navegação de games */
-.gamesNav{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:14px auto 18px;padding:0 20px}
+.painel{background:var(--vidro);border:1px solid var(--borda);border-radius:18px;padding:14px 16px;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.gamesNav{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
 .gamePill{border:1px solid var(--borda);background:var(--vidro);color:var(--osso);font:inherit;font-size:14px;font-weight:600;
-  padding:10px 18px;border-radius:999px;cursor:default}
+  padding:8px 16px;border-radius:999px;cursor:default}
 .gamePill:disabled{opacity:.4}
 .gamePill.on{background:linear-gradient(135deg,#ffa040,var(--abobora));color:#1a0a00;border-color:transparent;font-weight:800;opacity:1;box-shadow:0 6px 20px rgba(255,122,26,.4)}
 button.gamePill:not(:disabled){cursor:pointer}
@@ -103,115 +110,170 @@ button.gamePill:not(:disabled):not(.on):hover{border-color:var(--abobora)}
 .bolaN.cai{animation:cai .75s cubic-bezier(.3,1.35,.5,1)}
 @keyframes cai{0%{transform:translateY(-80px) scale(.35);opacity:0}60%{opacity:1}100%{transform:none;opacity:1}}
 
-/* Imagem do modo de jogo */
+/* Imagem do modo */
 .padrao{display:grid;grid-template-columns:repeat(5,var(--p));gap:calc(var(--p) * .2);flex:none}
 .padrao .pc{width:var(--p);height:var(--p);border-radius:calc(var(--p) * .22);background:rgba(255,255,255,.1)}
 .padrao .pc.on{background:var(--abobora);box-shadow:0 0 calc(var(--p) * .6) rgba(255,122,26,.55)}
 .padrao .pc.livre{background:transparent;box-shadow:inset 0 0 0 1.5px var(--limo)}
 .padrao .pc.livre.on{background:#c2410c;box-shadow:inset 0 0 0 1.5px var(--limo)}
-.modoLinha{display:flex;align-items:center;gap:18px}
-.modoNome{font-weight:800;font-size:16px}
-.modoDesc{font-size:13px;opacity:.8;margin-top:4px;line-height:1.45}
+.modoLinha{display:flex;align-items:center;gap:14px}
+.modoNome{font-weight:800;font-size:15px}
+.modoDesc{font-size:12.5px;opacity:.8;margin-top:3px;line-height:1.4}
 
-/* Tela da cartela (jogador, centralizada) */
-.cartelaWrap{max-width:480px;margin:0 auto;padding:0 20px 60px;display:flex;flex-direction:column;align-items:center}
-.cartelaWrap .tag{font-size:14px;margin-bottom:14px;opacity:.9;text-align:center}
-.cartelaWrap .tag b{color:var(--abobora)}
-.cartelaGrid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;width:100%}
-.celula{aspect-ratio:1;border-radius:14px;border:1px solid var(--borda);background:linear-gradient(180deg,var(--roxo2),var(--roxo));
-  color:var(--osso);font:inherit;font-weight:800;font-size:clamp(18px,5vw,27px);cursor:pointer;
+/* Jogador: games (uma tela, sem rolagem) */
+#games.ativa{display:flex;flex-direction:column;height:100vh;height:100dvh;overflow:hidden}
+#games .topo{flex:none;width:100%}
+#games .gamesNav{flex:none;margin:4px auto 8px;padding:0 16px}
+#games > section{flex:1;min-height:0}
+
+#gEspera:not([hidden]){display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;text-align:center;padding:0 24px 40px}
+#gEspera .abobora{font-size:64px;filter:drop-shadow(0 0 22px rgba(255,122,26,.6));animation:flutua 2.4s ease-in-out infinite}
+#gEspera h2{font-size:22px;margin:0}
+#gEspera p{opacity:.8;font-size:15px}
+@keyframes flutua{50%{transform:translateY(-8px)}}
+
+#gCartela:not([hidden]){display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 16px 12px}
+.cartelaCol{width:max(200px,min(92vw,440px,calc(100dvh - 330px)));display:flex;flex-direction:column;gap:10px}
+.cartelaTopo{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.cartelaTopo .tag{font-size:14px;opacity:.95;line-height:1.3}
+.cartelaTopo .tag b{color:var(--abobora)}
+.cartelaTopo .sec{padding:7px 12px;font-size:12.5px;flex:none}
+.cartelaGrid{display:grid;grid-template-columns:repeat(5,1fr);gap:7px;width:100%}
+.celula{aspect-ratio:1;min-width:0;border-radius:13px;border:1px solid var(--borda);background:linear-gradient(180deg,var(--roxo2),var(--roxo));
+  color:var(--osso);font:inherit;font-weight:800;font-size:clamp(16px,5vw,26px);cursor:pointer;
   box-shadow:0 6px 16px rgba(0,0,0,.35);transition:transform .12s}
 .celula:hover{transform:translateY(-2px);border-color:var(--abobora)}
 .celula.marcada{background:linear-gradient(135deg,#ffa040,var(--abobora));color:#1a0a00;border-color:transparent;box-shadow:0 0 22px rgba(255,122,26,.55)}
-.celula.livre{cursor:default;font-size:clamp(22px,5.5vw,32px);background:linear-gradient(135deg,#4a2a8f,#2a1250);border-color:var(--limo)}
+.celula.livre{cursor:default;font-size:clamp(20px,5.5vw,30px);background:linear-gradient(135deg,#4a2a8f,#2a1250);border-color:var(--limo)}
 .celula.livre:hover{transform:none}
-.acoes{display:flex;flex-wrap:wrap;gap:10px;margin:16px 0 22px;justify-content:center}
-.modoBox{width:100%;margin-bottom:12px}
-.dica{font-size:12px;opacity:.7;line-height:1.5;text-align:center}
+.modoBox{padding:10px 14px}
 
-/* Games de blocos (jogador) */
-.blocosWrap{max-width:1000px;margin:0 auto;padding:0 20px 60px}
-.blocosWrap h2{font-size:20px;text-align:center;margin-bottom:6px}
-.resumo{text-align:center;font-size:14px;opacity:.9;margin-bottom:6px;min-height:20px}
+#gBlocos:not([hidden]){display:flex;flex-direction:column;padding:0 14px 12px}
+.blocosTopo{flex:none;text-align:center;padding-bottom:8px}
+.blocosTopo h2{font-size:18px;margin-bottom:4px}
+.resumo{display:flex;gap:8px;justify-content:center;align-items:center;flex-wrap:wrap;font-size:13px;min-height:30px}
 .resumo b{color:var(--abobora)}
-.travado{text-align:center;font-size:13px;color:#ffd27a;margin-bottom:12px}
-.blocosGrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px;margin-top:14px}
-.blocosGrid.filmes{grid-template-columns:repeat(auto-fill,minmax(170px,1fr))}
-.blocoJogo{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;min-height:84px;padding:12px 8px;text-align:center;
-  border-radius:16px;border:1px solid var(--borda);background:linear-gradient(180deg,var(--roxo2),var(--roxo));color:var(--osso);font:inherit;cursor:pointer;
-  box-shadow:0 6px 16px rgba(0,0,0,.3);transition:transform .12s,border-color .15s}
-.blocoJogo:hover:not(:disabled){transform:translateY(-3px);border-color:var(--abobora)}
-.blocoJogo .nums{display:flex;gap:10px;font-weight:800;font-size:18px}
-.blocosGrid.filmes .blocoJogo .nums{font-size:14px;line-height:1.25}
-.blocoJogo .dono{font-size:12px;font-weight:700;color:var(--abobora);word-break:break-word}
+.btnMini{padding:5px 12px;font-size:12.5px;border-radius:10px}
+.travado{font-size:12.5px;color:#ffd27a;margin-top:2px}
+.blocosArea{flex:1;min-height:0;overflow:hidden}
+.blocosArea.rolar{overflow:auto}
+.blocosGrid{display:grid;gap:6px;width:100%;height:100%}
+.blocosArea.rolar .blocosGrid{height:auto}
+.blocoJogo{--fs:14px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;min-width:0;min-height:0;padding:4px;text-align:center;overflow:hidden;
+  border-radius:12px;border:1px solid var(--borda);background:linear-gradient(180deg,var(--roxo2),var(--roxo));color:var(--osso);font:inherit;cursor:pointer;
+  box-shadow:0 4px 12px rgba(0,0,0,.3);transition:transform .12s,border-color .15s}
+.blocoJogo:hover:not(:disabled){transform:translateY(-2px);border-color:var(--abobora)}
+.blocoJogo .nums{display:flex;flex-wrap:wrap;justify-content:center;gap:.55em;font-weight:800;font-size:var(--fs);line-height:1.15}
+.blocosGrid.filmes .nums{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;font-weight:700}
+.blocoJogo .dono{font-size:calc(var(--fs) * .78);font-weight:700;color:var(--abobora);line-height:1.1;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .blocoJogo.ocupado{cursor:not-allowed;background:linear-gradient(180deg,#2b2a35,#1a1922);border-color:rgba(255,255,255,.08)}
 .blocoJogo.ocupado .nums{opacity:.55}
-.blocoJogo.minha{border-color:var(--limo);box-shadow:0 0 0 2px var(--limo),0 0 26px rgba(166,255,92,.35);cursor:pointer}
+.blocoJogo.minha{border-color:var(--limo);box-shadow:0 0 0 2px var(--limo),0 0 22px rgba(166,255,92,.35);cursor:pointer}
 .blocoJogo.minha .dono{color:var(--limo)}
 .blocoJogo:disabled{cursor:not-allowed}
 
 /* Listas */
-.rank,.lista{list-style:none;display:flex;flex-direction:column;gap:8px}
-.rank li{display:grid;grid-template-columns:30px 1fr auto;gap:10px;align-items:center;background:rgba(0,0,0,.25);border:1px solid var(--borda);
-  border-radius:12px;padding:9px 12px}
-.rank .pos{font-weight:800;opacity:.7;text-align:center;font-size:14px}
-.rank .info b,.lista .info b{display:block;font-size:14px}
-.rank .info small,.lista .info small{opacity:.75;font-size:12px}
-.rank .falta{font-size:11.5px;opacity:.85;margin-top:2px}
-.chip{font-size:12px;font-weight:800;padding:5px 10px;border-radius:999px;background:rgba(255,122,26,.22);color:var(--abobora);white-space:nowrap}
-.rank li.venceu{border-color:var(--limo);box-shadow:0 0 18px rgba(166,255,92,.3)}
+.rank,.lista{list-style:none;display:flex;flex-direction:column;gap:7px}
+.rank li{display:grid;grid-template-columns:28px 1fr auto;gap:8px;align-items:center;background:rgba(0,0,0,.25);border:1px solid var(--borda);
+  border-radius:11px;padding:7px 10px}
+.rank .pos{font-weight:800;opacity:.7;text-align:center;font-size:13px}
+.rank .info b{display:block;font-size:13.5px}
+.rank .info small{opacity:.75;font-size:11.5px}
+.rank .falta{font-size:11px;opacity:.85;margin-top:2px}
+.chip{font-size:11.5px;font-weight:800;padding:4px 9px;border-radius:999px;background:rgba(255,122,26,.22);color:var(--abobora);white-space:nowrap}
+.rank li.venceu{border-color:var(--limo);box-shadow:0 0 16px rgba(166,255,92,.28)}
 .rank li.venceu .chip{background:var(--limo);color:#102000}
-.vazio{opacity:.65;font-size:14px;padding:6px 0}
-.rodadaTit{font-size:14px;font-weight:800;margin:12px 0 6px;color:var(--abobora)}
-.lista li{display:flex;flex-wrap:wrap;align-items:center;gap:10px;background:rgba(0,0,0,.25);border:1px solid var(--borda);border-radius:12px;padding:9px 12px}
-.lista li.pendente{border-color:#ffd27a;box-shadow:0 0 16px rgba(255,210,122,.25)}
-.lista .info{flex:1;min-width:140px}
-.lista .btns{display:flex;gap:6px;flex-wrap:wrap}
-.btnMini{padding:6px 12px;font-size:12.5px;border-radius:10px}
-.btnMini.ok{background:var(--limo);color:#102000;border-color:transparent;font-weight:800}
+.vazio{opacity:.65;font-size:13.5px;padding:4px 0}
+.rodadaTit{font-size:13px;font-weight:800;margin:10px 0 5px;color:var(--abobora)}
 .chip.pend{background:rgba(255,210,122,.2);color:#ffd27a}
 .chip.aprov{background:rgba(166,255,92,.18);color:var(--limo)}
 
-/* Admin */
-.adminGrid{max-width:1100px;margin:6px auto 60px;padding:0 20px;display:grid;grid-template-columns:minmax(0,400px) minmax(0,1fr);gap:22px;align-items:start}
-.banner{max-width:1060px;margin:10px auto 0;display:flex;align-items:center;gap:14px;justify-content:space-between;
-  background:rgba(166,255,92,.14);border:1px solid var(--limo);box-shadow:0 0 26px rgba(166,255,92,.3);padding:12px 16px;border-radius:14px;font-weight:700}
-.banner[hidden]{display:none}
-.globoWrap{display:flex;flex-direction:column;align-items:center}
-.globoVidro{width:280px;height:280px;border-radius:50%;position:relative;
+/* Admin (uma tela, sem rolagem) */
+#admin.ativa{display:flex;flex-direction:column;height:100vh;height:100dvh;overflow:hidden;padding:0 16px 12px}
+.aTopo{flex:none;display:flex;align-items:center;gap:16px;padding:10px 0 8px;flex-wrap:wrap}
+.aTopo h1{margin:0;font-size:clamp(24px,3.4vw,32px)}
+.abasAdmin{display:flex;gap:6px;background:rgba(0,0,0,.25);border:1px solid var(--borda);border-radius:12px;padding:4px}
+.abasAdmin button{border:0;background:transparent;color:var(--osso);font:inherit;font-size:14px;font-weight:600;padding:8px 16px;border-radius:9px;cursor:pointer}
+.abasAdmin button.on{background:var(--abobora);color:#1a0a00;font-weight:800}
+.abasAdmin .badge{display:inline-block;min-width:20px;padding:1px 6px;margin-left:6px;border-radius:999px;background:#ffd27a;color:#2a1a00;font-size:12px;font-weight:800;text-align:center}
+.aTopo .quem{margin-left:auto}
+.banner{flex:none;display:flex;align-items:center;gap:14px;justify-content:space-between;margin-bottom:8px;
+  background:rgba(166,255,92,.14);border:1px solid var(--limo);box-shadow:0 0 22px rgba(166,255,92,.28);padding:9px 14px;border-radius:12px;font-weight:700;font-size:14px}
+.aTela{flex:1;min-height:0}
+.aTela:not([hidden]){display:flex;flex-direction:column;gap:10px}
+.aTopoRow{flex:1.25;min-height:0;display:grid;grid-template-columns:minmax(0,1fr) minmax(300px,400px);gap:10px}
+.aRodape{flex:1;min-height:0;display:grid;grid-template-columns:1fr 1fr 1.35fr;gap:10px}
+.aTela .painel{min-height:0;overflow:auto}
+.aRodape .painel h2{font-size:15px;margin-bottom:8px}
+.cabecalho{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px}
+.cabecalho h2{margin:0}
+
+.pControle{display:flex;flex-direction:column;gap:10px}
+.pControle .gamesNav{justify-content:flex-start}
+.pControle .gamePill{padding:7px 14px;font-size:13.5px}
+.linhaCtrl{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.controles{display:flex;gap:8px;flex-wrap:wrap}
+.controles .play{background:linear-gradient(135deg,#ffa040,var(--abobora));color:#1a0a00;border-color:transparent;font-weight:800}
+.novo{border-color:rgba(255,122,26,.6);color:var(--abobora);font-weight:800}
+.contador{font-size:13.5px;opacity:.85}
+.modos{border:0;min-width:0}
+.modos legend{font-size:13px;font-weight:800;margin-bottom:8px}
+.modosGrid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+.modoCard{display:flex;flex-direction:column;align-items:center;gap:6px;padding:8px 4px;text-align:center;font-size:11.5px;line-height:1.2}
+.modoCard.on{border-color:var(--limo);box-shadow:0 0 0 2px var(--limo);background:rgba(166,255,92,.08)}
+
+.pGlobo{display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden !important}
+.globoVidro{--gs:clamp(150px,calc(.545 * (100dvh - 110px) - 120px),290px);width:var(--gs);height:var(--gs);border-radius:50%;position:relative;flex:none;
   background:radial-gradient(circle at 50% 60%,rgba(130,80,230,.28),rgba(14,5,30,.7) 72%);
   border:3px solid rgba(255,255,255,.3);box-shadow:0 0 60px rgba(160,100,255,.35),inset 0 0 50px rgba(0,0,0,.55)}
-.globoVidro canvas{display:block;border-radius:50%}
-.suporte{width:170px;height:20px;margin-top:-8px;border-radius:0 0 60px 60px;background:linear-gradient(180deg,#5b3aa8,#2a1250);box-shadow:0 10px 24px rgba(0,0,0,.5)}
-.bandeja{display:flex;align-items:center;gap:14px;margin-top:16px;padding:10px 20px 10px 12px;border-radius:999px;background:rgba(0,0,0,.3);border:1px solid var(--borda);max-width:100%}
-.bandeja span{font-size:14px;font-weight:600;opacity:.9}
-.contador{margin:14px 0 4px;font-size:14px;opacity:.85;text-align:center}
-.controles{display:flex;gap:10px;margin:12px 0 8px;flex-wrap:wrap;justify-content:center}
-.controles .sec{min-width:92px}
-.controles .play{background:linear-gradient(135deg,#ffa040,var(--abobora));color:#1a0a00;border-color:transparent;font-weight:800}
-.novo{width:100%;border-color:rgba(255,122,26,.6);color:var(--abobora);font-weight:800}
-.modos{border:0;margin-top:16px;width:100%}
-.modos legend{font-size:14px;font-weight:800;margin-bottom:10px}
-.modosGrid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
-.modoCard{display:flex;flex-direction:column;align-items:center;gap:10px;padding:14px 8px 12px;text-align:center;font-size:12.5px}
-.modoCard.on{border-color:var(--limo);box-shadow:0 0 0 2px var(--limo);background:rgba(166,255,92,.08)}
-.quadro{display:grid;grid-template-columns:repeat(10,1fr);gap:4px}
-.quadro .n{font-size:11px;text-align:center;padding:6px 0;border-radius:6px;background:rgba(255,255,255,.05);opacity:.55}
+.globoVidro canvas{display:block;width:100%;height:100%;border-radius:50%}
+.suporte{flex:none;width:60%;max-width:170px;height:14px;margin-top:-6px;border-radius:0 0 60px 60px;background:linear-gradient(180deg,#5b3aa8,#2a1250);box-shadow:0 8px 20px rgba(0,0,0,.5)}
+.bandeja{display:flex;align-items:center;gap:12px;margin-top:10px;padding:6px 18px 6px 8px;border-radius:999px;background:rgba(0,0,0,.3);border:1px solid var(--borda);max-width:100%}
+.bandeja span{font-size:14px;font-weight:600;opacity:.95}
+
+.quadro{display:grid;grid-template-columns:repeat(15,1fr);gap:3px}
+.quadro .n{font-size:11px;text-align:center;padding:4px 0;border-radius:5px;background:rgba(255,255,255,.05);opacity:.55}
 .quadro .n.on{background:var(--abobora);color:#1a0a00;opacity:1;font-weight:800}
 .quadro .n.ult{background:var(--limo);box-shadow:0 0 10px var(--limo)}
-.quadro.lista{display:flex;flex-wrap:wrap;gap:6px}
-.quadro .chipFilme{font-size:12px;padding:5px 10px;border-radius:999px;background:rgba(255,255,255,.06);opacity:.6}
+.quadro.lista{display:flex;flex-wrap:wrap;gap:5px}
+.quadro .chipFilme{font-size:11.5px;padding:4px 9px;border-radius:999px;background:rgba(255,255,255,.06);opacity:.6}
 .quadro .chipFilme.on{background:var(--abobora);color:#1a0a00;opacity:1;font-weight:700}
 .quadro .chipFilme.ult{background:var(--limo);box-shadow:0 0 10px var(--limo)}
 
-#toast{position:fixed;left:50%;bottom:26px;transform:translate(-50%,30px);opacity:0;background:var(--osso);color:#1a0a00;
-  padding:12px 20px;border-radius:12px;font-weight:600;font-size:14px;z-index:10;transition:.3s;pointer-events:none;max-width:90vw;text-align:center}
+/* Aba Jogadores */
+.jogBarra{flex:none;display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;padding:12px 16px}
+.jogBarra .resumoJog{font-size:14px}
+.jogBarra .resumoJog b{color:var(--abobora)}
+.jogBarra .inscs{display:flex;align-items:center;gap:10px;font-size:14px}
+.inscs .estado{font-weight:800}
+.inscs .estado.aberta{color:var(--limo)}
+.inscs .estado.fechada{color:#ff8a8a}
+.jogGrid{flex:1;min-height:0;overflow:auto;display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:10px;align-content:start}
+.jogCard{display:flex;flex-wrap:wrap;align-items:center;gap:8px 10px;background:var(--vidro);border:1px solid var(--borda);border-radius:14px;padding:10px 12px}
+.jogCard.pendente{border-color:#ffd27a;box-shadow:0 0 16px rgba(255,210,122,.22)}
+.jogCard .info{flex:1;min-width:120px}
+.jogCard .info b{display:block;font-size:14px}
+.jogCard .info small{opacity:.75;font-size:12px}
+.jogCard .btns{display:flex;gap:6px;flex-wrap:wrap;width:100%}
+.btnMini.ok{background:var(--limo);color:#102000;border-color:transparent;font-weight:800}
+.jogGrid .vazio{grid-column:1/-1;padding:20px}
+
+#toast{position:fixed;left:50%;bottom:22px;transform:translate(-50%,30px);opacity:0;background:var(--osso);color:#1a0a00;
+  padding:11px 18px;border-radius:12px;font-weight:600;font-size:14px;z-index:10;transition:.3s;pointer-events:none;max-width:90vw;text-align:center}
 #toast.on{opacity:1;transform:translate(-50%,0)}
-@media (max-width:820px){
-  .adminGrid{grid-template-columns:1fr}
-  .quadro{gap:3px}.quadro .n{font-size:10px}
+
+/* Admin em telas estreitas: empilha e libera a rolagem (o painel foi pensado para computador) */
+@media (max-width:980px){
+  html,body{overflow:auto}
+  #admin.ativa{height:auto;min-height:100dvh;overflow:visible}
+  .aTela:not([hidden]){display:block}
+  .aTopoRow,.aRodape{display:flex;flex-direction:column;margin-bottom:10px}
+  .aTela .painel{overflow:visible}
+  .modosGrid{grid-template-columns:repeat(3,1fr)}
+  .globoVidro{--gs:260px}
+  .quadro{grid-template-columns:repeat(10,1fr)}
 }
-@media (prefers-reduced-motion:reduce){ .bolaN.cai{animation:none} }
+@media (prefers-reduced-motion:reduce){ .bolaN.cai,#gEspera .abobora{animation:none} }
 </style>
 </head>
 <body>
@@ -219,41 +281,44 @@ button.gamePill:not(:disabled):not(.on):hover{border-color:var(--abobora)}
 
 <!-- LOGIN -->
 <main id="login" class="tela ativa">
-  <div class="cartao">
-    <div class="abobora" aria-hidden="true">🎃</div>
-    <h1 id="tituloFesta">Festa de Halloween</h1>
-    <p class="sub">Entre com seu nome e uma senha de 4 números.</p>
-    <div class="abas" role="tablist">
-      <button type="button" class="on" data-aba="entrar" role="tab">Entrar</button>
-      <button type="button" data-aba="criar" role="tab">Criar conta</button>
+  <div class="loginGrid">
+    <div class="cartao">
+      <div class="abobora" aria-hidden="true">🎃</div>
+      <h1 id="tituloFesta">Festa de Halloween</h1>
+      <p class="sub">Entre com seu nome e uma senha de 4 números.</p>
+      <div class="abas" role="tablist">
+        <button type="button" class="on" data-aba="entrar" role="tab">Entrar</button>
+        <button type="button" data-aba="criar" role="tab" id="abaCriar">Criar conta</button>
+      </div>
+      <p class="aviso" id="avisoInsc" hidden>As inscrições foram encerradas. Quem já tem conta pode entrar normalmente.</p>
+
+      <form class="form on" id="formEntrar" autocomplete="off">
+        <label for="eNome">Seu nome</label>
+        <input type="text" id="eNome" maxlength="30" required>
+        <label for="ePin">Senha (4 números)</label>
+        <input type="password" id="ePin" inputmode="numeric" pattern="[0-9]{4}" maxlength="4" required autocomplete="off">
+        <div class="erro" id="erroEntrar" role="alert"></div>
+        <button class="btn" type="submit">Entrar</button>
+      </form>
+
+      <form class="form" id="formCriar" autocomplete="off">
+        <label for="cNomeNovo">Seu nome</label>
+        <input type="text" id="cNomeNovo" maxlength="30" required>
+        <label for="cPinNovo">Crie uma senha de 4 números</label>
+        <input type="password" id="cPinNovo" inputmode="numeric" pattern="[0-9]{4}" maxlength="4" required autocomplete="off">
+        <label for="cFantasiaNova">Qual é a sua fantasia?</label>
+        <input type="text" id="cFantasiaNova" maxlength="40" required placeholder="Ex.: Vampiro, Bruxa, Palhaço">
+        <div class="erro" id="erroCriar" role="alert"></div>
+        <button class="btn" type="submit">Criar minha conta</button>
+      </form>
+      <button class="link" type="button" id="irAdmin">Sou o admin</button>
     </div>
-
-    <form class="form on" id="formEntrar" autocomplete="off">
-      <label for="eNome">Seu nome</label>
-      <input type="text" id="eNome" maxlength="30" required>
-      <label for="ePin">Senha (4 números)</label>
-      <input type="password" id="ePin" inputmode="numeric" pattern="[0-9]{4}" maxlength="4" required autocomplete="off">
-      <div class="erro" id="erroEntrar" role="alert"></div>
-      <button class="btn" type="submit">Entrar</button>
-    </form>
-
-    <form class="form" id="formCriar" autocomplete="off">
-      <label for="cNomeNovo">Seu nome</label>
-      <input type="text" id="cNomeNovo" maxlength="30" required>
-      <label for="cPinNovo">Crie uma senha de 4 números</label>
-      <input type="password" id="cPinNovo" inputmode="numeric" pattern="[0-9]{4}" maxlength="4" required autocomplete="off">
-      <label for="cFantasiaNova">Qual é a sua fantasia?</label>
-      <input type="text" id="cFantasiaNova" maxlength="40" required placeholder="Ex.: Vampiro, Bruxa, Palhaço">
-      <div class="erro" id="erroCriar" role="alert"></div>
-      <button class="btn" type="submit">Criar minha conta</button>
-    </form>
-    <button class="link" type="button" id="irAdmin">Sou o admin</button>
+    <section class="registradas" aria-labelledby="regTitulo">
+      <h2 id="regTitulo">Fantasias já registradas</h2>
+      <p class="sub" id="regInfo"></p>
+      <div class="blocos" id="regBlocos"></div>
+    </section>
   </div>
-  <section class="registradas" aria-labelledby="regTitulo">
-    <h2 id="regTitulo">Fantasias já registradas</h2>
-    <p class="sub" id="regInfo"></p>
-    <div class="blocos" id="regBlocos"></div>
-  </section>
 </main>
 
 <!-- AGUARDANDO APROVAÇÃO -->
@@ -261,7 +326,7 @@ button.gamePill:not(:disabled):not(.on):hover{border-color:var(--abobora)}
   <div class="cartao">
     <div class="abobora" aria-hidden="true">⏳</div>
     <h1>Quase lá</h1>
-    <p class="sub" id="pendTxt">Sua conta foi criada. Agora é só esperar o admin aprovar a sua entrada. Esta tela atualiza sozinha.</p>
+    <p class="sub">Sua conta foi criada. Agora é só esperar o admin aprovar a sua entrada. Esta tela atualiza sozinha.</p>
     <button class="sec" type="button" id="pendSair">Sair</button>
   </div>
 </main>
@@ -288,68 +353,80 @@ button.gamePill:not(:disabled):not(.on):hover{border-color:var(--abobora)}
   </header>
   <nav class="gamesNav" id="gamesNav" aria-label="Games"></nav>
 
+  <section id="gEspera" hidden>
+    <div class="abobora" aria-hidden="true">🎃</div>
+    <h2>Aguarde o próximo jogo</h2>
+    <p>O admin vai liberar o game em instantes. Esta tela atualiza sozinha.</p>
+  </section>
+
   <section id="gCartela" hidden>
-    <div class="cartelaWrap">
-      <p class="tag">Cartela <b id="cNumero"></b> · Fantasia: <b id="cFantasia"></b></p>
+    <div class="cartelaCol">
+      <div class="cartelaTopo">
+        <p class="tag">Cartela <b id="cNumero"></b><br>Fantasia: <b id="cFantasia"></b></p>
+        <button class="sec" id="btnLimpar">Limpar marcações</button>
+      </div>
       <div class="cartelaGrid" id="cartelaGrid" role="group" aria-label="Sua cartela"></div>
-      <div class="acoes"><button class="sec" id="btnLimpar">Limpar marcações</button></div>
       <div class="painel modoBox">
-        <h2>Modo do jogo</h2>
         <div class="modoLinha">
           <div id="pPadrao"></div>
           <div><div class="modoNome" id="pModoNome"></div><p class="modoDesc" id="pModoDesc"></p></div>
         </div>
       </div>
-      <p class="dica">Toque nos números para marcar ou desmarcar. Sua cartela é fixa: os números não mudam.</p>
     </div>
   </section>
 
   <section id="gBlocos" hidden>
-    <div class="blocosWrap">
+    <div class="blocosTopo">
       <h2 id="bTitulo"></h2>
-      <p class="resumo" id="bResumo"></p>
+      <div class="resumo"><span id="bResumo"></span><button class="sec btnMini" id="btnCopiar" type="button" hidden>Copiar</button></div>
       <p class="travado" id="bTravado" hidden>O sorteio já começou: as escolhas estão travadas.</p>
-      <div class="blocosGrid" id="bGrid"></div>
     </div>
+    <div class="blocosArea" id="bArea"><div class="blocosGrid" id="bGrid"></div></div>
   </section>
 </main>
 
 <!-- ADMIN -->
 <main id="admin" class="tela">
-  <header class="topo">
-    <h1>Painel do admin</h1>
+  <header class="aTopo">
+    <h1>Admin</h1>
+    <nav class="abasAdmin" aria-label="Seções do admin">
+      <button type="button" class="on" data-t="painel">Painel</button>
+      <button type="button" data-t="jogadores">Jogadores<span class="badge" id="badgePend" hidden></span></button>
+    </nav>
     <div class="quem"><span id="aInfo"></span><button class="sair" id="aSair">Sair</button></div>
   </header>
-  <nav class="gamesNav" id="aGames" aria-label="Game ativo"></nav>
-  <p class="contador" style="margin-top:-6px">O game marcado é o que os jogadores estão vendo agora.</p>
   <div class="banner" id="aBanner" hidden><span id="aBannerTxt"></span><button class="sec btnMini" id="aBannerFechar">Ok</button></div>
-  <div class="adminGrid">
-    <section class="painel">
-      <div class="globoWrap">
+
+  <!-- aba Painel -->
+  <section id="tPainel" class="aTela">
+    <div class="aTopoRow">
+      <div class="painel pControle">
+        <nav class="gamesNav" id="aGames" aria-label="Game ativo"></nav>
+        <div class="linhaCtrl">
+          <div class="controles">
+            <button class="sec play" id="btnPlay">▶ Play</button>
+            <button class="sec" id="btnPause">⏸ Pause</button>
+            <button class="sec" id="btnReset">↺ Reset</button>
+          </div>
+          <button class="sec novo" id="btnNovo">Novo jogo</button>
+          <button class="sec" id="btnEspera">⏳ Colocar em espera</button>
+        </div>
+        <p class="contador" id="aContador" aria-live="polite"></p>
+        <fieldset class="modos" id="modosBox">
+          <legend>Modo da cartela</legend>
+          <div class="modosGrid" id="modosGrid"></div>
+        </fieldset>
+      </div>
+      <div class="painel pGlobo">
         <div class="globoVidro"><canvas id="globoCanvas" aria-hidden="true"></canvas></div>
         <div class="suporte" aria-hidden="true"></div>
-        <div class="bandeja"><div class="bolaN" id="bolaAtual" style="--s:84px"></div><span id="bolaTitulo">Bola sorteada</span></div>
-        <p class="contador" id="aContador" aria-live="polite"></p>
-        <div class="controles">
-          <button class="sec play" id="btnPlay">▶ Play</button>
-          <button class="sec" id="btnPause">⏸ Pause</button>
-          <button class="sec" id="btnReset">↺ Reset</button>
-        </div>
-        <button class="sec novo" id="btnNovo">Novo jogo</button>
+        <div class="bandeja"><div class="bolaN" id="bolaAtual" style="--s:54px"></div><span id="bolaTitulo">Bola sorteada</span></div>
       </div>
-      <fieldset class="modos" id="modosBox">
-        <legend>Modo da cartela</legend>
-        <div class="modosGrid" id="modosGrid"></div>
-      </fieldset>
-    </section>
-    <section>
+    </div>
+    <div class="aRodape">
       <div class="painel">
-        <h2 id="aJogTit">Jogadores</h2>
-        <ul class="lista" id="aJog"></ul>
-      </div>
-      <div class="painel">
-        <h2 id="aGanhTit">Ganhadores</h2>
-        <ol class="rank" id="aGanh"></ol>
+        <div class="cabecalho"><h2 id="aGanhTit">Ganhadores</h2><button class="sec btnMini" id="btnHist" hidden>Rodadas anteriores</button></div>
+        <div id="aGanhCorpo"></div>
       </div>
       <div class="painel">
         <h2>Quem está mais perto</h2>
@@ -359,12 +436,20 @@ button.gamePill:not(:disabled):not(.on):hover{border-color:var(--abobora)}
         <h2 id="aQuadroTit">Números sorteados</h2>
         <div class="quadro" id="quadro"></div>
       </div>
-      <details class="painel" id="aHistBox" hidden>
-        <summary>Rodadas anteriores</summary>
-        <div id="aHist"></div>
-      </details>
-    </section>
-  </div>
+    </div>
+  </section>
+
+  <!-- aba Jogadores -->
+  <section id="tJogadores" class="aTela" hidden>
+    <div class="painel jogBarra">
+      <div class="resumoJog" id="jogResumo"></div>
+      <div class="inscs">
+        <span>Inscrições: <span class="estado" id="inscEstado"></span></span>
+        <button class="sec" id="btnInsc" type="button"></button>
+      </div>
+    </div>
+    <div class="jogGrid" id="aJog"></div>
+  </section>
 </main>
 <div id="toast" role="status"></div>
 
@@ -425,18 +510,18 @@ const FILMES = TITULOS.map((t, i) => ({ key:String(i + 1), nums:[i + 1], txt:[t]
 const ITENS = { sequencia:SEQ, invertido:INV, filmes:FILMES };
 const GAMES = {
   cartela:   { nome:"Cartela",          pool:90 },
-  sequencia: { nome:"Sequências",       pool:90, limite:1, titulo:"Sequências",       unidade:"bloco" },
-  invertido: { nome:"Invertido",        pool:90, limite:1, titulo:"Invertido",        unidade:"bloco" },
-  filmes:    { nome:"Filmes de Terror", pool:FILMES.length, limite:2, titulo:"Filmes de Terror", unidade:"filme" }
+  sequencia: { nome:"Sequências",       pool:90, limite:1, titulo:"Sequências" },
+  invertido: { nome:"Invertido",        pool:90, limite:1, titulo:"Invertido" },
+  filmes:    { nome:"Filmes de Terror", pool:FILMES.length, limite:2, titulo:"Filmes de Terror" }
 };
 const itemPorKey = (g, k) => ITENS[g].find(i => i.key === k);
 const rotuloItem = it => it.txt.join(" ");
 
 /* ---------- Estado ---------- */
-let sessao = null, jogoAtivo = "cartela";
+let sessao = null, jogoAtivo = "cartela", espera = false, inscricoes = true;
 let jogos = {}, escolhas = [], ganhadores = [], mapaJog = new Map();
 let cartela = null, rodadaCartela = null, carregandoCartela = false;
-let modoAdmin = false, senhaAdmin = null;
+let modoAdmin = false, senhaAdmin = null, abaAdmin = "painel", verHist = false;
 let admJogadores = [], admCartelas = [];
 let canal = null, polls = [], timer = null, girando = false, ultimaSig = "", modoDesenhado = null, sigJog = "";
 
@@ -444,6 +529,7 @@ let canal = null, polls = [], timer = null, girando = false, ultimaSig = "", mod
 const lerLS = (k, f) => { try { const v = JSON.parse(localStorage.getItem(k)); return v == null ? f : v; } catch(e){ return f; } };
 const ativa = sel => $(sel).classList.contains("ativa");
 const fmtNum = n => n == null ? "" : "nº " + String(n).padStart(3, "0");
+const clamp = (min, v, max) => Math.max(min, Math.min(max, v));
 function aviso(msg){
   const t = $("#toast"); t.textContent = msg; t.classList.add("on");
   clearTimeout(aviso.t); aviso.t = setTimeout(() => t.classList.remove("on"), 3400);
@@ -481,6 +567,12 @@ function desenharPadrao(dest, modo, px){
 function normJogo(r){
   return { sorteados:Array.isArray(r.sorteados) ? r.sorteados : [], modo:MODOS[r.modo] ? r.modo : "horizontal", rodando:!!r.rodando, rodada:r.rodada || 1 };
 }
+function aplicarGlobal(g){
+  if (!g) return;
+  jogoAtivo = GAMES[g.ativo] ? g.ativo : "cartela";
+  espera = !!g.espera;
+  inscricoes = g.inscricoes !== false;
+}
 function guardarMapa(lista){ mapaJog = new Map(lista.map(p => [p.id, p])); }
 const nomeDe = id => (mapaJog.get(id) || { nome:"Jogador" }).nome;
 
@@ -495,11 +587,19 @@ async function tab(t){
 }
 const credenciais = () => ({ p_id:sessao.id, p_pin:sessao.pin });
 
-/* ---------- Tela inicial: fantasias registradas ---------- */
+/* ---------- Tela inicial ---------- */
+function aplicarInscricoes(){
+  const b = $("#abaCriar");
+  b.disabled = !inscricoes;
+  b.textContent = inscricoes ? "Criar conta" : "Inscrições encerradas";
+  $("#avisoInsc").hidden = inscricoes;
+  if (!inscricoes && $("#formCriar").classList.contains("on")) document.querySelector('.abas button[data-aba="entrar"]').click();
+}
 async function carregarRegistradas(){
   if (!db || !ativa("#login")) return;
   try {
-    const l = await rpc("bg_publicos");
+    const [l, g] = await Promise.all([rpc("bg_publicos"), tab("bg_global")]);
+    if (g[0]){ inscricoes = g[0].inscricoes !== false; aplicarInscricoes(); }
     const box = $("#regBlocos"); box.textContent = "";
     $("#regInfo").textContent = l.length ? l.length + (l.length === 1 ? " fantasia registrada" : " fantasias registradas") : "";
     if (!l.length){ box.appendChild(mk("p", "vazio", "Ninguém foi aprovado ainda.")); return; }
@@ -511,9 +611,11 @@ async function carregarRegistradas(){
 const MSG = {
   nao_encontrado:"Não achei esse nome. Use a aba Criar conta.", pin_errado:"Senha incorreta.",
   nome_existe:"Esse nome já está em uso. Escolha outro ou entre com a sua senha.", nome_invalido:"O nome precisa ter de 2 a 30 letras.",
-  pin_invalido:"A senha precisa ter 4 números.", fantasia_invalida:"Escreva a sua fantasia (2 a 40 letras)."
+  pin_invalido:"A senha precisa ter 4 números.", fantasia_invalida:"Escreva a sua fantasia (2 a 40 letras).",
+  inscricoes_fechadas:"As inscrições foram encerradas."
 };
 document.querySelectorAll(".abas button").forEach(b => b.addEventListener("click", () => {
+  if (b.disabled) return;
   document.querySelectorAll(".abas button").forEach(x => x.classList.toggle("on", x === b));
   $("#formEntrar").classList.toggle("on", b.dataset.aba === "entrar");
   $("#formCriar").classList.toggle("on", b.dataset.aba === "criar");
@@ -590,7 +692,7 @@ async function carregarPublicos(){
 async function atualizarPlayer(primeira){
   try {
     const [g, jj, esc] = await Promise.all([tab("bg_global"), tab("bg_jogos"), tab("bg_escolhas")]);
-    jogoAtivo = g[0] ? g[0].ativo : "cartela";
+    aplicarGlobal(g[0]);
     jj.forEach(r => { jogos[r.jogo] = normJogo(r); });
     escolhas = esc;
     const rodada = jogos.cartela ? jogos.cartela.rodada : null;
@@ -626,7 +728,7 @@ async function carregarCartela(){
 function renderPlayer(force){
   if (!ativa("#games")) return;
   const j = jogos[jogoAtivo]; if (!j) return;
-  const sig = JSON.stringify([jogoAtivo, j.modo, j.rodada, j.sorteados.length,
+  const sig = JSON.stringify([espera, jogoAtivo, j.modo, j.rodada, j.sorteados.length,
     jogoAtivo === "cartela" ? (cartela ? cartela.marcadas : null) : escolhas.filter(e => e.jogo === jogoAtivo),
     [...mapaJog.values()].map(p => p.id + p.nome).join(",")]);
   if (!force && sig === ultimaSig) return;
@@ -634,13 +736,16 @@ function renderPlayer(force){
 
   const nav = $("#gamesNav"); nav.textContent = "";
   Object.keys(GAMES).forEach(k => {
-    const b = mk("button", "gamePill" + (k === jogoAtivo ? " on" : ""), GAMES[k].nome);
-    b.type = "button"; b.disabled = k !== jogoAtivo;
-    if (k === jogoAtivo) b.setAttribute("aria-current", "true"); else b.title = "Esse game não está ativo agora";
+    const on = !espera && k === jogoAtivo;
+    const b = mk("button", "gamePill" + (on ? " on" : ""), GAMES[k].nome);
+    b.type = "button"; b.disabled = !on;
+    if (on) b.setAttribute("aria-current", "true"); else b.title = "Esse game não está ativo agora";
     nav.appendChild(b);
   });
-  $("#gCartela").hidden = jogoAtivo !== "cartela";
-  $("#gBlocos").hidden = jogoAtivo === "cartela";
+  $("#gEspera").hidden = !espera;
+  $("#gCartela").hidden = espera || jogoAtivo !== "cartela";
+  $("#gBlocos").hidden = espera || jogoAtivo === "cartela";
+  if (espera) return;
   jogoAtivo === "cartela" ? renderCartelaJogador(j) : renderBlocosJogador(j);
 }
 
@@ -662,9 +767,9 @@ function renderCartelaJogador(j){
     }
     g.appendChild(b);
   });
-  $("#pModoNome").textContent = MODOS[j.modo].nome;
+  $("#pModoNome").textContent = "Modo: " + MODOS[j.modo].nome;
   $("#pModoDesc").textContent = MODOS[j.modo].desc;
-  if (modoDesenhado !== j.modo){ desenharPadrao($("#pPadrao"), j.modo, 15); modoDesenhado = j.modo; }
+  if (modoDesenhado !== j.modo){ desenharPadrao($("#pPadrao"), j.modo, 11); modoDesenhado = j.modo; }
 }
 async function marcar(n){
   const s = new Set(cartela.marcadas || []);
@@ -687,10 +792,17 @@ function renderBlocosJogador(j){
   const donos = new Map(escolhas.filter(e => e.jogo === jogoAtivo).map(e => [e.item, e.jogador_id]));
   const minhas = [...donos].filter(([, id]) => id === sessao.id).map(([k]) => k);
   const resumo = $("#bResumo"); resumo.textContent = "";
+  const btnCopiar = $("#btnCopiar");
   if (minhas.length){
-    resumo.append("Você escolheu: ", mk("b", "", minhas.map(k => rotuloItem(itemPorKey(jogoAtivo, k))).join("  e  ")));
+    const textos = minhas.map(k => rotuloItem(itemPorKey(jogoAtivo, k)));
+    resumo.append("Você escolheu: ", mk("b", "", textos.join("  e  ")));
     if (minhas.length < cfg.limite) resumo.append(" (falta " + (cfg.limite - minhas.length) + ")");
-  } else resumo.textContent = cfg.limite === 1 ? "Você ainda não escolheu seu bloco." : "Você ainda não escolheu seus 2 filmes.";
+    btnCopiar.dataset.texto = textos.join(" e ");
+    btnCopiar.hidden = false;
+  } else {
+    resumo.textContent = cfg.limite === 1 ? "Você ainda não escolheu seu bloco." : "Você ainda não escolheu seus 2 filmes.";
+    btnCopiar.hidden = true; btnCopiar.dataset.texto = "";
+  }
   const travado = j.sorteados.length > 0;
   $("#bTravado").hidden = !travado;
   const grid = $("#bGrid"); grid.textContent = "";
@@ -701,12 +813,42 @@ function renderBlocosJogador(j){
     const nums = mk("span", "nums"); it.txt.forEach(t => nums.appendChild(mk("span", "", t)));
     b.appendChild(nums);
     if (dono != null) b.appendChild(mk("span", "dono", minha ? "Você" : nomeDe(dono)));
-    b.disabled = outro || (travado && !minha) || (travado && minha);
+    b.disabled = outro || travado;
     b.setAttribute("aria-label", rotuloItem(it) + (dono != null ? ", escolhido por " + (minha ? "você" : nomeDe(dono)) : ", livre"));
     b.addEventListener("click", () => clicarBloco(it.key, minha));
     grid.appendChild(b);
   });
+  requestAnimationFrame(ajustarBlocos);
 }
+/* Calcula colunas e linhas para todos os blocos caberem na tela sem rolagem */
+function melhorGrade(n, W, H, asp, gap){
+  let m = null;
+  for (let c = 1; c <= n; c++){
+    const r = Math.ceil(n / c), w = (W - gap*(c - 1)) / c, h = (H - gap*(r - 1)) / r;
+    const score = Math.min(w / asp, h);
+    if (!m || score > m.score) m = { c, r, w, h, score };
+  }
+  return m;
+}
+function ajustarBlocos(){
+  const area = $("#bArea"), grid = $("#bGrid");
+  if ($("#gBlocos").hidden || !area.clientWidth) return;
+  const filmes = jogoAtivo === "filmes", n = ITENS[jogoAtivo].length, gap = 6;
+  const asp = filmes ? 2.3 : 1.7, minW = filmes ? 96 : 78, minH = filmes ? 54 : 44;
+  let g = melhorGrade(n, area.clientWidth, area.clientHeight, asp, gap), rolar = false;
+  if (g.w < minW || g.h < minH){
+    rolar = true;   // tela muito pequena: só a lista de blocos rola, a página não
+    const c = Math.max(1, Math.floor((area.clientWidth + gap) / (minW + gap)));
+    g = { c, r:Math.ceil(n / c), w:(area.clientWidth - gap*(c - 1)) / c, h:minH };
+  }
+  area.classList.toggle("rolar", rolar);
+  grid.style.gridTemplateColumns = "repeat(" + g.c + ",1fr)";
+  grid.style.gridTemplateRows = rolar ? "" : "repeat(" + g.r + ",1fr)";
+  grid.style.gridAutoRows = rolar ? g.h + "px" : "";
+  const fs = filmes ? clamp(9, Math.min(g.h * .2, g.w * .1), 14) : clamp(11, Math.min(g.h * .33, g.w * .15), 22);
+  grid.style.setProperty("--fs", fs + "px");
+}
+window.addEventListener("resize", debounce(ajustarBlocos, 120));
 async function clicarBloco(key, minha){
   const cfg = GAMES[jogoAtivo];
   const MSG_ERRO = {
@@ -722,6 +864,24 @@ async function clicarBloco(key, minha){
     renderPlayer(true);
   } catch(e){ console.error(e); aviso("Não consegui salvar. Confira a conexão."); }
 }
+/* Copiar o resumo das escolhas */
+async function copiarTexto(texto){
+  try { await navigator.clipboard.writeText(texto); return true; } catch(e){}
+  try {
+    const ta = document.createElement("textarea");
+    ta.value = texto; ta.setAttribute("readonly", ""); ta.style.cssText = "position:fixed;top:-100px;opacity:0";
+    document.body.appendChild(ta); ta.select();
+    const ok = document.execCommand("copy"); ta.remove(); return ok;
+  } catch(e){ return false; }
+}
+$("#btnCopiar").addEventListener("click", async () => {
+  const b = $("#btnCopiar"), t = b.dataset.texto;
+  if (!t) return;
+  if (await copiarTexto(t)){
+    b.textContent = "Copiado ✓"; aviso("Copiado: " + t);
+    clearTimeout(b._t); b._t = setTimeout(() => { b.textContent = "Copiar"; }, 1800);
+  } else aviso("Não consegui copiar. Selecione o texto e copie manualmente.");
+});
 
 /* ---------- Regras de vitória (admin) ---------- */
 function faltantesCartela(numeros, saiu, modo){
@@ -804,7 +964,6 @@ function embaralhar(a){
 function iniciarGlobo(){
   G.cv = $("#globoCanvas"); G.dpr = Math.min(window.devicePixelRatio || 1, 2);
   G.cv.width = G.W * G.dpr; G.cv.height = G.W * G.dpr;
-  G.cv.style.width = G.W + "px"; G.cv.style.height = G.W + "px";
   G.c = G.cv.getContext("2d"); G.c.setTransform(G.dpr, 0, 0, G.dpr, 0, 0);
   G.bolas = []; sincronizarBolas();
   if (!G.raf) loopGlobo();
@@ -898,6 +1057,13 @@ async function gravarJogo(){
 function mostrarBanner(txt){ $("#aBannerTxt").textContent = txt; $("#aBanner").hidden = false; }
 $("#aBannerFechar").addEventListener("click", () => { $("#aBanner").hidden = true; });
 
+function aplicarAbaAdmin(){
+  document.querySelectorAll(".abasAdmin button").forEach(x => x.classList.toggle("on", x.dataset.t === abaAdmin));
+  $("#tPainel").hidden = abaAdmin !== "painel";
+  $("#tJogadores").hidden = abaAdmin !== "jogadores";
+}
+document.querySelectorAll(".abasAdmin button").forEach(b => b.addEventListener("click", () => { abaAdmin = b.dataset.t; aplicarAbaAdmin(); }));
+
 function construirNavAdmin(){
   const nav = $("#aGames"); nav.textContent = "";
   Object.keys(GAMES).forEach(k => {
@@ -910,22 +1076,37 @@ function construirModos(){
   const box = $("#modosGrid"); box.textContent = "";
   Object.keys(MODOS).forEach(k => {
     const b = mk("button", "sec modoCard"); b.type = "button"; b.dataset.m = k;
-    const p = mk("div"); desenharPadrao(p, k, 13);
+    const p = mk("div"); desenharPadrao(p, k, 9);
     b.append(p, mk("span", "", MODOS[k].nome));
     b.addEventListener("click", () => trocarModo(k));
     box.appendChild(b);
   });
 }
+async function gravarTela(ativo, esp){
+  await rpc("bg_set_tela", { p_senha:senhaAdmin, p_ativo:ativo, p_espera:esp });
+}
 async function trocarJogo(k){
-  if (k === jogoAtivo) return;
+  if (k === jogoAtivo && !espera) return;
   await pausar();
-  try { await rpc("bg_set_ativo", { p_senha:senhaAdmin, p_ativo:k }); }
+  try { await gravarTela(k, false); }
   catch(e){ console.error(e); aviso("Não consegui trocar o game."); return; }
-  jogoAtivo = k;
-  $("#aBanner").hidden = true;
+  jogoAtivo = k; espera = false;
+  $("#aBanner").hidden = true; verHist = false;
   G.bolas = []; sincronizarBolas();
   await Promise.all([carregarEscolhasAdmin(), carregarGanhadores(), carregarCartelasAdmin()]);
   renderAdmin();
+}
+async function colocarEmEspera(){
+  if (espera) return;
+  await pausar();
+  try { await gravarTela(jogoAtivo, true); espera = true; renderAdmin(); aviso("Tela dos jogadores em espera. Escolha um game para liberar."); }
+  catch(e){ console.error(e); aviso("Não consegui colocar em espera."); }
+}
+async function alternarInscricoes(){
+  const nova = !inscricoes;
+  if (!nova && !confirm("Fechar as inscrições? Ninguém mais vai conseguir criar conta (quem já tem conta continua entrando).")) return;
+  try { await rpc("bg_set_inscricoes", { p_senha:senhaAdmin, p_abertas:nova }); inscricoes = nova; renderJogadoresAdmin(true); aviso(nova ? "Inscrições abertas." : "Inscrições encerradas."); }
+  catch(e){ console.error(e); aviso("Não consegui alterar as inscrições."); }
 }
 async function trocarModo(k){
   jogos.cartela.modo = k;
@@ -947,14 +1128,18 @@ async function registrarNovos(novos, bola){
 function renderAdmin(){
   if (!ativa("#admin")) return;
   const j = jogos[jogoAtivo], pool = GAMES[jogoAtivo].pool, s = j.sorteados, filmes = jogoAtivo === "filmes";
-  document.querySelectorAll("#aGames .gamePill").forEach(b => b.classList.toggle("on", b.dataset.g === jogoAtivo));
+  document.querySelectorAll("#aGames .gamePill").forEach(b => b.classList.toggle("on", !espera && b.dataset.g === jogoAtivo));
   const ult = s.length ? s[s.length - 1] : null;
   setBola($("#bolaAtual"), ult, false);
-  $("#bolaTitulo").textContent = ult ? (filmes ? FILMES[ult - 1].txt[0] : "Bola sorteada") : "Bola sorteada";
-  $("#aContador").textContent = "Rodada " + j.rodada + " · " + s.length + " de " + pool + (filmes ? " filmes" : " números");
-  $("#btnPlay").disabled = j.rodando || s.length >= pool;
+  $("#bolaTitulo").textContent = ult && filmes ? FILMES[ult - 1].txt[0] : "Bola sorteada";
+  $("#aContador").textContent = espera
+    ? "Tela dos jogadores em espera. Escolha um game para liberar."
+    : "Rodada " + j.rodada + " · " + s.length + " de " + pool + (filmes ? " filmes" : " números") + " sorteados";
+  $("#btnPlay").disabled = espera || j.rodando || s.length >= pool;
   $("#btnPause").disabled = !j.rodando;
-  $("#aInfo").textContent = j.rodando ? "Sorteio rodando" : "Sorteio pausado";
+  $("#btnEspera").disabled = espera;
+  $("#btnEspera").textContent = espera ? "⏳ Em espera" : "⏳ Colocar em espera";
+  $("#aInfo").textContent = espera ? "Jogadores em espera" : (j.rodando ? "Sorteio rodando" : "Sorteio pausado");
   $("#modosBox").hidden = jogoAtivo !== "cartela";
   document.querySelectorAll("#modosGrid .modoCard").forEach(b => b.classList.toggle("on", b.dataset.m === j.modo));
 
@@ -965,29 +1150,43 @@ function renderAdmin(){
   else for (let n = 1; n <= pool; n++) q.appendChild(mk("span", "n" + (set.has(n) ? " on" : "") + (n === ult ? " ult" : ""), String(n)));
 
   desenharRanking($("#aRank"), calcRanking(), 10);
-  $("#aGanhTit").textContent = "Ganhadores · " + GAMES[jogoAtivo].nome + " · rodada " + j.rodada;
+
   const doJogo = ganhadores.filter(g => g.jogo === jogoAtivo);
-  desenharGanhadores($("#aGanh"), doJogo.filter(g => g.rodada === j.rodada), "Ainda não teve ganhador nesta rodada.");
   const antigas = [...new Set(doJogo.filter(g => g.rodada !== j.rodada).map(g => g.rodada))].sort((a, b) => b - a);
-  $("#aHistBox").hidden = !antigas.length;
-  const h = $("#aHist"); h.textContent = "";
-  antigas.forEach(r => {
-    h.appendChild(mk("p", "rodadaTit", "Rodada " + r));
-    const ol = mk("ol", "rank"); h.appendChild(ol);
-    desenharGanhadores(ol, doJogo.filter(g => g.rodada === r), "");
-  });
+  if (!antigas.length) verHist = false;
+  $("#btnHist").hidden = !antigas.length;
+  $("#btnHist").textContent = verHist ? "Esta rodada" : "Rodadas anteriores";
+  const corpo = $("#aGanhCorpo"); corpo.textContent = "";
+  if (verHist){
+    $("#aGanhTit").textContent = "Ganhadores · anteriores";
+    antigas.forEach(r => {
+      corpo.appendChild(mk("p", "rodadaTit", "Rodada " + r));
+      const ol = mk("ol", "rank"); corpo.appendChild(ol);
+      desenharGanhadores(ol, doJogo.filter(g => g.rodada === r), "");
+    });
+  } else {
+    $("#aGanhTit").textContent = "Ganhadores · rodada " + j.rodada;
+    const ol = mk("ol", "rank"); corpo.appendChild(ol);
+    desenharGanhadores(ol, doJogo.filter(g => g.rodada === j.rodada), "Ainda não teve ganhador nesta rodada.");
+  }
 }
+$("#btnHist").addEventListener("click", () => { verHist = !verHist; renderAdmin(); });
+
 function renderJogadoresAdmin(force){
   if (!ativa("#admin")) return;
-  const sig = JSON.stringify(admJogadores.map(p => [p.id, p.aprovado, p.nome, p.fantasia]));
+  const sig = JSON.stringify([admJogadores.map(p => [p.id, p.aprovado, p.nome, p.fantasia]), inscricoes]);
   if (!force && sig === sigJog) return;
   sigJog = sig;
-  const pend = admJogadores.filter(p => !p.aprovado).length;
-  $("#aJogTit").textContent = "Jogadores" + (pend ? " · " + pend + (pend === 1 ? " aguardando aprovação" : " aguardando aprovação") : "");
-  const ul = $("#aJog"); ul.textContent = "";
-  if (!admJogadores.length){ ul.appendChild(mk("li", "vazio", "Ninguém criou conta ainda.")); return; }
+  const pend = admJogadores.filter(p => !p.aprovado).length, aprov = admJogadores.length - pend;
+  const badge = $("#badgePend"); badge.hidden = !pend; badge.textContent = pend;
+  $("#jogResumo").textContent = "";
+  $("#jogResumo").append(mk("b", "", String(admJogadores.length)), " jogadores · ", mk("b", "", String(pend)), " aguardando · ", mk("b", "", String(aprov)), " aprovados");
+  const est = $("#inscEstado"); est.textContent = inscricoes ? "abertas" : "encerradas"; est.className = "estado " + (inscricoes ? "aberta" : "fechada");
+  $("#btnInsc").textContent = inscricoes ? "Fechar inscrições" : "Abrir inscrições";
+  const box = $("#aJog"); box.textContent = "";
+  if (!admJogadores.length){ box.appendChild(mk("p", "vazio", "Ninguém criou conta ainda.")); return; }
   admJogadores.forEach(p => {
-    const li = mk("li", p.aprovado ? "" : "pendente");
+    const c = mk("div", "jogCard" + (p.aprovado ? "" : " pendente"));
     const info = mk("div", "info");
     info.append(mk("b", "", p.nome), mk("small", "", p.fantasia));
     const btns = mk("div", "btns");
@@ -1004,10 +1203,11 @@ function renderJogadoresAdmin(force){
       rm.addEventListener("click", () => remover(p, "Remover " + p.nome + "? A cartela e as escolhas dessa pessoa serão apagadas."));
       btns.append(pin, rm);
     }
-    li.append(info, mk("span", "chip " + (p.aprovado ? "aprov" : "pend"), p.aprovado ? "Aprovado" : "Pendente"), btns);
-    ul.appendChild(li);
+    c.append(info, mk("span", "chip " + (p.aprovado ? "aprov" : "pend"), p.aprovado ? "Aprovado" : "Pendente"), btns);
+    box.appendChild(c);
   });
 }
+$("#btnInsc").addEventListener("click", alternarInscricoes);
 async function aprovar(id){
   try { await rpc("bg_admin_aprovar", { p_senha:senhaAdmin, p_id:id, p_aprovado:true }); await carregarJogadoresAdmin(); aviso("Jogador aprovado."); }
   catch(e){ console.error(e); aviso("Não consegui aprovar."); }
@@ -1059,7 +1259,7 @@ function ciclo(){
 }
 async function play(){
   const j = jogos[jogoAtivo];
-  if (j.rodando || j.sorteados.length >= GAMES[jogoAtivo].pool) return;
+  if (espera || j.rodando || j.sorteados.length >= GAMES[jogoAtivo].pool) return;
   j.rodando = true; await gravarJogo(); renderAdmin(); ciclo();
 }
 async function pausar(){
@@ -1085,7 +1285,7 @@ async function novoJogoAdmin(){
     await rpc("bg_novo_jogo", { p_senha:senhaAdmin, p_jogo:jogoAtivo });
     const jj = await tab("bg_jogos");
     jj.forEach(r => { if (r.jogo === jogoAtivo) jogos[r.jogo] = normJogo(r); });
-    $("#aBanner").hidden = true;
+    $("#aBanner").hidden = true; verHist = false;
     await Promise.all([carregarEscolhasAdmin(), carregarGanhadores(), carregarCartelasAdmin()]);
     sincronizarBolas(); renderAdmin();
     aviso("Novo jogo pronto. Dê Play quando quiser.");
@@ -1111,7 +1311,7 @@ async function abrirAdmin(senha){
   sessionStorage.setItem(SS_ADMIN, senha);
   try {
     const [g, jj] = await Promise.all([tab("bg_global"), tab("bg_jogos")]);
-    jogoAtivo = g[0] ? g[0].ativo : "cartela";
+    aplicarGlobal(g[0]);
     jj.forEach(r => { jogos[r.jogo] = normJogo(r); });
     admJogadores = await rpc("bg_admin_jogadores", { p_senha:senha }); guardarMapa(admJogadores);
     [admCartelas, escolhas, ganhadores] = await Promise.all([rpc("bg_admin_cartelas", { p_senha:senha }), tab("bg_escolhas"), tab("bg_ganhadores")]);
@@ -1119,7 +1319,9 @@ async function abrirAdmin(senha){
   } catch(e){ console.error(e); aviso("Não consegui carregar os dados."); }
   jogos[jogoAtivo].rodando = false;     // ao abrir o painel, o sorteio começa pausado
   await gravarJogo();
+  abaAdmin = "painel"; verHist = false;
   tela("#admin");
+  aplicarAbaAdmin();
   construirNavAdmin(); construirModos();
   iniciarGlobo();
   renderJogadoresAdmin(true); renderAdmin();
@@ -1160,6 +1362,7 @@ $("#btnPlay").addEventListener("click", play);
 $("#btnPause").addEventListener("click", pausar);
 $("#btnReset").addEventListener("click", resetar);
 $("#btnNovo").addEventListener("click", novoJogoAdmin);
+$("#btnEspera").addEventListener("click", colocarEmEspera);
 
 /* ---------- Início ---------- */
 $("#tituloFesta").textContent = CONFIG.FESTA_NOME;

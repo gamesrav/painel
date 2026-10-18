@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Bingo de Halloween</title>
+<title>Festa de Halloween</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Eater&family=Bricolage+Grotesque:wght@400;600;800&display=swap" rel="stylesheet">
@@ -30,7 +30,7 @@ body{
 .tela{display:none;position:relative;z-index:2}
 .tela.ativa{display:block}
 .tela.centro.ativa{display:flex;min-height:100vh;align-items:center;justify-content:center;padding:24px}
-#entrada.ativa{display:flex;flex-direction:column;align-items:center;gap:40px;padding:7vh 20px 70px}
+#login.ativa{display:flex;flex-direction:column;align-items:center;gap:40px;padding:7vh 20px 70px}
 
 /* Formulários */
 .cartao{width:100%;max-width:400px;padding:34px 28px;border-radius:26px;background:var(--vidro);
@@ -49,6 +49,7 @@ input:focus{border-color:var(--abobora);box-shadow:0 0 0 3px rgba(255,122,26,.25
   color:#1a0a00;background:linear-gradient(135deg,#ffa040,var(--abobora));cursor:pointer;
   box-shadow:0 8px 28px rgba(255,122,26,.4);transition:transform .15s,box-shadow .15s}
 .btn:hover{transform:translateY(-2px);box-shadow:0 12px 34px rgba(255,122,26,.55)}
+.btn:disabled{opacity:.6;cursor:wait;transform:none}
 .sec{background:var(--vidro);border:1px solid var(--borda);color:var(--osso);padding:10px 16px;border-radius:12px;
   font:inherit;font-size:14px;font-weight:600;cursor:pointer;transition:border-color .15s,background .15s}
 .sec:hover{border-color:var(--abobora)}
@@ -57,17 +58,21 @@ input:focus{border-color:var(--abobora);box-shadow:0 0 0 3px rgba(255,122,26,.25
 .link:hover{opacity:1}
 button:focus-visible,input:focus-visible,summary:focus-visible{outline:3px solid var(--limo);outline-offset:3px}
 .erro{color:#ff8a8a;font-size:13px;margin-top:12px;min-height:18px}
+.abas{display:flex;gap:6px;background:rgba(0,0,0,.25);border:1px solid var(--borda);border-radius:12px;padding:4px;margin:16px 0 4px}
+.abas button{flex:1;border:0;background:transparent;color:var(--osso);font:inherit;font-size:14px;font-weight:600;padding:9px;border-radius:9px;cursor:pointer}
+.abas button.on{background:var(--abobora);color:#1a0a00;font-weight:800}
+.form{display:none}
+.form.on{display:block}
 
 /* Fantasias registradas */
 .registradas{width:100%;max-width:1000px}
 .registradas h2{font-size:20px;text-align:center;margin-bottom:4px}
 .registradas .sub{text-align:center;margin-bottom:18px;min-height:20px}
 .blocos{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
-.bloco{position:relative;background:var(--vidro);border:1px solid var(--borda);border-radius:16px;padding:26px 14px 16px;text-align:center;
+.bloco{background:var(--vidro);border:1px solid var(--borda);border-radius:16px;padding:18px 14px;text-align:center;
   display:flex;flex-direction:column;gap:4px;box-shadow:0 8px 20px rgba(0,0,0,.3)}
 .bloco b{font-size:16px;color:var(--abobora);line-height:1.2;word-break:break-word}
 .bloco small{font-size:13px;opacity:.85;word-break:break-word}
-.bloco .nro{position:absolute;top:8px;left:10px;font-size:11px;font-weight:800;opacity:.6}
 
 /* Topo */
 .topo{max-width:1100px;margin:0 auto;padding:30px 20px 8px;display:flex;flex-wrap:wrap;gap:14px;align-items:flex-end;justify-content:space-between}
@@ -76,20 +81,25 @@ button:focus-visible,input:focus-visible,summary:focus-visible{outline:3px solid
 .quem b{color:var(--abobora)}
 .sair{background:var(--vidro);border:1px solid var(--borda);color:var(--osso);padding:8px 14px;border-radius:10px;font:inherit;font-size:13px;cursor:pointer}
 .sair:hover{border-color:var(--abobora)}
-.avisoDemo{max-width:1100px;margin:8px auto 0;padding:0 20px}
-.avisoDemo div{background:rgba(255,200,60,.12);border:1px solid rgba(255,200,60,.4);padding:10px 14px;border-radius:12px;font-size:13px}
-
-/* Painéis */
 .painel{background:var(--vidro);border:1px solid var(--borda);border-radius:20px;padding:20px;margin-bottom:16px;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
 details.painel summary{cursor:pointer;font-weight:800;font-size:16px}
 details.painel[open] summary{margin-bottom:12px}
+
+/* Navegação de games */
+.gamesNav{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:14px auto 18px;padding:0 20px}
+.gamePill{border:1px solid var(--borda);background:var(--vidro);color:var(--osso);font:inherit;font-size:14px;font-weight:600;
+  padding:10px 18px;border-radius:999px;cursor:default}
+.gamePill:disabled{opacity:.4}
+.gamePill.on{background:linear-gradient(135deg,#ffa040,var(--abobora));color:#1a0a00;border-color:transparent;font-weight:800;opacity:1;box-shadow:0 6px 20px rgba(255,122,26,.4)}
+button.gamePill:not(:disabled){cursor:pointer}
+button.gamePill:not(:disabled):not(.on):hover{border-color:var(--abobora)}
 
 /* Bola de bingo */
 .bolaN{--s:86px;--cor:#4a3a6b;position:relative;flex:none;width:var(--s);height:var(--s);border-radius:50%;display:flex;align-items:center;justify-content:center;
   background:radial-gradient(circle at 32% 26%,rgba(255,255,255,.7),transparent 34%),var(--cor);
   box-shadow:0 8px 20px rgba(0,0,0,.45),inset -6px -8px 14px rgba(0,0,0,.3)}
 .bolaN::before{content:"";position:absolute;width:66%;height:66%;border-radius:50%;background:#fff;box-shadow:inset 0 0 0 1px rgba(0,0,0,.08)}
-.bolaN b{position:relative;font-size:calc(var(--s) * .27);color:#1a0a00;line-height:1;font-weight:800}
+.bolaN b{position:relative;font-size:calc(var(--s) * .3);color:#1a0a00;line-height:1;font-weight:800}
 .bolaN.cai{animation:cai .75s cubic-bezier(.3,1.35,.5,1)}
 @keyframes cai{0%{transform:translateY(-80px) scale(.35);opacity:0}60%{opacity:1}100%{transform:none;opacity:1}}
 
@@ -103,54 +113,77 @@ details.painel[open] summary{margin-bottom:12px}
 .modoNome{font-weight:800;font-size:16px}
 .modoDesc{font-size:13px;opacity:.8;margin-top:4px;line-height:1.45}
 
-/* Tela da cartela */
-.jogo{max-width:1100px;margin:14px auto 60px;padding:0 20px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,380px);gap:22px;align-items:start}
-.tag{font-size:14px;margin-bottom:12px;opacity:.9}
-.tag b{color:var(--abobora)}
-.letras,.cartelaGrid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;max-width:460px}
-.letras span{font-family:'Eater',cursive;font-size:clamp(26px,5vw,38px);text-align:center;color:var(--abobora);text-shadow:0 0 14px rgba(255,122,26,.5)}
+/* Tela da cartela (jogador, centralizada) */
+.cartelaWrap{max-width:480px;margin:0 auto;padding:0 20px 60px;display:flex;flex-direction:column;align-items:center}
+.cartelaWrap .tag{font-size:14px;margin-bottom:14px;opacity:.9;text-align:center}
+.cartelaWrap .tag b{color:var(--abobora)}
+.cartelaGrid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;width:100%}
 .celula{aspect-ratio:1;border-radius:14px;border:1px solid var(--borda);background:linear-gradient(180deg,var(--roxo2),var(--roxo));
-  color:var(--osso);font:inherit;font-weight:800;font-size:clamp(18px,4.5vw,26px);cursor:pointer;position:relative;
-  box-shadow:0 6px 16px rgba(0,0,0,.35);transition:transform .12s,background .15s}
+  color:var(--osso);font:inherit;font-weight:800;font-size:clamp(18px,5vw,27px);cursor:pointer;
+  box-shadow:0 6px 16px rgba(0,0,0,.35);transition:transform .12s}
 .celula:hover{transform:translateY(-2px);border-color:var(--abobora)}
-.celula.saiu::after{content:"";position:absolute;inset:3px;border-radius:11px;border:2px solid var(--limo);animation:pisca 1.4s ease-in-out infinite}
 .celula.marcada{background:linear-gradient(135deg,#ffa040,var(--abobora));color:#1a0a00;border-color:transparent;box-shadow:0 0 22px rgba(255,122,26,.55)}
-.celula.marcada.saiu::after{animation:none;border-color:rgba(26,10,0,.35)}
-.celula.livre{cursor:default;font-size:clamp(22px,5vw,32px);background:linear-gradient(135deg,#4a2a8f,#2a1250);border-color:var(--limo)}
+.celula.livre{cursor:default;font-size:clamp(22px,5.5vw,32px);background:linear-gradient(135deg,#4a2a8f,#2a1250);border-color:var(--limo)}
 .celula.livre:hover{transform:none}
-@keyframes pisca{50%{opacity:.25}}
-.acoes{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}
-.dica{font-size:12px;opacity:.7;margin-top:12px;max-width:460px;line-height:1.5}
-.ultimo{display:flex;align-items:center;gap:16px}
-.status{font-size:14px;margin-top:4px;opacity:.9;line-height:1.4}
-.status.bingo{color:var(--limo);font-weight:800;opacity:1}
-.historico{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}
-.historico span{padding:4px 9px;border-radius:999px;background:rgba(255,255,255,.08);font-size:12px;font-weight:600}
+.acoes{display:flex;flex-wrap:wrap;gap:10px;margin:16px 0 22px;justify-content:center}
+.modoBox{width:100%;margin-bottom:12px}
+.dica{font-size:12px;opacity:.7;line-height:1.5;text-align:center}
 
-/* Listas de ranking */
-.rank{list-style:none;display:flex;flex-direction:column;gap:8px}
+/* Games de blocos (jogador) */
+.blocosWrap{max-width:1000px;margin:0 auto;padding:0 20px 60px}
+.blocosWrap h2{font-size:20px;text-align:center;margin-bottom:6px}
+.resumo{text-align:center;font-size:14px;opacity:.9;margin-bottom:6px;min-height:20px}
+.resumo b{color:var(--abobora)}
+.travado{text-align:center;font-size:13px;color:#ffd27a;margin-bottom:12px}
+.blocosGrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px;margin-top:14px}
+.blocosGrid.filmes{grid-template-columns:repeat(auto-fill,minmax(170px,1fr))}
+.blocoJogo{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;min-height:84px;padding:12px 8px;text-align:center;
+  border-radius:16px;border:1px solid var(--borda);background:linear-gradient(180deg,var(--roxo2),var(--roxo));color:var(--osso);font:inherit;cursor:pointer;
+  box-shadow:0 6px 16px rgba(0,0,0,.3);transition:transform .12s,border-color .15s}
+.blocoJogo:hover:not(:disabled){transform:translateY(-3px);border-color:var(--abobora)}
+.blocoJogo .nums{display:flex;gap:10px;font-weight:800;font-size:18px}
+.blocosGrid.filmes .blocoJogo .nums{font-size:14px;line-height:1.25}
+.blocoJogo .dono{font-size:12px;font-weight:700;color:var(--abobora);word-break:break-word}
+.blocoJogo.ocupado{cursor:not-allowed;background:linear-gradient(180deg,#2b2a35,#1a1922);border-color:rgba(255,255,255,.08)}
+.blocoJogo.ocupado .nums{opacity:.55}
+.blocoJogo.minha{border-color:var(--limo);box-shadow:0 0 0 2px var(--limo),0 0 26px rgba(166,255,92,.35);cursor:pointer}
+.blocoJogo.minha .dono{color:var(--limo)}
+.blocoJogo:disabled{cursor:not-allowed}
+
+/* Listas */
+.rank,.lista{list-style:none;display:flex;flex-direction:column;gap:8px}
 .rank li{display:grid;grid-template-columns:30px 1fr auto;gap:10px;align-items:center;background:rgba(0,0,0,.25);border:1px solid var(--borda);
   border-radius:12px;padding:9px 12px}
 .rank .pos{font-weight:800;opacity:.7;text-align:center;font-size:14px}
-.rank .info b{display:block;font-size:14px}
-.rank .info small{opacity:.7;font-size:12px}
+.rank .info b,.lista .info b{display:block;font-size:14px}
+.rank .info small,.lista .info small{opacity:.75;font-size:12px}
 .rank .falta{font-size:11.5px;opacity:.85;margin-top:2px}
 .chip{font-size:12px;font-weight:800;padding:5px 10px;border-radius:999px;background:rgba(255,122,26,.22);color:var(--abobora);white-space:nowrap}
 .rank li.venceu{border-color:var(--limo);box-shadow:0 0 18px rgba(166,255,92,.3)}
 .rank li.venceu .chip{background:var(--limo);color:#102000}
 .vazio{opacity:.65;font-size:14px;padding:6px 0}
 .rodadaTit{font-size:14px;font-weight:800;margin:12px 0 6px;color:var(--abobora)}
+.lista li{display:flex;flex-wrap:wrap;align-items:center;gap:10px;background:rgba(0,0,0,.25);border:1px solid var(--borda);border-radius:12px;padding:9px 12px}
+.lista li.pendente{border-color:#ffd27a;box-shadow:0 0 16px rgba(255,210,122,.25)}
+.lista .info{flex:1;min-width:140px}
+.lista .btns{display:flex;gap:6px;flex-wrap:wrap}
+.btnMini{padding:6px 12px;font-size:12.5px;border-radius:10px}
+.btnMini.ok{background:var(--limo);color:#102000;border-color:transparent;font-weight:800}
+.chip.pend{background:rgba(255,210,122,.2);color:#ffd27a}
+.chip.aprov{background:rgba(166,255,92,.18);color:var(--limo)}
 
 /* Admin */
-.adminGrid{max-width:1100px;margin:14px auto 60px;padding:0 20px;display:grid;grid-template-columns:minmax(0,400px) minmax(0,1fr);gap:22px;align-items:start}
+.adminGrid{max-width:1100px;margin:6px auto 60px;padding:0 20px;display:grid;grid-template-columns:minmax(0,400px) minmax(0,1fr);gap:22px;align-items:start}
+.banner{max-width:1060px;margin:10px auto 0;display:flex;align-items:center;gap:14px;justify-content:space-between;
+  background:rgba(166,255,92,.14);border:1px solid var(--limo);box-shadow:0 0 26px rgba(166,255,92,.3);padding:12px 16px;border-radius:14px;font-weight:700}
+.banner[hidden]{display:none}
 .globoWrap{display:flex;flex-direction:column;align-items:center}
 .globoVidro{width:280px;height:280px;border-radius:50%;position:relative;
   background:radial-gradient(circle at 50% 60%,rgba(130,80,230,.28),rgba(14,5,30,.7) 72%);
   border:3px solid rgba(255,255,255,.3);box-shadow:0 0 60px rgba(160,100,255,.35),inset 0 0 50px rgba(0,0,0,.55)}
 .globoVidro canvas{display:block;border-radius:50%}
-.suporte{width:170px;height:20px;margin-top:-8px;border-radius:0 0 60px 60px;background:linear-gradient(180deg,#5b3aa8,#2a1250);
-  box-shadow:0 10px 24px rgba(0,0,0,.5)}
-.bandeja{display:flex;align-items:center;gap:14px;margin-top:16px;padding:10px 20px 10px 12px;border-radius:999px;background:rgba(0,0,0,.3);border:1px solid var(--borda)}
+.suporte{width:170px;height:20px;margin-top:-8px;border-radius:0 0 60px 60px;background:linear-gradient(180deg,#5b3aa8,#2a1250);box-shadow:0 10px 24px rgba(0,0,0,.5)}
+.bandeja{display:flex;align-items:center;gap:14px;margin-top:16px;padding:10px 20px 10px 12px;border-radius:999px;background:rgba(0,0,0,.3);border:1px solid var(--borda);max-width:100%}
 .bandeja span{font-size:14px;font-weight:600;opacity:.9}
 .contador{margin:14px 0 4px;font-size:14px;opacity:.85;text-align:center}
 .controles{display:flex;gap:10px;margin:12px 0 8px;flex-wrap:wrap;justify-content:center}
@@ -162,42 +195,60 @@ details.painel[open] summary{margin-bottom:12px}
 .modosGrid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
 .modoCard{display:flex;flex-direction:column;align-items:center;gap:10px;padding:14px 8px 12px;text-align:center;font-size:12.5px}
 .modoCard.on{border-color:var(--limo);box-shadow:0 0 0 2px var(--limo);background:rgba(166,255,92,.08)}
-.quadro{display:grid;grid-template-columns:22px repeat(15,1fr);gap:4px;align-items:center}
-.quadro .l{font-family:'Eater',cursive;color:var(--abobora);font-size:16px;text-align:center}
-.quadro .n{font-size:11px;text-align:center;padding:5px 0;border-radius:6px;background:rgba(255,255,255,.05);opacity:.55}
+.quadro{display:grid;grid-template-columns:repeat(10,1fr);gap:4px}
+.quadro .n{font-size:11px;text-align:center;padding:6px 0;border-radius:6px;background:rgba(255,255,255,.05);opacity:.55}
 .quadro .n.on{background:var(--abobora);color:#1a0a00;opacity:1;font-weight:800}
 .quadro .n.ult{background:var(--limo);box-shadow:0 0 10px var(--limo)}
+.quadro.lista{display:flex;flex-wrap:wrap;gap:6px}
+.quadro .chipFilme{font-size:12px;padding:5px 10px;border-radius:999px;background:rgba(255,255,255,.06);opacity:.6}
+.quadro .chipFilme.on{background:var(--abobora);color:#1a0a00;opacity:1;font-weight:700}
+.quadro .chipFilme.ult{background:var(--limo);box-shadow:0 0 10px var(--limo)}
 
 #toast{position:fixed;left:50%;bottom:26px;transform:translate(-50%,30px);opacity:0;background:var(--osso);color:#1a0a00;
   padding:12px 20px;border-radius:12px;font-weight:600;font-size:14px;z-index:10;transition:.3s;pointer-events:none;max-width:90vw;text-align:center}
 #toast.on{opacity:1;transform:translate(-50%,0)}
-
 @media (max-width:820px){
-  .jogo,.adminGrid{grid-template-columns:1fr}
+  .adminGrid{grid-template-columns:1fr}
   .quadro{gap:3px}.quadro .n{font-size:10px}
 }
-@media (prefers-reduced-motion:reduce){
-  .celula.saiu::after,.bolaN.cai{animation:none}
-}
+@media (prefers-reduced-motion:reduce){ .bolaN.cai{animation:none} }
 </style>
 </head>
 <body>
 <div class="lua" aria-hidden="true"></div>
 
-<!-- ENTRADA -->
-<main id="entrada" class="tela ativa">
-  <form class="cartao" id="formEntrada" autocomplete="off">
+<!-- LOGIN -->
+<main id="login" class="tela ativa">
+  <div class="cartao">
     <div class="abobora" aria-hidden="true">🎃</div>
-    <h1 id="tituloFesta">Bingo de Halloween</h1>
-    <p class="sub">Entre com seu nome e seu ID para pegar sua cartela.</p>
-    <label for="nome">Seu nome</label>
-    <input type="text" id="nome" maxlength="30" required placeholder="Como todo mundo te chama">
-    <label for="uid">Seu ID</label>
-    <input type="text" id="uid" maxlength="30" required placeholder="Seu ID de sempre">
-    <div class="erro" id="erroEntrada" role="alert"></div>
-    <button class="btn" type="submit">Entrar na festa</button>
+    <h1 id="tituloFesta">Festa de Halloween</h1>
+    <p class="sub">Entre com seu nome e uma senha de 4 números.</p>
+    <div class="abas" role="tablist">
+      <button type="button" class="on" data-aba="entrar" role="tab">Entrar</button>
+      <button type="button" data-aba="criar" role="tab">Criar conta</button>
+    </div>
+
+    <form class="form on" id="formEntrar" autocomplete="off">
+      <label for="eNome">Seu nome</label>
+      <input type="text" id="eNome" maxlength="30" required>
+      <label for="ePin">Senha (4 números)</label>
+      <input type="password" id="ePin" inputmode="numeric" pattern="[0-9]{4}" maxlength="4" required autocomplete="off">
+      <div class="erro" id="erroEntrar" role="alert"></div>
+      <button class="btn" type="submit">Entrar</button>
+    </form>
+
+    <form class="form" id="formCriar" autocomplete="off">
+      <label for="cNomeNovo">Seu nome</label>
+      <input type="text" id="cNomeNovo" maxlength="30" required>
+      <label for="cPinNovo">Crie uma senha de 4 números</label>
+      <input type="password" id="cPinNovo" inputmode="numeric" pattern="[0-9]{4}" maxlength="4" required autocomplete="off">
+      <label for="cFantasiaNova">Qual é a sua fantasia?</label>
+      <input type="text" id="cFantasiaNova" maxlength="40" required placeholder="Ex.: Vampiro, Bruxa, Palhaço">
+      <div class="erro" id="erroCriar" role="alert"></div>
+      <button class="btn" type="submit">Criar minha conta</button>
+    </form>
     <button class="link" type="button" id="irAdmin">Sou o admin</button>
-  </form>
+  </div>
   <section class="registradas" aria-labelledby="regTitulo">
     <h2 id="regTitulo">Fantasias já registradas</h2>
     <p class="sub" id="regInfo"></p>
@@ -205,18 +256,14 @@ details.painel[open] summary{margin-bottom:12px}
   </section>
 </main>
 
-<!-- FANTASIA -->
-<main id="fantasia" class="tela centro">
-  <form class="cartao" id="formFantasia" autocomplete="off">
-    <div class="abobora" aria-hidden="true">🧛</div>
-    <h1>Sua fantasia</h1>
-    <p class="sub">Escreva qual fantasia você vai usar na festa. Depois disso a sua cartela é gerada e fica fixa até o fim.</p>
-    <label for="fantasiaTxt">Qual é a sua fantasia?</label>
-    <input type="text" id="fantasiaTxt" maxlength="40" required placeholder="Ex.: Vampiro, Bruxa, Palhaço">
-    <div class="erro" id="erroFantasia" role="alert"></div>
-    <button class="btn" type="submit">Gerar minha cartela</button>
-    <button class="link" type="button" id="fantasiaSair">Sair</button>
-  </form>
+<!-- AGUARDANDO APROVAÇÃO -->
+<main id="pendente" class="tela centro">
+  <div class="cartao">
+    <div class="abobora" aria-hidden="true">⏳</div>
+    <h1>Quase lá</h1>
+    <p class="sub" id="pendTxt">Sua conta foi criada. Agora é só esperar o admin aprovar a sua entrada. Esta tela atualiza sozinha.</p>
+    <button class="sec" type="button" id="pendSair">Sair</button>
+  </div>
 </main>
 
 <!-- LOGIN ADMIN -->
@@ -224,7 +271,7 @@ details.painel[open] summary{margin-bottom:12px}
   <form class="cartao" id="formAdmin" autocomplete="off">
     <div class="abobora" aria-hidden="true">🔮</div>
     <h1>Painel do admin</h1>
-    <p class="sub">Digite a senha para controlar o sorteio.</p>
+    <p class="sub">Digite a senha para controlar os games.</p>
     <label for="senha">Senha</label>
     <input type="password" id="senha" required>
     <div class="erro" id="erroAdmin" role="alert"></div>
@@ -233,59 +280,55 @@ details.painel[open] summary{margin-bottom:12px}
   </form>
 </main>
 
-<!-- CARTELA -->
-<main id="cartela" class="tela">
+<!-- GAMES (jogador) -->
+<main id="games" class="tela">
   <header class="topo">
-    <h1>Sua cartela</h1>
-    <div class="quem"><span>Olá, <b id="cNome"></b></span><button class="sair" id="cSair">Sair</button></div>
+    <h1>Games</h1>
+    <div class="quem"><span>Olá, <b id="gNome"></b></span><button class="sair" id="gSair">Sair</button></div>
   </header>
-  <div class="avisoDemo demo" hidden><div>Modo de teste: tudo fica salvo só neste navegador. Configure o Supabase no código para valer para todo mundo. Senha do admin no teste: admin</div></div>
-  <div class="jogo">
-    <section>
+  <nav class="gamesNav" id="gamesNav" aria-label="Games"></nav>
+
+  <section id="gCartela" hidden>
+    <div class="cartelaWrap">
       <p class="tag">Cartela <b id="cNumero"></b> · Fantasia: <b id="cFantasia"></b></p>
-      <div class="letras" aria-hidden="true"><span>B</span><span>I</span><span>N</span><span>G</span><span>O</span></div>
-      <div class="cartelaGrid" id="cartelaGrid" role="group" aria-label="Cartela de bingo"></div>
-      <div class="acoes">
-        <button class="sec" id="btnLimpar">Limpar marcações</button>
-      </div>
-      <p class="dica">Toque em um número para marcar ou desmarcar. O contorno verde piscando avisa que o número já saiu no sorteio. Sua cartela é fixa: os números não mudam.</p>
-    </section>
-    <aside>
-      <div class="painel">
+      <div class="cartelaGrid" id="cartelaGrid" role="group" aria-label="Sua cartela"></div>
+      <div class="acoes"><button class="sec" id="btnLimpar">Limpar marcações</button></div>
+      <div class="painel modoBox">
         <h2>Modo do jogo</h2>
         <div class="modoLinha">
           <div id="pPadrao"></div>
           <div><div class="modoNome" id="pModoNome"></div><p class="modoDesc" id="pModoDesc"></p></div>
         </div>
       </div>
-      <div class="painel">
-        <div class="ultimo">
-          <div class="bolaN" id="pUltimo"></div>
-          <div><div class="modoNome">Última bola</div><div class="status" id="pStatus"></div></div>
-        </div>
-        <div class="historico" id="pHist"></div>
-      </div>
-      <div class="painel">
-        <h2>Ganhadores</h2>
-        <ol class="rank" id="pGanh"></ol>
-      </div>
-    </aside>
-  </div>
+      <p class="dica">Toque nos números para marcar ou desmarcar. Sua cartela é fixa: os números não mudam.</p>
+    </div>
+  </section>
+
+  <section id="gBlocos" hidden>
+    <div class="blocosWrap">
+      <h2 id="bTitulo"></h2>
+      <p class="resumo" id="bResumo"></p>
+      <p class="travado" id="bTravado" hidden>O sorteio já começou: as escolhas estão travadas.</p>
+      <div class="blocosGrid" id="bGrid"></div>
+    </div>
+  </section>
 </main>
 
 <!-- ADMIN -->
 <main id="admin" class="tela">
   <header class="topo">
-    <h1>Painel do bingo</h1>
+    <h1>Painel do admin</h1>
     <div class="quem"><span id="aInfo"></span><button class="sair" id="aSair">Sair</button></div>
   </header>
-  <div class="avisoDemo demo" hidden><div>Modo de teste: tudo fica salvo só neste navegador. Abra a página em outra aba como jogador para ver o sorteio funcionando.</div></div>
+  <nav class="gamesNav" id="aGames" aria-label="Game ativo"></nav>
+  <p class="contador" style="margin-top:-6px">O game marcado é o que os jogadores estão vendo agora.</p>
+  <div class="banner" id="aBanner" hidden><span id="aBannerTxt"></span><button class="sec btnMini" id="aBannerFechar">Ok</button></div>
   <div class="adminGrid">
     <section class="painel">
       <div class="globoWrap">
         <div class="globoVidro"><canvas id="globoCanvas" aria-hidden="true"></canvas></div>
         <div class="suporte" aria-hidden="true"></div>
-        <div class="bandeja"><div class="bolaN" id="bolaAtual" style="--s:84px"></div><span>Bola sorteada</span></div>
+        <div class="bandeja"><div class="bolaN" id="bolaAtual" style="--s:84px"></div><span id="bolaTitulo">Bola sorteada</span></div>
         <p class="contador" id="aContador" aria-live="polite"></p>
         <div class="controles">
           <button class="sec play" id="btnPlay">▶ Play</button>
@@ -294,12 +337,16 @@ details.painel[open] summary{margin-bottom:12px}
         </div>
         <button class="sec novo" id="btnNovo">Novo jogo</button>
       </div>
-      <fieldset class="modos">
+      <fieldset class="modos" id="modosBox">
         <legend>Modo da cartela</legend>
         <div class="modosGrid" id="modosGrid"></div>
       </fieldset>
     </section>
     <section>
+      <div class="painel">
+        <h2 id="aJogTit">Jogadores</h2>
+        <ul class="lista" id="aJog"></ul>
+      </div>
       <div class="painel">
         <h2 id="aGanhTit">Ganhadores</h2>
         <ol class="rank" id="aGanh"></ol>
@@ -309,7 +356,7 @@ details.painel[open] summary{margin-bottom:12px}
         <ol class="rank" id="aRank"></ol>
       </div>
       <div class="painel">
-        <h2>Números sorteados</h2>
+        <h2 id="aQuadroTit">Números sorteados</h2>
         <div class="quadro" id="quadro"></div>
       </div>
       <details class="painel" id="aHistBox" hidden>
@@ -324,20 +371,18 @@ details.painel[open] summary{margin-bottom:12px}
 <script>
 /* ========= CONFIGURAÇÃO (edite aqui) ========= */
 const CONFIG = {
-  FESTA_NOME: "Bingo de Halloween",
+  FESTA_NOME: "Festa de Halloween",
   SUPABASE_URL: "https://xiddysrvxratffuhbywu.supabase.co",
-  SUPABASE_KEY: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhpZGR5c3J2eHJhdGZmdWhieXd1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTIyOTc5MzAsImV4cCI6MjEwNzg3MzkzMH0.wnKsGzB97NBrlecNRaBusU3gKr0fA3a_jxWULjdpji4",
-  ADMIN_DEMO: "admin" // senha do admin só no modo de teste (sem Supabase)
+  SUPABASE_KEY: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhpZGR5c3J2eHJhdGZmdWhieXd1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTIyOTc5MzAsImV4cCI6MjEwNzg3MzkzMH0.wnKsGzB97NBrlecNRaBusU3gKr0fA3a_jxWULjdpji4"
 };
 /* ============================================= */
 
 const $ = s => document.querySelector(s);
 const db = (CONFIG.SUPABASE_URL && CONFIG.SUPABASE_KEY && window.supabase)
   ? window.supabase.createClient(CONFIG.SUPABASE_URL, CONFIG.SUPABASE_KEY) : null;
-const DEMO = !db;
-const LS_USER = "bingo_user", SS_ADMIN = "bingo_admin", LS_C = "bingo_demo_cartelas", LS_E = "bingo_demo_estado", LS_G = "bingo_demo_ganhadores";
+const LS_SES = "bg_sessao", SS_ADMIN = "bg_admin";
 
-/* ---------- Modos de jogo (índices da cartela 5x5, linha por linha; 12 = centro livre) ---------- */
+/* ---------- Modos da cartela (índices 0-24, linha por linha; 12 = centro livre) ---------- */
 const LH = [], LV = [];
 for (let i = 0; i < 5; i++){
   LH.push([0,1,2,3,4].map(c => i*5 + c));
@@ -357,10 +402,43 @@ const MODOS = {
 };
 Object.values(MODOS).forEach(m => { if (!m.ver) m.ver = m.padroes[0]; });
 
-let usuario = null, cartela = null, cartelas = [], ganhadores = [];
-let estado = { sorteados:[], modo:"horizontal", rodando:false, rodada:1 };
-let modoAdmin = false, senhaAdmin = null, canal = null, polls = [], timer = null;
-let ultimoVisto = null, rodadaVista = null, modoDesenhado = null, girando = false;
+/* ---------- Games e seus blocos ---------- */
+const pad2 = n => String(n).padStart(2, "0");
+const SEQ = Array.from({length:30}, (_, i) => { const a = 3*i + 1; return { key:String(i+1), nums:[a, a+1, a+2], txt:[String(a), String(a+1), String(a+2)] }; });
+const PARES_INV = [
+  [1,10],[2,20],[3,30],[4,40],[5,50],[6,60],[7,70],[8,80],[9,90],
+  [11,22],[12,21],[13,31],[14,41],[15,51],[16,61],[17,71],[18,81],[19,29],
+  [23,32],[24,42],[25,52],[26,62],[27,72],[28,82],[33,44],[34,43],[35,53],[36,63],[37,73],[38,83],[39,49],
+  [45,54],[46,64],[47,74],[48,84],[55,66],[56,65],[57,75],[58,85],[59,69],
+  [67,76],[68,86],[77,88],[78,87],[79,89]
+];
+const INV = PARES_INV.map(([a, b]) => ({ key:a + "-" + b, nums:[a, b], txt:[pad2(a), pad2(b)] }));
+const TITULOS = ["O Exorcista","O Iluminado","Psicose","Halloween","Tubarão","Alien","Predador","Carrie","Poltergeist","A Profecia",
+  "O Bebê de Rosemary","A Mosca","O Enigma de Outro Mundo","A Hora do Pesadelo","Sexta-Feira 13","O Massacre da Serra Elétrica","Hellraiser","Candyman",
+  "Pânico","Eu Sei o Que Vocês Fizeram","Premonição","O Chamado","O Grito","Os Outros","A Bruxa de Blair","Extermínio","Jogos Mortais","O Albergue",
+  "A Casa de Cera","A Órfã","Arraste-me para o Inferno","Atividade Paranormal","Sobrenatural","A Entidade","Invocação do Mal","Annabelle","A Freira",
+  "A Autópsia","O Babadook","Corrente do Mal","A Bruxa","Corra!","Nós","Hereditário","Midsommar","O Farol","Um Lugar Silencioso","O Homem Invisível",
+  "O Homem nas Trevas","O Nevoeiro","Cemitério Maldito","O Ritual","O Colecionador","A Colina Escarlate","O Segredo da Cabana","O Telefone Preto",
+  "Sorria","Fale Comigo","Barbarian","X","Pearl","MaXXXine","Longlegs","Abigail","Imaculada","A Substância","Nosferatu","O Macaco","Terrifier",
+  "A Morte Te Dá Parabéns"];
+const FILMES = TITULOS.map((t, i) => ({ key:String(i + 1), nums:[i + 1], txt:[t] }));
+const ITENS = { sequencia:SEQ, invertido:INV, filmes:FILMES };
+const GAMES = {
+  cartela:   { nome:"Cartela",          pool:90 },
+  sequencia: { nome:"Sequências",       pool:90, limite:1, titulo:"Sequências",       unidade:"bloco" },
+  invertido: { nome:"Invertido",        pool:90, limite:1, titulo:"Invertido",        unidade:"bloco" },
+  filmes:    { nome:"Filmes de Terror", pool:FILMES.length, limite:2, titulo:"Filmes de Terror", unidade:"filme" }
+};
+const itemPorKey = (g, k) => ITENS[g].find(i => i.key === k);
+const rotuloItem = it => it.txt.join(" ");
+
+/* ---------- Estado ---------- */
+let sessao = null, jogoAtivo = "cartela";
+let jogos = {}, escolhas = [], ganhadores = [], mapaJog = new Map();
+let cartela = null, rodadaCartela = null, carregandoCartela = false;
+let modoAdmin = false, senhaAdmin = null;
+let admJogadores = [], admCartelas = [];
+let canal = null, polls = [], timer = null, girando = false, ultimaSig = "", modoDesenhado = null, sigJog = "";
 
 /* ---------- Utilidades ---------- */
 const lerLS = (k, f) => { try { const v = JSON.parse(localStorage.getItem(k)); return v == null ? f : v; } catch(e){ return f; } };
@@ -368,13 +446,12 @@ const ativa = sel => $(sel).classList.contains("ativa");
 const fmtNum = n => n == null ? "" : "nº " + String(n).padStart(3, "0");
 function aviso(msg){
   const t = $("#toast"); t.textContent = msg; t.classList.add("on");
-  clearTimeout(aviso.t); aviso.t = setTimeout(() => t.classList.remove("on"), 3200);
+  clearTimeout(aviso.t); aviso.t = setTimeout(() => t.classList.remove("on"), 3400);
 }
 function tela(id){
   document.querySelectorAll(".tela").forEach(el => el.classList.remove("ativa"));
   $(id).classList.add("ativa");
-  document.querySelectorAll(".demo").forEach(el => el.hidden = !DEMO);
-  if (id === "#entrada") carregarRegistradas();
+  if (id === "#login") carregarRegistradas();
 }
 function mk(tag, cls, txt){
   const e = document.createElement(tag);
@@ -382,15 +459,14 @@ function mk(tag, cls, txt){
   if (txt != null) e.textContent = txt;
   return e;
 }
-const letra = n => "BINGO"[Math.floor((n - 1) / 15)];
-const rotulo = n => letra(n) + n;
-const COR = { B:"#2f7cf6", I:"#e5383b", N:"#b9b9d0", G:"#2fbf71", O:"#ff9f1c" };
-const corDe = n => COR[letra(n)];
+function debounce(fn, ms){ let t; return (...a) => { clearTimeout(t); t = setTimeout(() => fn(...a), ms); }; }
+const COR = ["#2f7cf6", "#e5383b", "#b9b9d0", "#2fbf71", "#ff9f1c"];
+const corDe = n => COR[n % 5];
 function setBola(el, n, animar){
   let b = el.querySelector("b");
   if (!b){ b = document.createElement("b"); el.appendChild(b); }
   el.style.setProperty("--cor", n ? corDe(n) : "#4a3a6b");
-  b.textContent = n ? rotulo(n) : "–";
+  b.textContent = n ? String(n) : "–";
   if (animar){ el.classList.remove("cai"); void el.offsetWidth; el.classList.add("cai"); }
 }
 function desenharPadrao(dest, modo, px){
@@ -402,109 +478,253 @@ function desenharPadrao(dest, modo, px){
   dest.setAttribute("role", "img");
   dest.setAttribute("aria-label", MODOS[modo].nome);
 }
-function normalizar(e){
-  if (!e.modo || !MODOS[e.modo]) e.modo = "horizontal";
-  if (!Array.isArray(e.sorteados)) e.sorteados = [];
-  if (!e.rodada) e.rodada = 1;
-  return e;
+function normJogo(r){
+  return { sorteados:Array.isArray(r.sorteados) ? r.sorteados : [], modo:MODOS[r.modo] ? r.modo : "horizontal", rodando:!!r.rodando, rodada:r.rodada || 1 };
 }
+function guardarMapa(lista){ mapaJog = new Map(lista.map(p => [p.id, p])); }
+const nomeDe = id => (mapaJog.get(id) || { nome:"Jogador" }).nome;
 
-/* ---------- Camada de dados ---------- */
-async function getCartelas(){
-  if (DEMO) return lerLS(LS_C, []);
-  const { data, error } = await db.from("bingo_cartelas").select("user_id,numero,nome,fantasia,numeros,marcadas");
+/* ---------- Acesso ao Supabase ---------- */
+async function rpc(nome, args){
+  const { data, error } = await db.rpc(nome, args || {});
   if (error) throw error; return data;
 }
-async function getCartela(id){
-  if (DEMO) return lerLS(LS_C, []).find(c => c.user_id === id) || null;
-  const { data, error } = await db.from("bingo_cartelas").select("*").eq("user_id", id).maybeSingle();
+async function tab(t){
+  const { data, error } = await db.from(t).select("*");
   if (error) throw error; return data;
 }
-async function criarCartela(c){
-  if (DEMO){
-    const l = lerLS(LS_C, []);
-    const novo = { ...c, numero: l.reduce((m, x) => Math.max(m, x.numero || 0), 0) + 1 };
-    l.push(novo); localStorage.setItem(LS_C, JSON.stringify(l)); return novo;
-  }
-  const { data, error } = await db.from("bingo_cartelas").insert(c).select().single();
-  if (error) throw error; return data;
-}
-async function atualizarCartela(id, campos){
-  if (DEMO){
-    const l = lerLS(LS_C, []); const c = l.find(x => x.user_id === id);
-    if (c) Object.assign(c, campos);
-    localStorage.setItem(LS_C, JSON.stringify(l)); return;
-  }
-  const { error } = await db.from("bingo_cartelas").update({ ...campos, updated_at:new Date().toISOString() }).eq("user_id", id);
-  if (error) throw error;
-}
-async function getEstado(){
-  if (DEMO) return normalizar({ sorteados:[], modo:"horizontal", rodando:false, rodada:1, ...lerLS(LS_E, {}) });
-  const { data, error } = await db.from("bingo_estado").select("sorteados,modo,rodando,rodada").eq("id", 1).single();
-  if (error) throw error; return normalizar(data);
-}
-async function getGanhadores(){
-  if (DEMO) return lerLS(LS_G, []);
-  const { data, error } = await db.from("bingo_ganhadores").select("*").order("id", { ascending:true });
-  if (error) throw error; return data;
-}
-async function checarAdmin(s){
-  if (DEMO) return s === CONFIG.ADMIN_DEMO;
-  const { data, error } = await db.rpc("bingo_admin_ok", { p_senha:s });
-  if (error) throw error; return data === true;
-}
-async function gravarEstado(){
-  const e = { sorteados:estado.sorteados, modo:estado.modo, rodando:estado.rodando, rodada:estado.rodada };
+const credenciais = () => ({ p_id:sessao.id, p_pin:sessao.pin });
+
+/* ---------- Tela inicial: fantasias registradas ---------- */
+async function carregarRegistradas(){
+  if (!db || !ativa("#login")) return;
   try {
-    if (DEMO){ localStorage.setItem(LS_E, JSON.stringify(e)); return; }
-    const { error } = await db.rpc("bingo_set_estado", { p_senha:senhaAdmin, p_sorteados:e.sorteados, p_modo:e.modo, p_rodando:e.rodando });
-    if (error) throw error;
-  } catch(err){ console.error(err); aviso("Não consegui salvar o sorteio. Confira a conexão."); }
-}
-async function registrarGanhadores(itens){
-  if (DEMO){
-    const est = await getEstado(), cs = lerLS(LS_C, []), g = lerLS(LS_G, []);
-    itens.forEach(it => {
-      const c = cs.find(x => x.user_id === it.user_id); if (!c) return;
-      if (g.some(x => x.rodada === est.rodada && x.user_id === it.user_id && x.modo === it.modo)) return;
-      g.push({ id:g.reduce((m, x) => Math.max(m, x.id), 0) + 1, rodada:est.rodada, user_id:c.user_id, nome:c.nome,
-               fantasia:c.fantasia, numero_cartela:c.numero, modo:it.modo, bola:it.bola });
-    });
-    localStorage.setItem(LS_G, JSON.stringify(g)); return;
-  }
-  const { error } = await db.rpc("bingo_registrar_ganhadores", { p_senha:senhaAdmin, p_itens:itens });
-  if (error) throw error;
-}
-async function novoJogo(){
-  if (DEMO){
-    const e = await getEstado();
-    localStorage.setItem(LS_E, JSON.stringify({ sorteados:[], modo:e.modo, rodando:false, rodada:e.rodada + 1 }));
-    const cs = lerLS(LS_C, []); cs.forEach(c => c.marcadas = []);
-    localStorage.setItem(LS_C, JSON.stringify(cs)); return;
-  }
-  const { error } = await db.rpc("bingo_novo_jogo", { p_senha:senhaAdmin });
-  if (error) throw error;
+    const l = await rpc("bg_publicos");
+    const box = $("#regBlocos"); box.textContent = "";
+    $("#regInfo").textContent = l.length ? l.length + (l.length === 1 ? " fantasia registrada" : " fantasias registradas") : "";
+    if (!l.length){ box.appendChild(mk("p", "vazio", "Ninguém foi aprovado ainda.")); return; }
+    l.forEach(p => { const d = mk("div", "bloco"); d.append(mk("b", "", p.fantasia), mk("small", "", p.nome)); box.appendChild(d); });
+  } catch(e){ console.error(e); }
 }
 
-/* ---------- Regras do bingo ---------- */
-function embaralhar(a){
-  for (let i = a.length - 1; i > 0; i--){ const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; }
-  return a;
+/* ---------- Login ---------- */
+const MSG = {
+  nao_encontrado:"Não achei esse nome. Use a aba Criar conta.", pin_errado:"Senha incorreta.",
+  nome_existe:"Esse nome já está em uso. Escolha outro ou entre com a sua senha.", nome_invalido:"O nome precisa ter de 2 a 30 letras.",
+  pin_invalido:"A senha precisa ter 4 números.", fantasia_invalida:"Escreva a sua fantasia (2 a 40 letras)."
+};
+document.querySelectorAll(".abas button").forEach(b => b.addEventListener("click", () => {
+  document.querySelectorAll(".abas button").forEach(x => x.classList.toggle("on", x === b));
+  $("#formEntrar").classList.toggle("on", b.dataset.aba === "entrar");
+  $("#formCriar").classList.toggle("on", b.dataset.aba === "criar");
+}));
+["#ePin", "#cPinNovo"].forEach(s => $(s).addEventListener("input", e => { e.target.value = e.target.value.replace(/\D/g, "").slice(0, 4); }));
+
+async function comBotao(form, fn){
+  const btn = form.querySelector("button[type=submit]"); btn.disabled = true;
+  try { await fn(); } finally { btn.disabled = false; }
 }
-function gerarNumeros(){
-  const cols = [];
-  for (let c = 0; c < 5; c++){
-    const pool = embaralhar(Array.from({length:15}, (_, i) => c*15 + 1 + i));
-    cols.push(pool.slice(0, c === 2 ? 4 : 5).sort((a, b) => a - b));
-  }
-  const g = [];
-  for (let r = 0; r < 5; r++) for (let c = 0; c < 5; c++){
-    if (r === 2 && c === 2) g.push(0);
-    else g.push(cols[c][(c === 2 && r > 2) ? r - 1 : r]);
-  }
-  return g;
+$("#formEntrar").addEventListener("submit", e => {
+  e.preventDefault();
+  comBotao(e.target, async () => {
+    $("#erroEntrar").textContent = "";
+    const nome = $("#eNome").value.trim(), pin = $("#ePin").value;
+    try {
+      const r = await rpc("bg_entrar", { p_nome:nome, p_pin:pin });
+      if (r.erro){ $("#erroEntrar").textContent = MSG[r.erro] || "Não consegui entrar."; return; }
+      iniciarSessao({ id:r.id, pin, nome:r.nome, fantasia:r.fantasia }, r.aprovado);
+    } catch(err){ console.error(err); $("#erroEntrar").textContent = "Não consegui conectar. Tente de novo."; }
+  });
+});
+$("#formCriar").addEventListener("submit", e => {
+  e.preventDefault();
+  comBotao(e.target, async () => {
+    $("#erroCriar").textContent = "";
+    const nome = $("#cNomeNovo").value.trim(), pin = $("#cPinNovo").value, fan = $("#cFantasiaNova").value.trim();
+    try {
+      const r = await rpc("bg_criar_jogador", { p_nome:nome, p_pin:pin, p_fantasia:fan });
+      if (r.erro){ $("#erroCriar").textContent = MSG[r.erro] || "Não consegui criar a conta."; return; }
+      iniciarSessao({ id:r.id, pin, nome:r.nome, fantasia:r.fantasia }, false);
+    } catch(err){ console.error(err); $("#erroCriar").textContent = "Não consegui conectar. Tente de novo."; }
+  });
+});
+function iniciarSessao(s, aprovado){
+  sessao = s;
+  localStorage.setItem(LS_SES, JSON.stringify({ id:s.id, pin:s.pin }));
+  aprovado ? abrirGames() : abrirPendente();
 }
-function faltantes(numeros, saiu, modo){
+function abrirPendente(){
+  modoAdmin = false; pararSync();
+  tela("#pendente");
+  polls = [setInterval(async () => {
+    try {
+      const r = await rpc("bg_sessao", credenciais());
+      if (r.erro){ sairSessao(); aviso("Sua conta não foi encontrada."); }
+      else if (r.aprovado){ pararSync(); aviso("Você foi aprovado! Bom jogo."); abrirGames(); }
+    } catch(e){ console.error(e); }
+  }, 4000)];
+}
+function sairSessao(){
+  pararSync();
+  sessao = null; cartela = null; rodadaCartela = null; ultimaSig = ""; modoDesenhado = null;
+  localStorage.removeItem(LS_SES);
+  ["#formEntrar", "#formCriar"].forEach(s => $(s).reset());
+  tela("#login");
+}
+$("#pendSair").addEventListener("click", sairSessao);
+$("#gSair").addEventListener("click", sairSessao);
+
+/* ---------- Jogador: games ---------- */
+async function abrirGames(){
+  modoAdmin = false; pararSync();
+  $("#gNome").textContent = sessao.nome;
+  tela("#games");
+  ultimaSig = ""; modoDesenhado = null;
+  await atualizarPlayer(true);
+  carregarPublicos();
+  iniciarSyncPlayer();
+}
+async function carregarPublicos(){
+  try { guardarMapa(await rpc("bg_publicos")); renderPlayer(true); } catch(e){ console.error(e); }
+}
+async function atualizarPlayer(primeira){
+  try {
+    const [g, jj, esc] = await Promise.all([tab("bg_global"), tab("bg_jogos"), tab("bg_escolhas")]);
+    jogoAtivo = g[0] ? g[0].ativo : "cartela";
+    jj.forEach(r => { jogos[r.jogo] = normJogo(r); });
+    escolhas = esc;
+    const rodada = jogos.cartela ? jogos.cartela.rodada : null;
+    if (cartela && rodadaCartela != null && rodada !== rodadaCartela){
+      cartela = null; aviso("Novo jogo! Suas marcações foram limpas.");
+    }
+    renderPlayer(!!primeira);
+  } catch(e){ console.error(e); }
+}
+function iniciarSyncPlayer(){
+  const atual = debounce(() => atualizarPlayer(), 250);
+  canal = db.channel("festa-jogador")
+    .on("postgres_changes", { event:"*", schema:"public", table:"bg_global" }, atual)
+    .on("postgres_changes", { event:"*", schema:"public", table:"bg_jogos" }, atual)
+    .on("postgres_changes", { event:"*", schema:"public", table:"bg_escolhas" }, atual)
+    .subscribe();
+  polls = [setInterval(() => atualizarPlayer(), 3500), setInterval(carregarPublicos, 12000)];
+}
+function pararSync(){
+  polls.forEach(clearInterval); polls = [];
+  if (db && canal){ db.removeAllChannels(); canal = null; }
+}
+async function carregarCartela(){
+  if (carregandoCartela) return;
+  carregandoCartela = true;
+  try {
+    const r = await rpc("bg_minha_cartela", credenciais());
+    if (r.erro){ aviso("Sua conta não está aprovada."); sairSessao(); return; }
+    cartela = r; rodadaCartela = jogos.cartela ? jogos.cartela.rodada : null;
+  } catch(e){ console.error(e); aviso("Não consegui carregar sua cartela."); }
+  finally { carregandoCartela = false; renderPlayer(true); }
+}
+function renderPlayer(force){
+  if (!ativa("#games")) return;
+  const j = jogos[jogoAtivo]; if (!j) return;
+  const sig = JSON.stringify([jogoAtivo, j.modo, j.rodada, j.sorteados.length,
+    jogoAtivo === "cartela" ? (cartela ? cartela.marcadas : null) : escolhas.filter(e => e.jogo === jogoAtivo),
+    [...mapaJog.values()].map(p => p.id + p.nome).join(",")]);
+  if (!force && sig === ultimaSig) return;
+  ultimaSig = sig;
+
+  const nav = $("#gamesNav"); nav.textContent = "";
+  Object.keys(GAMES).forEach(k => {
+    const b = mk("button", "gamePill" + (k === jogoAtivo ? " on" : ""), GAMES[k].nome);
+    b.type = "button"; b.disabled = k !== jogoAtivo;
+    if (k === jogoAtivo) b.setAttribute("aria-current", "true"); else b.title = "Esse game não está ativo agora";
+    nav.appendChild(b);
+  });
+  $("#gCartela").hidden = jogoAtivo !== "cartela";
+  $("#gBlocos").hidden = jogoAtivo === "cartela";
+  jogoAtivo === "cartela" ? renderCartelaJogador(j) : renderBlocosJogador(j);
+}
+
+/* Cartela */
+function renderCartelaJogador(j){
+  if (!cartela){ carregarCartela(); return; }
+  $("#cNumero").textContent = fmtNum(cartela.numero);
+  $("#cFantasia").textContent = sessao.fantasia;
+  const marc = new Set(cartela.marcadas || []);
+  const g = $("#cartelaGrid"); g.textContent = "";
+  cartela.numeros.forEach(n => {
+    const b = mk("button", "celula"); b.type = "button";
+    if (n === 0){ b.classList.add("livre"); b.textContent = "🎃"; b.setAttribute("aria-label", "Espaço livre"); b.tabIndex = -1; }
+    else {
+      b.textContent = n;
+      if (marc.has(n)) b.classList.add("marcada");
+      b.setAttribute("aria-pressed", marc.has(n));
+      b.addEventListener("click", () => marcar(n));
+    }
+    g.appendChild(b);
+  });
+  $("#pModoNome").textContent = MODOS[j.modo].nome;
+  $("#pModoDesc").textContent = MODOS[j.modo].desc;
+  if (modoDesenhado !== j.modo){ desenharPadrao($("#pPadrao"), j.modo, 15); modoDesenhado = j.modo; }
+}
+async function marcar(n){
+  const s = new Set(cartela.marcadas || []);
+  s.has(n) ? s.delete(n) : s.add(n);
+  cartela.marcadas = [...s];
+  renderPlayer(true);
+  try { await rpc("bg_marcar_cartela", { ...credenciais(), p_marcadas:cartela.marcadas }); }
+  catch(e){ console.error(e); aviso("Não consegui salvar sua marcação."); }
+}
+$("#btnLimpar").addEventListener("click", async () => {
+  if (!cartela || !(cartela.marcadas || []).length) return;
+  cartela.marcadas = []; renderPlayer(true);
+  try { await rpc("bg_marcar_cartela", { ...credenciais(), p_marcadas:[] }); } catch(e){ console.error(e); aviso("Não consegui salvar."); }
+});
+
+/* Games de blocos */
+function renderBlocosJogador(j){
+  const cfg = GAMES[jogoAtivo], itens = ITENS[jogoAtivo];
+  $("#bTitulo").textContent = cfg.titulo + (cfg.limite === 1 ? " · escolha 1 bloco" : " · escolha 2 filmes");
+  const donos = new Map(escolhas.filter(e => e.jogo === jogoAtivo).map(e => [e.item, e.jogador_id]));
+  const minhas = [...donos].filter(([, id]) => id === sessao.id).map(([k]) => k);
+  const resumo = $("#bResumo"); resumo.textContent = "";
+  if (minhas.length){
+    resumo.append("Você escolheu: ", mk("b", "", minhas.map(k => rotuloItem(itemPorKey(jogoAtivo, k))).join("  e  ")));
+    if (minhas.length < cfg.limite) resumo.append(" (falta " + (cfg.limite - minhas.length) + ")");
+  } else resumo.textContent = cfg.limite === 1 ? "Você ainda não escolheu seu bloco." : "Você ainda não escolheu seus 2 filmes.";
+  const travado = j.sorteados.length > 0;
+  $("#bTravado").hidden = !travado;
+  const grid = $("#bGrid"); grid.textContent = "";
+  grid.className = "blocosGrid" + (jogoAtivo === "filmes" ? " filmes" : "");
+  itens.forEach(it => {
+    const dono = donos.get(it.key), minha = dono === sessao.id, outro = dono != null && !minha;
+    const b = mk("button", "blocoJogo" + (minha ? " minha" : outro ? " ocupado" : "")); b.type = "button";
+    const nums = mk("span", "nums"); it.txt.forEach(t => nums.appendChild(mk("span", "", t)));
+    b.appendChild(nums);
+    if (dono != null) b.appendChild(mk("span", "dono", minha ? "Você" : nomeDe(dono)));
+    b.disabled = outro || (travado && !minha) || (travado && minha);
+    b.setAttribute("aria-label", rotuloItem(it) + (dono != null ? ", escolhido por " + (minha ? "você" : nomeDe(dono)) : ", livre"));
+    b.addEventListener("click", () => clicarBloco(it.key, minha));
+    grid.appendChild(b);
+  });
+}
+async function clicarBloco(key, minha){
+  const cfg = GAMES[jogoAtivo];
+  const MSG_ERRO = {
+    ocupado:"Alguém acabou de pegar esse bloco. Escolha outro.",
+    limite: cfg.limite === 1 ? "Você já escolheu um bloco. Toque nele para soltar e escolher outro." : "Você já escolheu 2 filmes. Toque em um deles para soltar.",
+    sorteio_iniciado:"O sorteio já começou. As escolhas estão travadas.", jogo_inativo:"Esse game não está mais ativo.",
+    nao_autorizado:"Sua conta não está aprovada."
+  };
+  try {
+    const r = await rpc(minha ? "bg_liberar" : "bg_escolher", { ...credenciais(), p_jogo:jogoAtivo, p_item:key });
+    if (r && r.erro) aviso(MSG_ERRO[r.erro] || "Não deu certo. Tente de novo.");
+    escolhas = await tab("bg_escolhas");
+    renderPlayer(true);
+  } catch(e){ console.error(e); aviso("Não consegui salvar. Confira a conexão."); }
+}
+
+/* ---------- Regras de vitória (admin) ---------- */
+function faltantesCartela(numeros, saiu, modo){
   let melhor = null;
   for (const p of MODOS[modo].padroes){
     const f = [];
@@ -513,125 +733,91 @@ function faltantes(numeros, saiu, modo){
   }
   return melhor;
 }
-function montarRanking(){
-  const saiu = new Set(estado.sorteados);
-  return cartelas.map(c => { const f = faltantes(c.numeros, saiu, estado.modo); return { c, faltam:f.length, f }; })
-    .sort((a, b) => a.faltam - b.faltam || a.c.nome.localeCompare(b.c.nome, "pt-BR"));
+function calcRanking(){
+  const j = jogos[jogoAtivo], saiu = new Set(j.sorteados), res = [];
+  if (jogoAtivo === "cartela"){
+    admCartelas.forEach(c => {
+      const f = faltantesCartela(c.numeros, saiu, j.modo);
+      res.push({ id:c.jogador_id, nome:c.nome, fantasia:c.fantasia, extra:"Cartela " + fmtNum(c.numero),
+                 faltam:f.length, faltantes:f.map(String), detalhe:MODOS[j.modo].nome });
+    });
+  } else {
+    const porJog = new Map();
+    escolhas.filter(e => e.jogo === jogoAtivo).forEach(e => {
+      if (!porJog.has(e.jogador_id)) porJog.set(e.jogador_id, []);
+      porJog.get(e.jogador_id).push(e.item);
+    });
+    porJog.forEach((keys, id) => {
+      const itens = keys.map(k => itemPorKey(jogoAtivo, k)).filter(Boolean);
+      const falt = [];
+      itens.forEach(it => it.nums.forEach(n => { if (!saiu.has(n)) falt.push(n); }));
+      const semEscolher = Math.max(0, GAMES[jogoAtivo].limite - itens.length);
+      const p = mapaJog.get(id) || { nome:"Jogador", fantasia:"" };
+      const detalhe = itens.map(rotuloItem).join(" + ");
+      res.push({ id, nome:p.nome, fantasia:p.fantasia, extra:detalhe, faltam:falt.length + semEscolher,
+                 faltantes:falt.map(n => jogoAtivo === "filmes" ? FILMES[n - 1].txt[0] : String(n)), detalhe });
+    });
+  }
+  return res.sort((a, b) => a.faltam - b.faltam || a.nome.localeCompare(b.nome, "pt-BR"));
 }
-function vencedores(){ return estado.sorteados.length ? montarRanking().filter(r => r.faltam === 0) : []; }
+function vencedores(){ return jogos[jogoAtivo].sorteados.length ? calcRanking().filter(r => r.faltam === 0) : []; }
 function novosVencedores(){
-  const ja = new Set(ganhadores.filter(g => g.rodada === estado.rodada && g.modo === estado.modo).map(g => g.user_id));
-  return vencedores().filter(r => !ja.has(r.c.user_id));
+  const j = jogos[jogoAtivo];
+  const ja = new Set(ganhadores.filter(g => g.jogo === jogoAtivo && g.rodada === j.rodada).map(g => g.jogador_id + "|" + g.detalhe));
+  return vencedores().filter(r => !ja.has(r.id + "|" + r.detalhe));
 }
 function desenharRanking(ol, lista, limite){
   ol.textContent = "";
-  if (!lista.length){ ol.appendChild(mk("li", "vazio", "Nenhuma cartela ainda.")); return; }
+  if (!lista.length){ ol.appendChild(mk("li", "vazio", "Ninguém ainda.")); return; }
+  const comecou = jogos[jogoAtivo].sorteados.length > 0;
   lista.slice(0, limite).forEach((r, i) => {
-    const li = mk("li", r.faltam === 0 && estado.sorteados.length ? "venceu" : "");
+    const venceu = r.faltam === 0 && comecou;
+    const li = mk("li", venceu ? "venceu" : "");
     const info = mk("div", "info");
-    info.appendChild(mk("b", "", r.c.nome));
-    info.appendChild(mk("small", "", r.c.fantasia + " · Cartela " + fmtNum(r.c.numero)));
-    if (r.faltam > 0 && r.faltam <= 3) info.appendChild(mk("div", "falta", "Falta: " + r.f.map(rotulo).join(", ")));
-    li.append(mk("span", "pos", String(i + 1)), info, mk("span", "chip", r.faltam === 0 && estado.sorteados.length ? "BINGO!" : "Faltam " + r.faltam));
+    info.appendChild(mk("b", "", r.nome));
+    info.appendChild(mk("small", "", (r.fantasia ? r.fantasia + " · " : "") + r.extra));
+    if (r.faltam > 0 && r.faltam <= 3 && r.faltantes.length) info.appendChild(mk("div", "falta", "Falta: " + r.faltantes.join(", ")));
+    li.append(mk("span", "pos", String(i + 1)), info, mk("span", "chip", venceu ? "BINGO!" : "Faltam " + r.faltam));
     ol.appendChild(li);
   });
 }
 function desenharGanhadores(ol, lista, vazio){
   ol.textContent = "";
-  if (!lista.length){ ol.appendChild(mk("li", "vazio", vazio)); return; }
+  if (!lista.length){ if (vazio) ol.appendChild(mk("li", "vazio", vazio)); return; }
   lista.forEach((g, i) => {
     const li = mk("li", "venceu");
     const info = mk("div", "info");
     info.appendChild(mk("b", "", g.nome));
-    info.appendChild(mk("small", "", g.fantasia + " · Cartela " + fmtNum(g.numero_cartela) + (g.bola ? " · bola " + rotulo(g.bola) : "")));
-    li.append(mk("span", "pos", (i + 1) + "º"), info, mk("span", "chip", (MODOS[g.modo] || MODOS.horizontal).nome));
+    info.appendChild(mk("small", "", g.fantasia + (g.numero_cartela ? " · Cartela " + fmtNum(g.numero_cartela) : "") + (g.bola ? " · saiu " + g.bola : "")));
+    li.append(mk("span", "pos", (i + 1) + "º"), info, mk("span", "chip", g.detalhe));
     ol.appendChild(li);
   });
-}
-
-/* ---------- Fantasias registradas (tela inicial) ---------- */
-async function carregarRegistradas(){
-  if (!ativa("#entrada")) return;
-  try {
-    const l = (await getCartelas()).slice().sort((a, b) => (a.numero || 0) - (b.numero || 0));
-    const box = $("#regBlocos"); box.textContent = "";
-    $("#regInfo").textContent = l.length ? l.length + (l.length === 1 ? " fantasia registrada" : " fantasias registradas") : "";
-    if (!l.length){ box.appendChild(mk("p", "vazio", "Ninguém se registrou ainda. Seja o primeiro!")); return; }
-    l.forEach(c => {
-      const d = mk("div", "bloco");
-      d.append(mk("span", "nro", fmtNum(c.numero)), mk("b", "", c.fantasia), mk("small", "", c.nome));
-      box.appendChild(d);
-    });
-  } catch(e){ console.error(e); }
-}
-
-/* ---------- Jogador ---------- */
-function desenharCartela(){
-  if (!cartela) return;
-  const saiu = new Set(estado.sorteados), marc = new Set(cartela.marcadas || []);
-  const g = $("#cartelaGrid"); g.textContent = "";
-  cartela.numeros.forEach(n => {
-    const b = mk("button", "celula");
-    b.type = "button";
-    if (n === 0){ b.classList.add("livre"); b.textContent = "🎃"; b.setAttribute("aria-label", "Espaço livre"); b.tabIndex = -1; }
-    else {
-      b.textContent = n;
-      if (marc.has(n)) b.classList.add("marcada");
-      if (saiu.has(n)) b.classList.add("saiu");
-      b.setAttribute("aria-pressed", marc.has(n));
-      b.addEventListener("click", () => marcar(n));
-    }
-    g.appendChild(b);
-  });
-}
-async function marcar(n){
-  const s = new Set(cartela.marcadas || []);
-  s.has(n) ? s.delete(n) : s.add(n);
-  cartela.marcadas = [...s];
-  desenharCartela();
-  try { await atualizarCartela(usuario.id, { marcadas:cartela.marcadas }); }
-  catch(e){ console.error(e); aviso("Não consegui salvar sua marcação."); }
-}
-function renderJogo(){
-  if (!ativa("#cartela")) return;
-  const s = estado.sorteados, ult = s.length ? s[s.length - 1] : null, m = MODOS[estado.modo];
-  setBola($("#pUltimo"), ult, ult !== ultimoVisto && ult != null);
-  ultimoVisto = ult;
-  $("#pModoNome").textContent = m.nome;
-  $("#pModoDesc").textContent = m.desc;
-  if (modoDesenhado !== estado.modo){ desenharPadrao($("#pPadrao"), estado.modo, 15); modoDesenhado = estado.modo; }
-  const hist = $("#pHist"); hist.textContent = "";
-  s.slice(-12, -1).reverse().forEach(n => hist.appendChild(mk("span", "", rotulo(n))));
-  const st = $("#pStatus");
-  if (cartela){
-    const f = faltantes(cartela.numeros, new Set(s), estado.modo).length;
-    st.className = "status" + (f === 0 && s.length ? " bingo" : "");
-    st.textContent = !s.length ? "O sorteio ainda não começou." : f === 0 ? "BINGO! Avise o admin!" : "Faltam " + f + " para o bingo.";
-  }
-  desenharCartela();
-  desenharGanhadores($("#pGanh"), ganhadores.filter(g => g.rodada === estado.rodada), "Ainda não teve ganhador nesta rodada.");
 }
 
 /* ---------- Globo (animação com física) ---------- */
 const G = { cv:null, c:null, W:280, R:130, bolas:[], raf:null, dpr:1 };
 const REDUZIR = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+function embaralhar(a){
+  for (let i = a.length - 1; i > 0; i--){ const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; }
+  return a;
+}
 function iniciarGlobo(){
   G.cv = $("#globoCanvas"); G.dpr = Math.min(window.devicePixelRatio || 1, 2);
   G.cv.width = G.W * G.dpr; G.cv.height = G.W * G.dpr;
   G.cv.style.width = G.W + "px"; G.cv.style.height = G.W + "px";
   G.c = G.cv.getContext("2d"); G.c.setTransform(G.dpr, 0, 0, G.dpr, 0, 0);
-  sincronizarBolas();
+  G.bolas = []; sincronizarBolas();
   if (!G.raf) loopGlobo();
 }
 function pararGlobo(){ cancelAnimationFrame(G.raf); G.raf = null; }
 function sincronizarBolas(){
-  const saiu = new Set(estado.sorteados);
-  G.bolas = G.bolas.filter(b => b.saindo || !saiu.has(b.n));
+  const pool = GAMES[jogoAtivo].pool, saiu = new Set(jogos[jogoAtivo].sorteados);
+  G.bolas = G.bolas.filter(b => b.saindo || (!saiu.has(b.n) && b.n <= pool));
   const dentro = new Set(G.bolas.map(b => b.n));
   const restantes = [];
-  for (let n = 1; n <= 75; n++) if (!saiu.has(n) && !dentro.has(n)) restantes.push(n);
+  for (let n = 1; n <= pool; n++) if (!saiu.has(n) && !dentro.has(n)) restantes.push(n);
   embaralhar(restantes);
-  const alvo = Math.min(26, 75 - estado.sorteados.length);
+  const alvo = Math.min(26, pool - saiu.size);
   let ativas = G.bolas.filter(b => !b.saindo).length;
   while (ativas < alvo && restantes.length){
     const a = Math.random() * Math.PI * 2, d = Math.random() * 70;
@@ -646,9 +832,8 @@ function retirarBola(n){
 }
 function passoGlobo(){
   const cx = G.W/2, cy = G.W/2, R = G.R;
-  const f = REDUZIR ? 0 : (girando ? 1 : estado.rodando ? .45 : 0);
-  const B = G.bolas;
-  for (const b of B){
+  const f = REDUZIR ? 0 : (girando ? 1 : jogos[jogoAtivo] && jogos[jogoAtivo].rodando ? .45 : 0);
+  for (const b of G.bolas){
     if (b.saindo){
       b.t++; b.x += (cx - b.x) * .2; b.y += (cy + R - b.r - b.y) * .2; b.r = 15 * Math.max(0, 1 - b.t/14);
       continue;
@@ -670,15 +855,15 @@ function passoGlobo(){
       if (vn > 0){ b.vx -= 1.6*vn*nx; b.vy -= 1.6*vn*ny; }
     }
   }
-  G.bolas = B.filter(b => !(b.saindo && b.t >= 14));
+  G.bolas = G.bolas.filter(b => !(b.saindo && b.t >= 14));
   const A = G.bolas.filter(b => !b.saindo);
-  for (let i = 0; i < A.length; i++) for (let j = i + 1; j < A.length; j++){
-    const a = A[i], b = A[j], dx = b.x - a.x, dy = b.y - a.y, dist = Math.hypot(dx, dy), min = a.r + b.r;
+  for (let i = 0; i < A.length; i++) for (let k = i + 1; k < A.length; k++){
+    const a = A[i], b = A[k], dx = b.x - a.x, dy = b.y - a.y, dist = Math.hypot(dx, dy), min = a.r + b.r;
     if (dist < min && dist > 0){
       const nx = dx/dist, ny = dy/dist, ov = (min - dist)/2;
       a.x -= nx*ov; a.y -= ny*ov; b.x += nx*ov; b.y += ny*ov;
       const rel = (b.vx - a.vx)*nx + (b.vy - a.vy)*ny;
-      if (rel < 0){ const j2 = -(1.7)*rel/2; a.vx -= j2*nx; a.vy -= j2*ny; b.vx += j2*nx; b.vy += j2*ny; }
+      if (rel < 0){ const j2 = -1.7*rel/2; a.vx -= j2*nx; a.vy -= j2*ny; b.vx += j2*nx; b.vy += j2*ny; }
     }
   }
 }
@@ -702,12 +887,25 @@ function desenharGlobo(){
   g.addColorStop(0, "rgba(255,255,255,.38)"); g.addColorStop(.28, "rgba(255,255,255,.06)"); g.addColorStop(1, "rgba(255,255,255,0)");
   c.fillStyle = g; c.beginPath(); c.arc(W/2, W/2, G.R + 4, 0, Math.PI*2); c.fill();
 }
-function loopGlobo(){
-  passoGlobo(); desenharGlobo();
-  G.raf = requestAnimationFrame(loopGlobo);
-}
+function loopGlobo(){ passoGlobo(); desenharGlobo(); G.raf = requestAnimationFrame(loopGlobo); }
 
 /* ---------- Admin ---------- */
+async function gravarJogo(){
+  const j = jogos[jogoAtivo];
+  try { await rpc("bg_set_jogo", { p_senha:senhaAdmin, p_jogo:jogoAtivo, p_sorteados:j.sorteados, p_modo:j.modo, p_rodando:j.rodando }); }
+  catch(e){ console.error(e); aviso("Não consegui salvar o sorteio. Confira a conexão."); }
+}
+function mostrarBanner(txt){ $("#aBannerTxt").textContent = txt; $("#aBanner").hidden = false; }
+$("#aBannerFechar").addEventListener("click", () => { $("#aBanner").hidden = true; });
+
+function construirNavAdmin(){
+  const nav = $("#aGames"); nav.textContent = "";
+  Object.keys(GAMES).forEach(k => {
+    const b = mk("button", "gamePill", GAMES[k].nome); b.type = "button"; b.dataset.g = k;
+    b.addEventListener("click", () => trocarJogo(k));
+    nav.appendChild(b);
+  });
+}
 function construirModos(){
   const box = $("#modosGrid"); box.textContent = "";
   Object.keys(MODOS).forEach(k => {
@@ -718,242 +916,271 @@ function construirModos(){
     box.appendChild(b);
   });
 }
+async function trocarJogo(k){
+  if (k === jogoAtivo) return;
+  await pausar();
+  try { await rpc("bg_set_ativo", { p_senha:senhaAdmin, p_ativo:k }); }
+  catch(e){ console.error(e); aviso("Não consegui trocar o game."); return; }
+  jogoAtivo = k;
+  $("#aBanner").hidden = true;
+  G.bolas = []; sincronizarBolas();
+  await Promise.all([carregarEscolhasAdmin(), carregarGanhadores(), carregarCartelasAdmin()]);
+  renderAdmin();
+}
 async function trocarModo(k){
-  estado.modo = k;
-  await gravarEstado();
+  jogos.cartela.modo = k;
+  await gravarJogo();
   const novos = novosVencedores();
   renderAdmin();
   if (novos.length){
-    aviso("Com o modo " + MODOS[k].nome + ", " + novos.map(r => r.c.nome).join(", ") + " já completou a cartela.");
-    registrarNovos(novos, estado.sorteados[estado.sorteados.length - 1]);
+    mostrarBanner("Com o modo " + MODOS[k].nome + ", " + novos.map(r => r.nome).join(", ") + " já completou a cartela.");
+    registrarNovos(novos, null);
   }
+}
+async function registrarNovos(novos, bola){
+  try {
+    await rpc("bg_registrar_ganhadores", { p_senha:senhaAdmin, p_jogo:jogoAtivo,
+      p_itens:novos.map(r => ({ jogador_id:r.id, detalhe:r.detalhe, bola:bola })) });
+    await carregarGanhadores();
+  } catch(e){ console.error(e); aviso("Não consegui registrar o ganhador. Confira a conexão."); }
 }
 function renderAdmin(){
   if (!ativa("#admin")) return;
-  const s = estado.sorteados;
-  setBola($("#bolaAtual"), s.length ? s[s.length - 1] : null, false);
-  $("#aContador").textContent = "Rodada " + estado.rodada + " · " + s.length + " de 75 números · " + cartelas.length + (cartelas.length === 1 ? " cartela" : " cartelas");
-  $("#btnPlay").disabled = estado.rodando || s.length >= 75;
-  $("#btnPause").disabled = !estado.rodando;
-  document.querySelectorAll("#modosGrid .modoCard").forEach(b => b.classList.toggle("on", b.dataset.m === estado.modo));
-  $("#aInfo").textContent = estado.rodando ? "Sorteio rodando" : "Sorteio pausado";
+  const j = jogos[jogoAtivo], pool = GAMES[jogoAtivo].pool, s = j.sorteados, filmes = jogoAtivo === "filmes";
+  document.querySelectorAll("#aGames .gamePill").forEach(b => b.classList.toggle("on", b.dataset.g === jogoAtivo));
+  const ult = s.length ? s[s.length - 1] : null;
+  setBola($("#bolaAtual"), ult, false);
+  $("#bolaTitulo").textContent = ult ? (filmes ? FILMES[ult - 1].txt[0] : "Bola sorteada") : "Bola sorteada";
+  $("#aContador").textContent = "Rodada " + j.rodada + " · " + s.length + " de " + pool + (filmes ? " filmes" : " números");
+  $("#btnPlay").disabled = j.rodando || s.length >= pool;
+  $("#btnPause").disabled = !j.rodando;
+  $("#aInfo").textContent = j.rodando ? "Sorteio rodando" : "Sorteio pausado";
+  $("#modosBox").hidden = jogoAtivo !== "cartela";
+  document.querySelectorAll("#modosGrid .modoCard").forEach(b => b.classList.toggle("on", b.dataset.m === j.modo));
 
-  const q = $("#quadro"); q.textContent = "";
-  const ult = s[s.length - 1], set = new Set(s);
-  for (let l = 0; l < 5; l++){
-    q.appendChild(mk("span", "l", "BINGO"[l]));
-    for (let i = 1; i <= 15; i++){
-      const n = l*15 + i;
-      q.appendChild(mk("span", "n" + (set.has(n) ? " on" : "") + (n === ult ? " ult" : ""), String(n)));
-    }
-  }
-  desenharRanking($("#aRank"), montarRanking(), 10);
+  $("#aQuadroTit").textContent = filmes ? "Filmes sorteados" : "Números sorteados";
+  const q = $("#quadro"); q.textContent = ""; q.className = "quadro" + (filmes ? " lista" : "");
+  const set = new Set(s);
+  if (filmes) FILMES.forEach((f, i) => q.appendChild(mk("span", "chipFilme" + (set.has(i + 1) ? " on" : "") + (i + 1 === ult ? " ult" : ""), (i + 1) + " · " + f.txt[0])));
+  else for (let n = 1; n <= pool; n++) q.appendChild(mk("span", "n" + (set.has(n) ? " on" : "") + (n === ult ? " ult" : ""), String(n)));
 
-  $("#aGanhTit").textContent = "Ganhadores da rodada " + estado.rodada;
-  desenharGanhadores($("#aGanh"), ganhadores.filter(g => g.rodada === estado.rodada), "Ainda não teve ganhador nesta rodada.");
-  const antigas = [...new Set(ganhadores.filter(g => g.rodada !== estado.rodada).map(g => g.rodada))].sort((a, b) => b - a);
+  desenharRanking($("#aRank"), calcRanking(), 10);
+  $("#aGanhTit").textContent = "Ganhadores · " + GAMES[jogoAtivo].nome + " · rodada " + j.rodada;
+  const doJogo = ganhadores.filter(g => g.jogo === jogoAtivo);
+  desenharGanhadores($("#aGanh"), doJogo.filter(g => g.rodada === j.rodada), "Ainda não teve ganhador nesta rodada.");
+  const antigas = [...new Set(doJogo.filter(g => g.rodada !== j.rodada).map(g => g.rodada))].sort((a, b) => b - a);
   $("#aHistBox").hidden = !antigas.length;
   const h = $("#aHist"); h.textContent = "";
   antigas.forEach(r => {
     h.appendChild(mk("p", "rodadaTit", "Rodada " + r));
     const ol = mk("ol", "rank"); h.appendChild(ol);
-    desenharGanhadores(ol, ganhadores.filter(g => g.rodada === r), "");
+    desenharGanhadores(ol, doJogo.filter(g => g.rodada === r), "");
   });
 }
-async function registrarNovos(novos, bola){
-  try {
-    await registrarGanhadores(novos.map(r => ({ user_id:r.c.user_id, modo:estado.modo, bola })));
-    await carregarGanhadores();
-  } catch(e){ console.error(e); aviso("Não consegui registrar o ganhador. Confira a conexão."); }
+function renderJogadoresAdmin(force){
+  if (!ativa("#admin")) return;
+  const sig = JSON.stringify(admJogadores.map(p => [p.id, p.aprovado, p.nome, p.fantasia]));
+  if (!force && sig === sigJog) return;
+  sigJog = sig;
+  const pend = admJogadores.filter(p => !p.aprovado).length;
+  $("#aJogTit").textContent = "Jogadores" + (pend ? " · " + pend + (pend === 1 ? " aguardando aprovação" : " aguardando aprovação") : "");
+  const ul = $("#aJog"); ul.textContent = "";
+  if (!admJogadores.length){ ul.appendChild(mk("li", "vazio", "Ninguém criou conta ainda.")); return; }
+  admJogadores.forEach(p => {
+    const li = mk("li", p.aprovado ? "" : "pendente");
+    const info = mk("div", "info");
+    info.append(mk("b", "", p.nome), mk("small", "", p.fantasia));
+    const btns = mk("div", "btns");
+    if (!p.aprovado){
+      const ok = mk("button", "sec btnMini ok", "Aprovar"); ok.type = "button";
+      ok.addEventListener("click", () => aprovar(p.id));
+      const no = mk("button", "sec btnMini", "Recusar"); no.type = "button";
+      no.addEventListener("click", () => remover(p, "Recusar a conta de " + p.nome + "?"));
+      btns.append(ok, no);
+    } else {
+      const pin = mk("button", "sec btnMini", "Nova senha"); pin.type = "button";
+      pin.addEventListener("click", () => novaSenha(p));
+      const rm = mk("button", "sec btnMini", "Remover"); rm.type = "button";
+      rm.addEventListener("click", () => remover(p, "Remover " + p.nome + "? A cartela e as escolhas dessa pessoa serão apagadas."));
+      btns.append(pin, rm);
+    }
+    li.append(info, mk("span", "chip " + (p.aprovado ? "aprov" : "pend"), p.aprovado ? "Aprovado" : "Pendente"), btns);
+    ul.appendChild(li);
+  });
 }
+async function aprovar(id){
+  try { await rpc("bg_admin_aprovar", { p_senha:senhaAdmin, p_id:id, p_aprovado:true }); await carregarJogadoresAdmin(); aviso("Jogador aprovado."); }
+  catch(e){ console.error(e); aviso("Não consegui aprovar."); }
+}
+async function remover(p, pergunta){
+  if (!confirm(pergunta)) return;
+  try { await rpc("bg_admin_remover", { p_senha:senhaAdmin, p_id:p.id }); await carregarJogadoresAdmin(); await carregarEscolhasAdmin(); await carregarCartelasAdmin(); renderAdmin(); }
+  catch(e){ console.error(e); aviso("Não consegui remover."); }
+}
+async function novaSenha(p){
+  const v = prompt("Nova senha de 4 números para " + p.nome + ":");
+  if (v == null) return;
+  if (!/^\d{4}$/.test(v.trim())){ aviso("A senha precisa ter 4 números."); return; }
+  try {
+    const r = await rpc("bg_admin_resetar_pin", { p_senha:senhaAdmin, p_id:p.id, p_pin:v.trim() });
+    aviso(r && r.erro ? "Senha inválida." : "Nova senha salva para " + p.nome + ".");
+  } catch(e){ console.error(e); aviso("Não consegui trocar a senha."); }
+}
+
+/* sorteio */
+function rotuloBola(n){ return jogoAtivo === "filmes" ? FILMES[n - 1].txt[0] : String(n); }
 function sortear(){
-  const restantes = [];
-  for (let n = 1; n <= 75; n++) if (!estado.sorteados.includes(n)) restantes.push(n);
-  if (!restantes.length){ estado.rodando = false; girando = false; gravarEstado(); renderAdmin(); aviso("Todos os números já saíram."); return; }
+  const j = jogos[jogoAtivo], pool = GAMES[jogoAtivo].pool, restantes = [];
+  for (let n = 1; n <= pool; n++) if (!j.sorteados.includes(n)) restantes.push(n);
+  if (!restantes.length){ j.rodando = false; girando = false; gravarJogo(); renderAdmin(); aviso("Todos já saíram."); return; }
   const n = restantes[Math.floor(Math.random() * restantes.length)];
-  estado.sorteados.push(n);
+  j.sorteados.push(n);
   retirarBola(n);
   const novos = novosVencedores();
-  if (novos.length || estado.sorteados.length >= 75) estado.rodando = false;
-  gravarEstado();
+  if (j.sorteados.length >= pool) j.rodando = false;
+  gravarJogo();
   setBola($("#bolaAtual"), n, true);
   sincronizarBolas();
   renderAdmin();
   if (novos.length){
-    registrarNovos(novos, n);
-    aviso("BINGO! " + novos.map(r => r.c.nome).join(", ") + " completou a cartela. Sorteio pausado.");
+    mostrarBanner("BINGO! " + novos.map(r => r.nome + " (" + r.detalhe + ")").join(" · ") + " — o sorteio continua até você pausar.");
+    registrarNovos(novos, rotuloBola(n));
   }
 }
 function ciclo(){
-  if (!estado.rodando) return;
+  const j = jogos[jogoAtivo]; if (!j.rodando) return;
   girando = true;
   timer = setTimeout(() => {
     girando = false;
-    if (!estado.rodando) return;
+    if (!jogos[jogoAtivo].rodando) return;
     sortear();
-    if (estado.rodando) timer = setTimeout(ciclo, 3100);
+    if (jogos[jogoAtivo].rodando) timer = setTimeout(ciclo, 3100);
   }, 900);
 }
 async function play(){
-  if (estado.rodando || estado.sorteados.length >= 75) return;
-  estado.rodando = true; await gravarEstado(); renderAdmin(); ciclo();
+  const j = jogos[jogoAtivo];
+  if (j.rodando || j.sorteados.length >= GAMES[jogoAtivo].pool) return;
+  j.rodando = true; await gravarJogo(); renderAdmin(); ciclo();
 }
 async function pausar(){
-  estado.rodando = false; girando = false; clearTimeout(timer);
-  await gravarEstado(); renderAdmin();
+  const j = jogos[jogoAtivo];
+  clearTimeout(timer); girando = false;
+  if (!j.rodando) return;
+  j.rodando = false; await gravarJogo(); renderAdmin();
 }
 async function resetar(){
-  if (estado.sorteados.length && !confirm("Zerar os números do globo? Os ganhadores já registrados continuam na lista.")) return;
+  const j = jogos[jogoAtivo];
+  if (j.sorteados.length && !confirm("Zerar o globo? Os ganhadores já registrados continuam na lista.")) return;
   clearTimeout(timer); girando = false;
-  estado.sorteados = []; estado.rodando = false;
-  await gravarEstado(); sincronizarBolas(); renderAdmin();
+  j.sorteados = []; j.rodando = false;
+  await gravarJogo(); sincronizarBolas(); renderAdmin();
 }
 async function novoJogoAdmin(){
-  if (!confirm("Começar um novo jogo?\n\nOs números sorteados e as marcações de todos os jogadores serão zerados. As cartelas continuam as mesmas e os ganhadores desta rodada vão para o histórico.")) return;
+  const msg = jogoAtivo === "cartela"
+    ? "Começar um novo jogo da Cartela?\n\nOs números sorteados e as marcações de todos serão zerados. As cartelas continuam as mesmas e os ganhadores desta rodada vão para o histórico."
+    : "Começar um novo jogo de " + GAMES[jogoAtivo].nome + "?\n\nOs números sorteados serão zerados e todos os blocos ficam livres para escolher de novo. Os ganhadores desta rodada vão para o histórico.";
+  if (!confirm(msg)) return;
   clearTimeout(timer); girando = false;
   try {
-    await novoJogo();
-    estado = await getEstado(); ganhadores = await getGanhadores(); cartelas = await getCartelas();
+    await rpc("bg_novo_jogo", { p_senha:senhaAdmin, p_jogo:jogoAtivo });
+    const jj = await tab("bg_jogos");
+    jj.forEach(r => { if (r.jogo === jogoAtivo) jogos[r.jogo] = normJogo(r); });
+    $("#aBanner").hidden = true;
+    await Promise.all([carregarEscolhasAdmin(), carregarGanhadores(), carregarCartelasAdmin()]);
     sincronizarBolas(); renderAdmin();
-    aviso("Novo jogo pronto. Escolha o modo e dê Play.");
+    aviso("Novo jogo pronto. Dê Play quando quiser.");
   } catch(e){ console.error(e); aviso("Não consegui iniciar o novo jogo."); }
 }
 
-/* ---------- Carga e sincronização ---------- */
-async function carregarEstado(){
-  try {
-    const e = await getEstado();
-    const mudou = rodadaVista != null && e.rodada !== rodadaVista;
-    estado = e;
-    if (rodadaVista == null || mudou){
-      rodadaVista = e.rodada;
-      if (mudou && cartela && usuario){
-        const c = await getCartela(usuario.id); if (c) cartela = c;
-        aviso("Novo jogo! Suas marcações foram limpas.");
-      }
-    }
-    renderJogo();
-  } catch(e){ console.error(e); }
+/* carga do admin */
+async function carregarJogadoresAdmin(){
+  try { admJogadores = await rpc("bg_admin_jogadores", { p_senha:senhaAdmin }); guardarMapa(admJogadores); renderJogadoresAdmin(); renderAdmin(); }
+  catch(e){ console.error(e); }
 }
-async function carregarCartelas(){
-  try { cartelas = await getCartelas(); modoAdmin ? renderAdmin() : renderJogo(); } catch(e){ console.error(e); }
+async function carregarCartelasAdmin(){
+  try { admCartelas = await rpc("bg_admin_cartelas", { p_senha:senhaAdmin }); renderAdmin(); } catch(e){ console.error(e); }
+}
+async function carregarEscolhasAdmin(){
+  try { escolhas = await tab("bg_escolhas"); renderAdmin(); } catch(e){ console.error(e); }
 }
 async function carregarGanhadores(){
-  try { ganhadores = await getGanhadores(); modoAdmin ? renderAdmin() : renderJogo(); } catch(e){ console.error(e); }
-}
-function iniciarSync(){
-  pararSync();
-  if (!DEMO){
-    canal = db.channel("bingo")
-      .on("postgres_changes", { event:"*", schema:"public", table:"bingo_cartelas" }, () => carregarCartelas())
-      .on("postgres_changes", { event:"*", schema:"public", table:"bingo_ganhadores" }, () => carregarGanhadores())
-      .on("postgres_changes", { event:"*", schema:"public", table:"bingo_estado" }, () => { if (!modoAdmin) carregarEstado(); })
-      .subscribe();
-  }
-  polls = modoAdmin ? [setInterval(carregarCartelas, 6000), setInterval(carregarGanhadores, 8000)]
-                    : [setInterval(carregarEstado, 3000), setInterval(carregarCartelas, 12000), setInterval(carregarGanhadores, 8000)];
-}
-function pararSync(){
-  polls.forEach(clearInterval); polls = [];
-  if (db && canal){ db.removeAllChannels(); canal = null; }
-}
-
-/* ---------- Fluxos ---------- */
-async function entrarJogador(u){
-  modoAdmin = false; usuario = u;
-  localStorage.setItem(LS_USER, JSON.stringify(u));
-  try { cartela = await getCartela(u.id); }
-  catch(e){ console.error(e); aviso("Não consegui conectar. Tente de novo."); tela("#entrada"); return; }
-  if (!cartela){ tela("#fantasia"); $("#fantasiaTxt").focus(); return; }
-  await mostrarCartela();
-}
-async function mostrarCartela(){
-  $("#cNome").textContent = cartela.nome;
-  $("#cFantasia").textContent = cartela.fantasia;
-  $("#cNumero").textContent = fmtNum(cartela.numero);
-  tela("#cartela");
-  ultimoVisto = null; modoDesenhado = null; rodadaVista = null;
-  try { estado = await getEstado(); cartelas = await getCartelas(); ganhadores = await getGanhadores(); rodadaVista = estado.rodada; }
-  catch(e){ console.error(e); }
-  renderJogo();
-  iniciarSync();
+  try { ganhadores = (await tab("bg_ganhadores")).sort((a, b) => a.id - b.id); renderAdmin(); } catch(e){ console.error(e); }
 }
 async function abrirAdmin(senha){
   modoAdmin = true; senhaAdmin = senha;
   sessionStorage.setItem(SS_ADMIN, senha);
-  try { estado = await getEstado(); cartelas = await getCartelas(); ganhadores = await getGanhadores(); } catch(e){ console.error(e); }
-  estado.rodando = false;           // ao abrir o painel, o sorteio começa pausado
-  await gravarEstado();
+  try {
+    const [g, jj] = await Promise.all([tab("bg_global"), tab("bg_jogos")]);
+    jogoAtivo = g[0] ? g[0].ativo : "cartela";
+    jj.forEach(r => { jogos[r.jogo] = normJogo(r); });
+    admJogadores = await rpc("bg_admin_jogadores", { p_senha:senha }); guardarMapa(admJogadores);
+    [admCartelas, escolhas, ganhadores] = await Promise.all([rpc("bg_admin_cartelas", { p_senha:senha }), tab("bg_escolhas"), tab("bg_ganhadores")]);
+    ganhadores.sort((a, b) => a.id - b.id);
+  } catch(e){ console.error(e); aviso("Não consegui carregar os dados."); }
+  jogos[jogoAtivo].rodando = false;     // ao abrir o painel, o sorteio começa pausado
+  await gravarJogo();
   tela("#admin");
-  construirModos();
+  construirNavAdmin(); construirModos();
   iniciarGlobo();
-  renderAdmin();
-  iniciarSync();
+  renderJogadoresAdmin(true); renderAdmin();
+  iniciarSyncAdmin();
 }
-function sairTudo(){
-  if (modoAdmin && estado.rodando){ estado.rodando = false; gravarEstado(); }
-  clearTimeout(timer); girando = false; pararGlobo();
+function iniciarSyncAdmin(){
   pararSync();
-  localStorage.removeItem(LS_USER); sessionStorage.removeItem(SS_ADMIN);
-  usuario = null; cartela = null; modoAdmin = false; senhaAdmin = null;
-  $("#formEntrada").reset(); tela("#entrada");
+  const esc = debounce(carregarEscolhasAdmin, 250), gan = debounce(carregarGanhadores, 250);
+  canal = db.channel("festa-admin")
+    .on("postgres_changes", { event:"*", schema:"public", table:"bg_escolhas" }, esc)
+    .on("postgres_changes", { event:"*", schema:"public", table:"bg_ganhadores" }, gan)
+    .subscribe();
+  polls = [setInterval(carregarJogadoresAdmin, 5000), setInterval(carregarEscolhasAdmin, 6000),
+           setInterval(carregarCartelasAdmin, 8000), setInterval(carregarGanhadores, 9000)];
+}
+async function sairAdmin(){
+  if (jogos[jogoAtivo] && jogos[jogoAtivo].rodando){ jogos[jogoAtivo].rodando = false; await gravarJogo(); }
+  clearTimeout(timer); girando = false; pararGlobo(); pararSync();
+  sessionStorage.removeItem(SS_ADMIN); modoAdmin = false; senhaAdmin = null;
+  $("#formAdmin").reset(); tela("#login");
 }
 
-/* ---------- Eventos ---------- */
-$("#formEntrada").addEventListener("submit", e => {
-  e.preventDefault();
-  const nome = $("#nome").value.trim(), id = $("#uid").value.trim().toLowerCase();
-  if (nome.length < 2 || id.length < 2){ $("#erroEntrada").textContent = "Preencha seu nome e seu ID."; return; }
-  $("#erroEntrada").textContent = "";
-  entrarJogador({ nome, id });
-});
-$("#formFantasia").addEventListener("submit", async e => {
-  e.preventDefault();
-  const f = $("#fantasiaTxt").value.trim();
-  if (f.length < 2){ $("#erroFantasia").textContent = "Escreva a sua fantasia."; return; }
-  $("#erroFantasia").textContent = "";
-  const nova = { user_id:usuario.id, nome:usuario.nome, fantasia:f, numeros:gerarNumeros(), marcadas:[] };
-  try { cartela = await criarCartela(nova); await mostrarCartela(); }
-  catch(err){
-    console.error(err);
-    if (err && err.code === "23505"){ try { cartela = await getCartela(usuario.id); if (cartela){ await mostrarCartela(); return; } } catch(x){} }
-    $("#erroFantasia").textContent = "Não consegui criar sua cartela. Tente de novo.";
-  }
-});
-$("#fantasiaSair").addEventListener("click", sairTudo);
-$("#cSair").addEventListener("click", sairTudo);
 $("#irAdmin").addEventListener("click", () => { $("#formAdmin").reset(); $("#erroAdmin").textContent = ""; tela("#adminLogin"); $("#senha").focus(); });
-$("#adminVoltar").addEventListener("click", () => tela("#entrada"));
-$("#formAdmin").addEventListener("submit", async e => {
+$("#adminVoltar").addEventListener("click", () => tela("#login"));
+$("#formAdmin").addEventListener("submit", e => {
   e.preventDefault();
-  const s = $("#senha").value;
-  try {
-    if (await checarAdmin(s)) abrirAdmin(s);
-    else $("#erroAdmin").textContent = "Senha incorreta.";
-  } catch(err){ console.error(err); $("#erroAdmin").textContent = "Não consegui verificar a senha. Confira a conexão."; }
+  comBotao(e.target, async () => {
+    const s = $("#senha").value;
+    try {
+      const { data, error } = await db.rpc("bingo_admin_ok", { p_senha:s });
+      if (error) throw error;
+      if (data === true) abrirAdmin(s); else $("#erroAdmin").textContent = "Senha incorreta.";
+    } catch(err){ console.error(err); $("#erroAdmin").textContent = "Não consegui verificar a senha. Confira a conexão."; }
+  });
 });
-$("#aSair").addEventListener("click", sairTudo);
+$("#aSair").addEventListener("click", sairAdmin);
 $("#btnPlay").addEventListener("click", play);
 $("#btnPause").addEventListener("click", pausar);
 $("#btnReset").addEventListener("click", resetar);
 $("#btnNovo").addEventListener("click", novoJogoAdmin);
-$("#btnLimpar").addEventListener("click", async () => {
-  if (!cartela || !(cartela.marcadas || []).length) return;
-  cartela.marcadas = []; desenharCartela();
-  try { await atualizarCartela(usuario.id, { marcadas:[] }); } catch(e){ console.error(e); aviso("Não consegui salvar."); }
-});
-window.addEventListener("beforeunload", () => { if (modoAdmin && estado.rodando && DEMO){ estado.rodando = false; localStorage.setItem(LS_E, JSON.stringify(estado)); } });
 
 /* ---------- Início ---------- */
 $("#tituloFesta").textContent = CONFIG.FESTA_NOME;
 document.title = CONFIG.FESTA_NOME;
-setInterval(carregarRegistradas, 10000);
-carregarRegistradas();
 (async () => {
+  if (!db){ $("#erroEntrar").textContent = "Falta configurar o Supabase no código (SUPABASE_URL e SUPABASE_KEY)."; return; }
+  setInterval(carregarRegistradas, 12000);
+  carregarRegistradas();
   const sa = sessionStorage.getItem(SS_ADMIN);
-  if (sa){ try { if (await checarAdmin(sa)){ abrirAdmin(sa); return; } } catch(e){} sessionStorage.removeItem(SS_ADMIN); }
-  const u = lerLS(LS_USER, null);
-  if (u && u.id) entrarJogador(u);
+  if (sa){
+    try { const { data } = await db.rpc("bingo_admin_ok", { p_senha:sa }); if (data === true){ abrirAdmin(sa); return; } } catch(e){}
+    sessionStorage.removeItem(SS_ADMIN);
+  }
+  const s = lerLS(LS_SES, null);
+  if (s && s.id){
+    try {
+      const r = await rpc("bg_sessao", { p_id:s.id, p_pin:s.pin });
+      if (!r.erro){ iniciarSessao({ id:r.id, pin:s.pin, nome:r.nome, fantasia:r.fantasia }, r.aprovado); return; }
+    } catch(e){ console.error(e); }
+    localStorage.removeItem(LS_SES);
+  }
 })();
 </script>
 </body>

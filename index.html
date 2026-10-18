@@ -148,14 +148,14 @@ button.gamePill:not(:disabled):not(.on):hover{border-color:var(--abobora)}
 .celula.livre:hover{transform:none}
 .modoBox{padding:10px 14px}
 
-#gBlocos:not([hidden]){display:flex;flex-direction:column;padding:0 14px 12px}
+#gBlocos:not([hidden]){display:flex;flex-direction:column;width:100%;max-width:960px;margin:0 auto;padding:0 clamp(16px,5vw,40px) clamp(16px,3vh,32px)}
 .blocosTopo{flex:none;text-align:center;padding-bottom:8px}
 .blocosTopo h2{font-size:18px;margin-bottom:4px}
 .resumo{display:flex;gap:8px;justify-content:center;align-items:center;flex-wrap:wrap;font-size:13px;min-height:30px}
 .resumo b{color:var(--abobora)}
 .btnMini{padding:5px 12px;font-size:12.5px;border-radius:10px}
 .travado{font-size:12.5px;color:#ffd27a;margin-top:2px}
-.blocosArea{flex:1;min-height:0;overflow:hidden}
+.blocosArea{flex:1;min-height:0;max-height:620px;overflow:hidden}
 .blocosArea.rolar{overflow:auto}
 .blocosGrid{display:grid;gap:6px;width:100%;height:100%}
 .blocosArea.rolar .blocosGrid{height:auto}
@@ -189,7 +189,7 @@ button.gamePill:not(:disabled):not(.on):hover{border-color:var(--abobora)}
 .chip.aprov{background:rgba(166,255,92,.18);color:var(--limo)}
 
 /* Admin (uma tela, sem rolagem) */
-#admin.ativa{display:flex;flex-direction:column;height:100vh;height:100dvh;overflow:hidden;padding:0 16px 12px}
+#admin.ativa{display:flex;flex-direction:column;height:100vh;height:100dvh;overflow:hidden;width:100%;max-width:1280px;margin:0 auto;padding:0 clamp(16px,4vw,48px) clamp(14px,2.5vh,28px)}
 .aTopo{flex:none;display:flex;align-items:center;gap:16px;padding:10px 0 8px;flex-wrap:wrap}
 .aTopo h1{margin:0;font-size:clamp(24px,3.4vw,32px)}
 .abasAdmin{display:flex;gap:6px;background:rgba(0,0,0,.25);border:1px solid var(--borda);border-radius:12px;padding:4px}
@@ -230,6 +230,7 @@ button.gamePill:not(:disabled):not(.on):hover{border-color:var(--abobora)}
 .suporte{flex:none;width:60%;max-width:170px;height:14px;margin-top:-6px;border-radius:0 0 60px 60px;background:linear-gradient(180deg,#5b3aa8,#2a1250);box-shadow:0 8px 20px rgba(0,0,0,.5)}
 .bandeja{display:flex;align-items:center;gap:12px;margin-top:10px;padding:6px 18px 6px 8px;border-radius:999px;background:rgba(0,0,0,.3);border:1px solid var(--borda);max-width:100%}
 .bandeja span{font-size:14px;font-weight:600;opacity:.95}
+.bandeja .btnMini{margin-left:4px;flex:none}
 
 .quadro{display:grid;grid-template-columns:repeat(15,1fr);gap:3px}
 .quadro .n{font-size:11px;text-align:center;padding:4px 0;border-radius:5px;background:rgba(255,255,255,.05);opacity:.55}
@@ -409,7 +410,7 @@ button.gamePill:not(:disabled):not(.on):hover{border-color:var(--abobora)}
             <button class="sec" id="btnReset">↺ Reset</button>
           </div>
           <button class="sec novo" id="btnNovo">Novo jogo</button>
-          <button class="sec" id="btnEspera">⏳ Colocar em espera</button>
+          <button class="sec" id="btnInscPainel" type="button">🔒 Fechar inscrições</button>
         </div>
         <p class="contador" id="aContador" aria-live="polite"></p>
         <fieldset class="modos" id="modosBox">
@@ -420,7 +421,7 @@ button.gamePill:not(:disabled):not(.on):hover{border-color:var(--abobora)}
       <div class="painel pGlobo">
         <div class="globoVidro"><canvas id="globoCanvas" aria-hidden="true"></canvas></div>
         <div class="suporte" aria-hidden="true"></div>
-        <div class="bandeja"><div class="bolaN" id="bolaAtual" style="--s:54px"></div><span id="bolaTitulo">Bola sorteada</span></div>
+        <div class="bandeja"><div class="bolaN" id="bolaAtual" style="--s:54px"></div><span id="bolaTitulo">Bola sorteada</span><button class="sec btnMini" id="btnCopiarBola" type="button" hidden>Copiar</button></div>
       </div>
     </div>
     <div class="aRodape">
@@ -446,6 +447,7 @@ button.gamePill:not(:disabled):not(.on):hover{border-color:var(--abobora)}
       <div class="inscs">
         <span>Inscrições: <span class="estado" id="inscEstado"></span></span>
         <button class="sec" id="btnInsc" type="button"></button>
+        <button class="sec" id="btnEspera" type="button">⏳ Colocar em espera</button>
       </div>
     </div>
     <div class="jogGrid" id="aJog"></div>
@@ -1105,7 +1107,7 @@ async function colocarEmEspera(){
 async function alternarInscricoes(){
   const nova = !inscricoes;
   if (!nova && !confirm("Fechar as inscrições? Ninguém mais vai conseguir criar conta (quem já tem conta continua entrando).")) return;
-  try { await rpc("bg_set_inscricoes", { p_senha:senhaAdmin, p_abertas:nova }); inscricoes = nova; renderJogadoresAdmin(true); aviso(nova ? "Inscrições abertas." : "Inscrições encerradas."); }
+  try { await rpc("bg_set_inscricoes", { p_senha:senhaAdmin, p_abertas:nova }); inscricoes = nova; renderJogadoresAdmin(true); renderAdmin(); aviso(nova ? "Inscrições abertas." : "Inscrições encerradas."); }
   catch(e){ console.error(e); aviso("Não consegui alterar as inscrições."); }
 }
 async function trocarModo(k){
@@ -1135,10 +1137,14 @@ function renderAdmin(){
   $("#aContador").textContent = espera
     ? "Tela dos jogadores em espera. Escolha um game para liberar."
     : "Rodada " + j.rodada + " · " + s.length + " de " + pool + (filmes ? " filmes" : " números") + " sorteados";
-  $("#btnPlay").disabled = espera || j.rodando || s.length >= pool;
+  $("#btnPlay").disabled = j.rodando || s.length >= pool;
   $("#btnPause").disabled = !j.rodando;
   $("#btnEspera").disabled = espera;
   $("#btnEspera").textContent = espera ? "⏳ Em espera" : "⏳ Colocar em espera";
+  $("#btnInscPainel").textContent = inscricoes ? "🔒 Fechar inscrições" : "🔓 Abrir inscrições";
+  const bc = $("#btnCopiarBola");
+  bc.hidden = !ult;
+  bc.dataset.texto = ult ? rotuloBola(ult) : "";
   $("#aInfo").textContent = espera ? "Jogadores em espera" : (j.rodando ? "Sorteio rodando" : "Sorteio pausado");
   $("#modosBox").hidden = jogoAtivo !== "cartela";
   document.querySelectorAll("#modosGrid .modoCard").forEach(b => b.classList.toggle("on", b.dataset.m === j.modo));
@@ -1208,6 +1214,15 @@ function renderJogadoresAdmin(force){
   });
 }
 $("#btnInsc").addEventListener("click", alternarInscricoes);
+$("#btnInscPainel").addEventListener("click", alternarInscricoes);
+$("#btnCopiarBola").addEventListener("click", async () => {
+  const b = $("#btnCopiarBola"), t = b.dataset.texto;
+  if (!t) return;
+  if (await copiarTexto(t)){
+    b.textContent = "Copiado ✓"; aviso("Copiado: " + t);
+    clearTimeout(b._t); b._t = setTimeout(() => { b.textContent = "Copiar"; }, 1800);
+  } else aviso("Não consegui copiar.");
+});
 async function aprovar(id){
   try { await rpc("bg_admin_aprovar", { p_senha:senhaAdmin, p_id:id, p_aprovado:true }); await carregarJogadoresAdmin(); aviso("Jogador aprovado."); }
   catch(e){ console.error(e); aviso("Não consegui aprovar."); }
@@ -1259,7 +1274,7 @@ function ciclo(){
 }
 async function play(){
   const j = jogos[jogoAtivo];
-  if (espera || j.rodando || j.sorteados.length >= GAMES[jogoAtivo].pool) return;
+  if (j.rodando || j.sorteados.length >= GAMES[jogoAtivo].pool) return;
   j.rodando = true; await gravarJogo(); renderAdmin(); ciclo();
 }
 async function pausar(){

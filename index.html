@@ -176,13 +176,6 @@ details.painel[open] summary{margin-bottom:12px}
   .jogo,.adminGrid{grid-template-columns:1fr}
   .quadro{gap:3px}.quadro .n{font-size:10px}
 }
-.modoAtual{align-items:center;background:rgba(255,122,26,.07);border:1px solid rgba(255,122,26,.25);border-radius:14px;padding:14px}
-.modoImagem .padrao{--p:25px!important;gap:4px}
-.modoImagem .pc{border-radius:5px}
-.modoFixo{display:inline-block;margin-top:8px;color:var(--limo);font-size:11px;font-weight:700}
-.cartelaFixa{font-size:12px;color:var(--limo);margin:0 0 10px}
-#globoCanvas{filter:drop-shadow(0 0 8px rgba(255,170,70,.16))}
-
 @media (prefers-reduced-motion:reduce){
   .celula.saiu::after,.bolaN.cai{animation:none}
 }
@@ -249,20 +242,20 @@ details.painel[open] summary{margin-bottom:12px}
   <div class="avisoDemo demo" hidden><div>Modo de teste: tudo fica salvo só neste navegador. Configure o Supabase no código para valer para todo mundo. Senha do admin no teste: admin</div></div>
   <div class="jogo">
     <section>
-      <p class="tag">Cartela fixa <b id="cNumero"></b> · Fantasia: <b id="cFantasia"></b></p>
+      <p class="tag">Cartela <b id="cNumero"></b> · Fantasia: <b id="cFantasia"></b></p>
       <div class="letras" aria-hidden="true"><span>B</span><span>I</span><span>N</span><span>G</span><span>O</span></div>
       <div class="cartelaGrid" id="cartelaGrid" role="group" aria-label="Cartela de bingo"></div>
       <div class="acoes">
         <button class="sec" id="btnLimpar">Limpar marcações</button>
       </div>
-      <p class="cartelaFixa">Esta cartela e seus números estão vinculados ao seu cadastro. Não é possível trocar por outra.</p><p class="dica">Toque em um número para marcar ou desmarcar. O contorno verde piscando avisa que o número já saiu no sorteio. Sua cartela é fixa: os números não mudam.</p>
+      <p class="dica">Toque em um número para marcar ou desmarcar. O contorno verde piscando avisa que o número já saiu no sorteio. Sua cartela é fixa: os números não mudam.</p>
     </section>
     <aside>
       <div class="painel">
         <h2>Modo do jogo</h2>
-        <div class="modoLinha modoAtual">
-          <div class="modoImagem" id="pPadrao"></div>
-          <div><div class="modoNome" id="pModoNome"></div><p class="modoDesc" id="pModoDesc"></p><small class="modoFixo">Modo definido pelo admin</small></div>
+        <div class="modoLinha">
+          <div id="pPadrao"></div>
+          <div><div class="modoNome" id="pModoNome"></div><p class="modoDesc" id="pModoDesc"></p></div>
         </div>
       </div>
       <div class="painel">
@@ -271,6 +264,10 @@ details.painel[open] summary{margin-bottom:12px}
           <div><div class="modoNome">Última bola</div><div class="status" id="pStatus"></div></div>
         </div>
         <div class="historico" id="pHist"></div>
+      </div>
+      <div class="painel">
+        <h2>Ganhadores</h2>
+        <ol class="rank" id="pGanh"></ol>
       </div>
     </aside>
   </div>
@@ -309,13 +306,7 @@ details.painel[open] summary{margin-bottom:12px}
       </div>
       <div class="painel">
         <h2>Quem está mais perto</h2>
-        <p class="modoDesc">Progresso das cartelas no modo atual.</p>
         <ol class="rank" id="aRank"></ol>
-      </div>
-      <div class="painel">
-        <h2>Ranking geral de ganhadores</h2>
-        <p class="modoDesc">Classificação acumulada entre as rodadas.</p>
-        <ol class="rank" id="aRankGeral"></ol>
       </div>
       <div class="painel">
         <h2>Números sorteados</h2>
@@ -465,11 +456,10 @@ async function checarAdmin(s){
 async function gravarEstado(){
   const e = { sorteados:estado.sorteados, modo:estado.modo, rodando:estado.rodando, rodada:estado.rodada };
   try {
-    if (DEMO){ localStorage.setItem(LS_E, JSON.stringify(e)); return true; }
+    if (DEMO){ localStorage.setItem(LS_E, JSON.stringify(e)); return; }
     const { error } = await db.rpc("bingo_set_estado", { p_senha:senhaAdmin, p_sorteados:e.sorteados, p_modo:e.modo, p_rodando:e.rodando });
     if (error) throw error;
-    return true;
-  } catch(err){ console.error(err); aviso("O modo não foi salvo no servidor. Confira a conexão, a senha admin e a função bingo_set_estado no Supabase."); return false; }
+  } catch(err){ console.error(err); aviso("Não consegui salvar o sorteio. Confira a conexão."); }
 }
 async function registrarGanhadores(itens){
   if (DEMO){
@@ -569,7 +559,7 @@ async function carregarRegistradas(){
     if (!l.length){ box.appendChild(mk("p", "vazio", "Ninguém se registrou ainda. Seja o primeiro!")); return; }
     l.forEach(c => {
       const d = mk("div", "bloco");
-      d.append(mk("span", "nro", fmtNum(c.numero)), mk("b", "", (c.fantasia || "").trim() || "Fantasia não informada"), mk("small", "", c.nome || "Nome não informado"));
+      d.append(mk("span", "nro", fmtNum(c.numero)), mk("b", "", c.fantasia), mk("small", "", c.nome));
       box.appendChild(d);
     });
   } catch(e){ console.error(e); }
@@ -619,6 +609,7 @@ function renderJogo(){
     st.textContent = !s.length ? "O sorteio ainda não começou." : f === 0 ? "BINGO! Avise o admin!" : "Faltam " + f + " para o bingo.";
   }
   desenharCartela();
+  desenharGanhadores($("#pGanh"), ganhadores.filter(g => g.rodada === estado.rodada), "Ainda não teve ganhador nesta rodada.");
 }
 
 /* ---------- Globo (animação com física) ---------- */
@@ -654,26 +645,42 @@ function retirarBola(n){
   if (b){ b.saindo = true; b.t = 0; b.n = n; }
 }
 function passoGlobo(){
-  const cx=G.W/2, cy=G.W/2, R=G.R, B=G.bolas;
+  const cx = G.W/2, cy = G.W/2, R = G.R;
   const f = REDUZIR ? 0 : (girando ? 1 : estado.rodando ? .45 : 0);
-  const t = performance.now() / 1000;
-  B.forEach((b,i)=>{
+  const B = G.bolas;
+  for (const b of B){
     if (b.saindo){
-      b.t++; b.x += (cx-b.x)*.22; b.y += (cy+R-b.r-b.y)*.22;
-      b.r = 15*Math.max(0,1-b.t/14); return;
+      b.t++; b.x += (cx - b.x) * .2; b.y += (cy + R - b.r - b.y) * .2; b.r = 15 * Math.max(0, 1 - b.t/14);
+      continue;
     }
-    // Movimento orbital suave enquanto o globo gira; repouso com leve flutuação.
-    if (f>0){
-      b.phase = (b.phase ?? Math.atan2(b.y-cy,b.x-cx)) + .012*f*(1+(i%4)*.12);
-      b.orbit = b.orbit ?? Math.min(R-20,Math.hypot(b.x-cx,b.y-cy));
-      const targetR = Math.max(24,Math.min(R-20,b.orbit + Math.sin(t*2.2+i)*12*f));
-      const tx=cx+Math.cos(b.phase)*targetR, ty=cy+Math.sin(b.phase)*targetR*.82;
-      b.x += (tx-b.x)*.08; b.y += (ty-b.y)*.08;
-    } else {
-      b.x += Math.sin(t*.65+i)*.025; b.y += Math.cos(t*.7+i)*.025;
+    b.vy += .28;
+    if (f > 0){
+      const dx = b.x - cx, dy = b.y - cy, d = Math.hypot(dx, dy) || 1;
+      b.vx += (-dy/d) * .5 * f; b.vy += (dx/d) * .5 * f;
+      if (b.y > cy + R*.3) b.vy -= 1.15 * f * Math.random();
+      b.vx += (Math.random() - .5) * .8 * f;
     }
-  });
-  G.bolas=B.filter(b=>!(b.saindo&&b.t>=14));
+    b.vx *= .992; b.vy *= .992;
+    const v = Math.hypot(b.vx, b.vy); if (v > 9){ b.vx *= 9/v; b.vy *= 9/v; }
+    b.x += b.vx; b.y += b.vy;
+    const dx = b.x - cx, dy = b.y - cy, d = Math.hypot(dx, dy), lim = R - b.r - 2;
+    if (d > lim){
+      const nx = dx/d, ny = dy/d; b.x = cx + nx*lim; b.y = cy + ny*lim;
+      const vn = b.vx*nx + b.vy*ny;
+      if (vn > 0){ b.vx -= 1.6*vn*nx; b.vy -= 1.6*vn*ny; }
+    }
+  }
+  G.bolas = B.filter(b => !(b.saindo && b.t >= 14));
+  const A = G.bolas.filter(b => !b.saindo);
+  for (let i = 0; i < A.length; i++) for (let j = i + 1; j < A.length; j++){
+    const a = A[i], b = A[j], dx = b.x - a.x, dy = b.y - a.y, dist = Math.hypot(dx, dy), min = a.r + b.r;
+    if (dist < min && dist > 0){
+      const nx = dx/dist, ny = dy/dist, ov = (min - dist)/2;
+      a.x -= nx*ov; a.y -= ny*ov; b.x += nx*ov; b.y += ny*ov;
+      const rel = (b.vx - a.vx)*nx + (b.vy - a.vy)*ny;
+      if (rel < 0){ const j2 = -(1.7)*rel/2; a.vx -= j2*nx; a.vy -= j2*ny; b.vx += j2*nx; b.vy += j2*ny; }
+    }
+  }
 }
 function desenharBolaCv(c, b){
   if (b.r < .5) return;
@@ -712,10 +719,8 @@ function construirModos(){
   });
 }
 async function trocarModo(k){
-  const modoAnterior = estado.modo;
   estado.modo = k;
-  const salvo = await gravarEstado();
-  if (!salvo){ estado.modo = modoAnterior; renderAdmin(); return; }
+  await gravarEstado();
   const novos = novosVencedores();
   renderAdmin();
   if (novos.length){
@@ -746,21 +751,6 @@ function renderAdmin(){
 
   $("#aGanhTit").textContent = "Ganhadores da rodada " + estado.rodada;
   desenharGanhadores($("#aGanh"), ganhadores.filter(g => g.rodada === estado.rodada), "Ainda não teve ganhador nesta rodada.");
-  const totais = new Map();
-  ganhadores.forEach(g => {
-    const key = g.user_id || g.nome;
-    if (!totais.has(key)) totais.set(key, { nome:g.nome, fantasia:g.fantasia, cartela:g.numero_cartela, total:0 });
-    totais.get(key).total++;
-  });
-  const geral = [...totais.values()].sort((a,b)=>b.total-a.total || a.nome.localeCompare(b.nome,"pt-BR"));
-  const rg = $("#aRankGeral"); rg.textContent = "";
-  if (!geral.length) rg.appendChild(mk("li","vazio","O ranking será formado quando houver ganhadores."));
-  geral.forEach((g,i)=>{
-    const li=mk("li","venceu"), info=mk("div","info");
-    info.append(mk("b","",g.nome),mk("small","",g.fantasia+" · Cartela "+fmtNum(g.cartela)));
-    li.append(mk("span","pos",(i+1)+"º"),info,mk("span","chip",g.total+" "+(g.total===1?"vitória":"vitórias")));
-    rg.appendChild(li);
-  });
   const antigas = [...new Set(ganhadores.filter(g => g.rodada !== estado.rodada).map(g => g.rodada))].sort((a, b) => b - a);
   $("#aHistBox").hidden = !antigas.length;
   const h = $("#aHist"); h.textContent = "";
@@ -842,9 +832,8 @@ async function carregarEstado(){
         aviso("Novo jogo! Suas marcações foram limpas.");
       }
     }
-    if (modoAdmin) renderAdmin();
-    else renderJogo();
-  } catch(e){ console.error("Falha ao sincronizar estado do bingo:", e); }
+    renderJogo();
+  } catch(e){ console.error(e); }
 }
 async function carregarCartelas(){
   try { cartelas = await getCartelas(); modoAdmin ? renderAdmin() : renderJogo(); } catch(e){ console.error(e); }
@@ -858,13 +847,11 @@ function iniciarSync(){
     canal = db.channel("bingo")
       .on("postgres_changes", { event:"*", schema:"public", table:"bingo_cartelas" }, () => carregarCartelas())
       .on("postgres_changes", { event:"*", schema:"public", table:"bingo_ganhadores" }, () => carregarGanhadores())
-      .on("postgres_changes", { event:"*", schema:"public", table:"bingo_estado" }, () => carregarEstado())
+      .on("postgres_changes", { event:"*", schema:"public", table:"bingo_estado" }, () => { if (!modoAdmin) carregarEstado(); })
       .subscribe();
   }
-  // Polling de segurança: mantém os dois painéis sincronizados mesmo se o Realtime não estiver ativo.
-  polls = modoAdmin
-    ? [setInterval(carregarEstado, 3000), setInterval(carregarCartelas, 6000), setInterval(carregarGanhadores, 8000)]
-    : [setInterval(carregarEstado, 3000), setInterval(carregarCartelas, 10000), setInterval(carregarGanhadores, 8000)];
+  polls = modoAdmin ? [setInterval(carregarCartelas, 6000), setInterval(carregarGanhadores, 8000)]
+                    : [setInterval(carregarEstado, 3000), setInterval(carregarCartelas, 12000), setInterval(carregarGanhadores, 8000)];
 }
 function pararSync(){
   polls.forEach(clearInterval); polls = [];

@@ -30,8 +30,9 @@ body{
 .tela{display:none;position:relative;z-index:2}
 .tela.ativa{display:block}
 .tela.centro.ativa{display:flex;min-height:100vh;align-items:center;justify-content:center;padding:24px}
+#entrada.ativa{display:flex;flex-direction:column;align-items:center;gap:40px;padding:7vh 20px 70px}
 
-/* Cartão de formulário */
+/* Formulários */
 .cartao{width:100%;max-width:400px;padding:34px 28px;border-radius:26px;background:var(--vidro);
   border:1px solid var(--borda);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
   box-shadow:0 20px 60px rgba(0,0,0,.45),0 0 0 1px rgba(255,122,26,.15) inset;text-align:center}
@@ -54,8 +55,19 @@ input:focus{border-color:var(--abobora);box-shadow:0 0 0 3px rgba(255,122,26,.25
 .sec:disabled{opacity:.4;cursor:not-allowed}
 .link{background:none;border:0;color:var(--osso);opacity:.7;font:inherit;font-size:13px;text-decoration:underline;cursor:pointer;margin-top:16px}
 .link:hover{opacity:1}
-button:focus-visible,input:focus-visible{outline:3px solid var(--limo);outline-offset:3px}
+button:focus-visible,input:focus-visible,summary:focus-visible{outline:3px solid var(--limo);outline-offset:3px}
 .erro{color:#ff8a8a;font-size:13px;margin-top:12px;min-height:18px}
+
+/* Fantasias registradas */
+.registradas{width:100%;max-width:1000px}
+.registradas h2{font-size:20px;text-align:center;margin-bottom:4px}
+.registradas .sub{text-align:center;margin-bottom:18px;min-height:20px}
+.blocos{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
+.bloco{position:relative;background:var(--vidro);border:1px solid var(--borda);border-radius:16px;padding:26px 14px 16px;text-align:center;
+  display:flex;flex-direction:column;gap:4px;box-shadow:0 8px 20px rgba(0,0,0,.3)}
+.bloco b{font-size:16px;color:var(--abobora);line-height:1.2;word-break:break-word}
+.bloco small{font-size:13px;opacity:.85;word-break:break-word}
+.bloco .nro{position:absolute;top:8px;left:10px;font-size:11px;font-weight:800;opacity:.6}
 
 /* Topo */
 .topo{max-width:1100px;margin:0 auto;padding:30px 20px 8px;display:flex;flex-wrap:wrap;gap:14px;align-items:flex-end;justify-content:space-between}
@@ -69,6 +81,27 @@ button:focus-visible,input:focus-visible{outline:3px solid var(--limo);outline-o
 
 /* Painéis */
 .painel{background:var(--vidro);border:1px solid var(--borda);border-radius:20px;padding:20px;margin-bottom:16px;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+details.painel summary{cursor:pointer;font-weight:800;font-size:16px}
+details.painel[open] summary{margin-bottom:12px}
+
+/* Bola de bingo */
+.bolaN{--s:86px;--cor:#4a3a6b;position:relative;flex:none;width:var(--s);height:var(--s);border-radius:50%;display:flex;align-items:center;justify-content:center;
+  background:radial-gradient(circle at 32% 26%,rgba(255,255,255,.7),transparent 34%),var(--cor);
+  box-shadow:0 8px 20px rgba(0,0,0,.45),inset -6px -8px 14px rgba(0,0,0,.3)}
+.bolaN::before{content:"";position:absolute;width:66%;height:66%;border-radius:50%;background:#fff;box-shadow:inset 0 0 0 1px rgba(0,0,0,.08)}
+.bolaN b{position:relative;font-size:calc(var(--s) * .27);color:#1a0a00;line-height:1;font-weight:800}
+.bolaN.cai{animation:cai .75s cubic-bezier(.3,1.35,.5,1)}
+@keyframes cai{0%{transform:translateY(-80px) scale(.35);opacity:0}60%{opacity:1}100%{transform:none;opacity:1}}
+
+/* Imagem do modo de jogo */
+.padrao{display:grid;grid-template-columns:repeat(5,var(--p));gap:calc(var(--p) * .2);flex:none}
+.padrao .pc{width:var(--p);height:var(--p);border-radius:calc(var(--p) * .22);background:rgba(255,255,255,.1)}
+.padrao .pc.on{background:var(--abobora);box-shadow:0 0 calc(var(--p) * .6) rgba(255,122,26,.55)}
+.padrao .pc.livre{background:transparent;box-shadow:inset 0 0 0 1.5px var(--limo)}
+.padrao .pc.livre.on{background:#c2410c;box-shadow:inset 0 0 0 1.5px var(--limo)}
+.modoLinha{display:flex;align-items:center;gap:18px}
+.modoNome{font-weight:800;font-size:16px}
+.modoDesc{font-size:13px;opacity:.8;margin-top:4px;line-height:1.45}
 
 /* Tela da cartela */
 .jogo{max-width:1100px;margin:14px auto 60px;padding:0 20px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,380px);gap:22px;align-items:start}
@@ -88,63 +121,47 @@ button:focus-visible,input:focus-visible{outline:3px solid var(--limo);outline-o
 @keyframes pisca{50%{opacity:.25}}
 .acoes{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}
 .dica{font-size:12px;opacity:.7;margin-top:12px;max-width:460px;line-height:1.5}
-
 .ultimo{display:flex;align-items:center;gap:16px}
-.bolaGrande{flex:none;width:86px;height:86px;border-radius:50%;display:flex;align-items:center;justify-content:center;
-  font-weight:800;font-size:30px;color:#1a0a00;background:radial-gradient(circle at 35% 30%,#fff,#ffcf8a 45%,var(--abobora));
-  box-shadow:0 0 30px rgba(255,122,26,.55)}
-.bolaGrande.pop,.globoNumero.pop{animation:pop .6s}
-@keyframes pop{30%{transform:scale(1.25)}}
-.modoNome{font-weight:800;font-size:15px}
-.status{font-size:14px;margin-top:4px;opacity:.9}
+.status{font-size:14px;margin-top:4px;opacity:.9;line-height:1.4}
 .status.bingo{color:var(--limo);font-weight:800;opacity:1}
 .historico{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}
 .historico span{padding:4px 9px;border-radius:999px;background:rgba(255,255,255,.08);font-size:12px;font-weight:600}
 
-/* Ranking */
+/* Listas de ranking */
 .rank{list-style:none;display:flex;flex-direction:column;gap:8px}
-.rank li{display:grid;grid-template-columns:28px 1fr auto;gap:10px;align-items:center;background:rgba(0,0,0,.25);border:1px solid var(--borda);
+.rank li{display:grid;grid-template-columns:30px 1fr auto;gap:10px;align-items:center;background:rgba(0,0,0,.25);border:1px solid var(--borda);
   border-radius:12px;padding:9px 12px}
-.rank .pos{font-weight:800;opacity:.6;text-align:center}
+.rank .pos{font-weight:800;opacity:.7;text-align:center;font-size:14px}
 .rank .info b{display:block;font-size:14px}
 .rank .info small{opacity:.7;font-size:12px}
 .rank .falta{font-size:11.5px;opacity:.85;margin-top:2px}
 .chip{font-size:12px;font-weight:800;padding:5px 10px;border-radius:999px;background:rgba(255,122,26,.22);color:var(--abobora);white-space:nowrap}
-.rank li.venceu{border-color:var(--limo);box-shadow:0 0 18px rgba(166,255,92,.35)}
+.rank li.venceu{border-color:var(--limo);box-shadow:0 0 18px rgba(166,255,92,.3)}
 .rank li.venceu .chip{background:var(--limo);color:#102000}
 .vazio{opacity:.65;font-size:14px;padding:6px 0}
+.rodadaTit{font-size:14px;font-weight:800;margin:12px 0 6px;color:var(--abobora)}
 
 /* Admin */
-.adminGrid{max-width:1100px;margin:14px auto 60px;padding:0 20px;display:grid;grid-template-columns:minmax(0,380px) minmax(0,1fr);gap:22px;align-items:start}
+.adminGrid{max-width:1100px;margin:14px auto 60px;padding:0 20px;display:grid;grid-template-columns:minmax(0,400px) minmax(0,1fr);gap:22px;align-items:start}
 .globoWrap{display:flex;flex-direction:column;align-items:center}
-.globo{position:relative;width:250px;height:250px;border-radius:50%;overflow:hidden;
-  background:radial-gradient(circle at 32% 28%,rgba(255,255,255,.28),rgba(255,255,255,.05) 40%,rgba(80,40,160,.35) 100%);
-  border:2px solid rgba(255,255,255,.3);box-shadow:0 0 60px rgba(160,100,255,.35),inset 0 0 40px rgba(0,0,0,.45)}
-.globo.girando{animation:treme .12s linear infinite}
-@keyframes treme{25%{transform:translate(3px,-2px)}75%{transform:translate(-3px,2px)}}
-.mini{position:absolute;left:calc(50% - 17px);top:calc(50% - 17px);width:34px;height:34px;border-radius:50%;
-  background:radial-gradient(circle at 35% 30%,#fff,var(--c) 55%);opacity:.9;animation:rola var(--dur) ease-in-out infinite}
-.globo.girando .mini{animation-duration:.35s}
-@keyframes rola{
-  0%{transform:translate(0,0)}25%{transform:translate(var(--dx),var(--dy))}
-  50%{transform:translate(calc(var(--dx)*-1),calc(var(--dy)*.4))}
-  75%{transform:translate(calc(var(--dx)*.3),calc(var(--dy)*-1))}100%{transform:translate(0,0)}}
-.globoNumero{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:112px;height:112px;border-radius:50%;
-  display:flex;align-items:center;justify-content:center;font-weight:800;font-size:38px;color:#1a0a00;
-  background:radial-gradient(circle at 35% 30%,#fff,#ffcf8a 45%,var(--abobora));box-shadow:0 0 36px rgba(255,122,26,.7);z-index:2}
-.globoNumero.pop{animation:popC .6s}
-@keyframes popC{30%{transform:translate(-50%,-50%) scale(1.25)}}
-.globo.girando .globoNumero{opacity:.35}
-.contador{margin:14px 0 4px;font-size:14px;opacity:.85}
-.controles{display:flex;gap:10px;margin:12px 0;flex-wrap:wrap;justify-content:center}
+.globoVidro{width:280px;height:280px;border-radius:50%;position:relative;
+  background:radial-gradient(circle at 50% 60%,rgba(130,80,230,.28),rgba(14,5,30,.7) 72%);
+  border:3px solid rgba(255,255,255,.3);box-shadow:0 0 60px rgba(160,100,255,.35),inset 0 0 50px rgba(0,0,0,.55)}
+.globoVidro canvas{display:block;border-radius:50%}
+.suporte{width:170px;height:20px;margin-top:-8px;border-radius:0 0 60px 60px;background:linear-gradient(180deg,#5b3aa8,#2a1250);
+  box-shadow:0 10px 24px rgba(0,0,0,.5)}
+.bandeja{display:flex;align-items:center;gap:14px;margin-top:16px;padding:10px 20px 10px 12px;border-radius:999px;background:rgba(0,0,0,.3);border:1px solid var(--borda)}
+.bandeja span{font-size:14px;font-weight:600;opacity:.9}
+.contador{margin:14px 0 4px;font-size:14px;opacity:.85;text-align:center}
+.controles{display:flex;gap:10px;margin:12px 0 8px;flex-wrap:wrap;justify-content:center}
 .controles .sec{min-width:92px}
 .controles .play{background:linear-gradient(135deg,#ffa040,var(--abobora));color:#1a0a00;border-color:transparent;font-weight:800}
-.modos{border:0;margin-top:8px;width:100%}
-.modos legend{font-size:13px;font-weight:600;margin-bottom:8px;opacity:.9}
-.modos button{display:block;width:100%;text-align:left;margin-bottom:8px}
-.modos button.on{border-color:var(--limo);box-shadow:0 0 0 2px var(--limo);font-weight:800}
-.venc{border-color:var(--limo);box-shadow:0 0 26px rgba(166,255,92,.35)}
-.venc h2{color:var(--limo);margin-bottom:6px}
+.novo{width:100%;border-color:rgba(255,122,26,.6);color:var(--abobora);font-weight:800}
+.modos{border:0;margin-top:16px;width:100%}
+.modos legend{font-size:14px;font-weight:800;margin-bottom:10px}
+.modosGrid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.modoCard{display:flex;flex-direction:column;align-items:center;gap:10px;padding:14px 8px 12px;text-align:center;font-size:12.5px}
+.modoCard.on{border-color:var(--limo);box-shadow:0 0 0 2px var(--limo);background:rgba(166,255,92,.08)}
 .quadro{display:grid;grid-template-columns:22px repeat(15,1fr);gap:4px;align-items:center}
 .quadro .l{font-family:'Eater',cursive;color:var(--abobora);font-size:16px;text-align:center}
 .quadro .n{font-size:11px;text-align:center;padding:5px 0;border-radius:6px;background:rgba(255,255,255,.05);opacity:.55}
@@ -159,8 +176,15 @@ button:focus-visible,input:focus-visible{outline:3px solid var(--limo);outline-o
   .jogo,.adminGrid{grid-template-columns:1fr}
   .quadro{gap:3px}.quadro .n{font-size:10px}
 }
+.modoAtual{align-items:center;background:rgba(255,122,26,.07);border:1px solid rgba(255,122,26,.25);border-radius:14px;padding:14px}
+.modoImagem .padrao{--p:25px!important;gap:4px}
+.modoImagem .pc{border-radius:5px}
+.modoFixo{display:inline-block;margin-top:8px;color:var(--limo);font-size:11px;font-weight:700}
+.cartelaFixa{font-size:12px;color:var(--limo);margin:0 0 10px}
+#globoCanvas{filter:drop-shadow(0 0 8px rgba(255,170,70,.16))}
+
 @media (prefers-reduced-motion:reduce){
-  .mini,.globo.girando,.celula.saiu::after,.bolaGrande.pop,.globoNumero.pop{animation:none}
+  .celula.saiu::after,.bolaN.cai{animation:none}
 }
 </style>
 </head>
@@ -168,7 +192,7 @@ button:focus-visible,input:focus-visible{outline:3px solid var(--limo);outline-o
 <div class="lua" aria-hidden="true"></div>
 
 <!-- ENTRADA -->
-<main id="entrada" class="tela centro ativa">
+<main id="entrada" class="tela ativa">
   <form class="cartao" id="formEntrada" autocomplete="off">
     <div class="abobora" aria-hidden="true">🎃</div>
     <h1 id="tituloFesta">Bingo de Halloween</h1>
@@ -181,6 +205,11 @@ button:focus-visible,input:focus-visible{outline:3px solid var(--limo);outline-o
     <button class="btn" type="submit">Entrar na festa</button>
     <button class="link" type="button" id="irAdmin">Sou o admin</button>
   </form>
+  <section class="registradas" aria-labelledby="regTitulo">
+    <h2 id="regTitulo">Fantasias já registradas</h2>
+    <p class="sub" id="regInfo"></p>
+    <div class="blocos" id="regBlocos"></div>
+  </section>
 </main>
 
 <!-- FANTASIA -->
@@ -188,7 +217,7 @@ button:focus-visible,input:focus-visible{outline:3px solid var(--limo);outline-o
   <form class="cartao" id="formFantasia" autocomplete="off">
     <div class="abobora" aria-hidden="true">🧛</div>
     <h1>Sua fantasia</h1>
-    <p class="sub">Escreva qual fantasia você vai usar na festa. Depois disso a sua cartela é gerada.</p>
+    <p class="sub">Escreva qual fantasia você vai usar na festa. Depois disso a sua cartela é gerada e fica fixa até o fim.</p>
     <label for="fantasiaTxt">Qual é a sua fantasia?</label>
     <input type="text" id="fantasiaTxt" maxlength="40" required placeholder="Ex.: Vampiro, Bruxa, Palhaço">
     <div class="erro" id="erroFantasia" role="alert"></div>
@@ -220,26 +249,28 @@ button:focus-visible,input:focus-visible{outline:3px solid var(--limo);outline-o
   <div class="avisoDemo demo" hidden><div>Modo de teste: tudo fica salvo só neste navegador. Configure o Supabase no código para valer para todo mundo. Senha do admin no teste: admin</div></div>
   <div class="jogo">
     <section>
-      <p class="tag">Fantasia: <b id="cFantasia"></b></p>
+      <p class="tag">Cartela fixa <b id="cNumero"></b> · Fantasia: <b id="cFantasia"></b></p>
       <div class="letras" aria-hidden="true"><span>B</span><span>I</span><span>N</span><span>G</span><span>O</span></div>
       <div class="cartelaGrid" id="cartelaGrid" role="group" aria-label="Cartela de bingo"></div>
       <div class="acoes">
         <button class="sec" id="btnLimpar">Limpar marcações</button>
-        <button class="sec" id="btnNova">Nova cartela</button>
       </div>
-      <p class="dica">Toque em um número para marcar ou desmarcar. O contorno verde piscando avisa que o número já saiu no sorteio. Você só pode trocar de cartela antes do sorteio começar.</p>
+      <p class="cartelaFixa">Esta cartela e seus números estão vinculados ao seu cadastro. Não é possível trocar por outra.</p><p class="dica">Toque em um número para marcar ou desmarcar. O contorno verde piscando avisa que o número já saiu no sorteio. Sua cartela é fixa: os números não mudam.</p>
     </section>
     <aside>
       <div class="painel">
-        <div class="ultimo">
-          <div class="bolaGrande" id="pUltimo">–</div>
-          <div><div class="modoNome" id="pModo"></div><div class="status" id="pStatus"></div></div>
+        <h2>Modo do jogo</h2>
+        <div class="modoLinha modoAtual">
+          <div class="modoImagem" id="pPadrao"></div>
+          <div><div class="modoNome" id="pModoNome"></div><p class="modoDesc" id="pModoDesc"></p><small class="modoFixo">Modo definido pelo admin</small></div>
         </div>
-        <div class="historico" id="pHist"></div>
       </div>
       <div class="painel">
-        <h2>Quem está mais perto</h2>
-        <ol class="rank" id="pRank"></ol>
+        <div class="ultimo">
+          <div class="bolaN" id="pUltimo"></div>
+          <div><div class="modoNome">Última bola</div><div class="status" id="pStatus"></div></div>
+        </div>
+        <div class="historico" id="pHist"></div>
       </div>
     </aside>
   </div>
@@ -255,43 +286,45 @@ button:focus-visible,input:focus-visible{outline:3px solid var(--limo);outline-o
   <div class="adminGrid">
     <section class="painel">
       <div class="globoWrap">
-        <div class="globo" id="globo" aria-hidden="true">
-          <span class="mini" style="--c:#ff7a1a;--dx:70px;--dy:-60px;--dur:5s"></span>
-          <span class="mini" style="--c:#a6ff5c;--dx:-80px;--dy:50px;--dur:6.5s"></span>
-          <span class="mini" style="--c:#b78cff;--dx:60px;--dy:75px;--dur:4.6s"></span>
-          <span class="mini" style="--c:#ffd24a;--dx:-65px;--dy:-70px;--dur:7s"></span>
-          <span class="mini" style="--c:#ff6fb0;--dx:85px;--dy:20px;--dur:5.6s"></span>
-          <span class="mini" style="--c:#6fd6ff;--dx:-50px;--dy:85px;--dur:6s"></span>
-          <div class="globoNumero" id="globoNumero">–</div>
-        </div>
+        <div class="globoVidro"><canvas id="globoCanvas" aria-hidden="true"></canvas></div>
+        <div class="suporte" aria-hidden="true"></div>
+        <div class="bandeja"><div class="bolaN" id="bolaAtual" style="--s:84px"></div><span>Bola sorteada</span></div>
         <p class="contador" id="aContador" aria-live="polite"></p>
         <div class="controles">
           <button class="sec play" id="btnPlay">▶ Play</button>
           <button class="sec" id="btnPause">⏸ Pause</button>
           <button class="sec" id="btnReset">↺ Reset</button>
         </div>
+        <button class="sec novo" id="btnNovo">Novo jogo</button>
       </div>
-      <fieldset class="modos" id="modos">
+      <fieldset class="modos">
         <legend>Modo da cartela</legend>
-        <button class="sec" data-m="linha">Horizontal e vertical</button>
-        <button class="sec" data-m="x">Modo X</button>
-        <button class="sec" data-m="cantos">Modo 4 pontos</button>
-        <button class="sec" data-m="cheia">Cartela cheia</button>
+        <div class="modosGrid" id="modosGrid"></div>
       </fieldset>
     </section>
     <section>
-      <div class="painel venc" id="aVenc" hidden>
-        <h2>BINGO!</h2>
-        <ol class="rank" id="aVencLista"></ol>
+      <div class="painel">
+        <h2 id="aGanhTit">Ganhadores</h2>
+        <ol class="rank" id="aGanh"></ol>
       </div>
       <div class="painel">
-        <h2>Ranking: quem está mais perto</h2>
+        <h2>Quem está mais perto</h2>
+        <p class="modoDesc">Progresso das cartelas no modo atual.</p>
         <ol class="rank" id="aRank"></ol>
+      </div>
+      <div class="painel">
+        <h2>Ranking geral de ganhadores</h2>
+        <p class="modoDesc">Classificação acumulada entre as rodadas.</p>
+        <ol class="rank" id="aRankGeral"></ol>
       </div>
       <div class="painel">
         <h2>Números sorteados</h2>
         <div class="quadro" id="quadro"></div>
       </div>
+      <details class="painel" id="aHistBox" hidden>
+        <summary>Rodadas anteriores</summary>
+        <div id="aHist"></div>
+      </details>
     </section>
   </div>
 </main>
@@ -311,40 +344,46 @@ const $ = s => document.querySelector(s);
 const db = (CONFIG.SUPABASE_URL && CONFIG.SUPABASE_KEY && window.supabase)
   ? window.supabase.createClient(CONFIG.SUPABASE_URL, CONFIG.SUPABASE_KEY) : null;
 const DEMO = !db;
-const LS_USER = "bingo_user", SS_ADMIN = "bingo_admin", LS_C = "bingo_demo_cartelas", LS_E = "bingo_demo_estado";
+const LS_USER = "bingo_user", SS_ADMIN = "bingo_admin", LS_C = "bingo_demo_cartelas", LS_E = "bingo_demo_estado", LS_G = "bingo_demo_ganhadores";
 
-const MODOS = {
-  linha:  "Horizontal e vertical",
-  x:      "Modo X",
-  cantos: "Modo 4 pontos",
-  cheia:  "Cartela cheia"
-};
-const LINHAS = [];
+/* ---------- Modos de jogo (índices da cartela 5x5, linha por linha; 12 = centro livre) ---------- */
+const LH = [], LV = [];
 for (let i = 0; i < 5; i++){
-  LINHAS.push([0,1,2,3,4].map(c => i*5 + c));   // horizontais
-  LINHAS.push([0,1,2,3,4].map(r => r*5 + i));   // verticais
+  LH.push([0,1,2,3,4].map(c => i*5 + c));
+  LV.push([0,1,2,3,4].map(r => r*5 + i));
 }
-const PADROES = {
-  linha: LINHAS,
-  x: [[0,4,6,8,12,16,18,20,24]],
-  cantos: [[0,4,20,24]],
-  cheia: [Array.from({length:25}, (_, i) => i)]
+const MODOS = {
+  horizontal:{ nome:"Linha horizontal", desc:"Uma fileira deitada, da esquerda para a direita. Vale qualquer uma das cinco.", padroes:LH, ver:[10,11,12,13,14] },
+  vertical:  { nome:"Linha vertical",   desc:"Uma coluna de cima a baixo. Vale qualquer uma das cinco.", padroes:LV, ver:[2,7,12,17,22] },
+  diagonal:  { nome:"Linha diagonal",   desc:"De um canto ao outro, passando pelo centro. Vale qualquer uma das duas.", padroes:[[0,6,12,18,24],[4,8,12,16,20]], ver:[0,6,12,18,24] },
+  cantos:    { nome:"Quatro cantos",    desc:"Só os quatro cantos da cartela.", padroes:[[0,4,20,24]] },
+  janelinha: { nome:"Quadrado central", desc:"Um quadrado vazado em volta do centro, a famosa janelinha.", padroes:[[6,7,8,11,13,16,17,18]] },
+  x:         { nome:"Letra X",          desc:"As duas diagonais cruzando no meio da cartela.", padroes:[[0,4,6,8,12,16,18,20,24]] },
+  t:         { nome:"Letra T",          desc:"A fileira de cima inteira mais a coluna do meio.", padroes:[[0,1,2,3,4,7,12,17,22]] },
+  moldura:   { nome:"Moldura",          desc:"Toda a beirada da cartela, formando um quadro.", padroes:[[0,1,2,3,4,5,9,10,14,15,19,20,21,22,23,24]] },
+  diamante:  { nome:"Diamante",         desc:"Um losango estreito em volta do centro.", padroes:[[2,6,8,11,13,16,18,22]] },
+  cheia:     { nome:"Cartela cheia",    desc:"Todos os números da cartela marcados.", padroes:[Array.from({length:25}, (_, i) => i)] }
 };
+Object.values(MODOS).forEach(m => { if (!m.ver) m.ver = m.padroes[0]; });
 
-let usuario = null, cartela = null, cartelas = [];
-let estado = { sorteados:[], modo:"linha", rodando:false };
-let modoAdmin = false, senhaAdmin = null, canal = null, polls = [], timer = null, ultimoVisto = null;
+let usuario = null, cartela = null, cartelas = [], ganhadores = [];
+let estado = { sorteados:[], modo:"horizontal", rodando:false, rodada:1 };
+let modoAdmin = false, senhaAdmin = null, canal = null, polls = [], timer = null;
+let ultimoVisto = null, rodadaVista = null, modoDesenhado = null, girando = false;
 
 /* ---------- Utilidades ---------- */
 const lerLS = (k, f) => { try { const v = JSON.parse(localStorage.getItem(k)); return v == null ? f : v; } catch(e){ return f; } };
+const ativa = sel => $(sel).classList.contains("ativa");
+const fmtNum = n => n == null ? "" : "nº " + String(n).padStart(3, "0");
 function aviso(msg){
   const t = $("#toast"); t.textContent = msg; t.classList.add("on");
-  clearTimeout(aviso.t); aviso.t = setTimeout(() => t.classList.remove("on"), 3000);
+  clearTimeout(aviso.t); aviso.t = setTimeout(() => t.classList.remove("on"), 3200);
 }
 function tela(id){
   document.querySelectorAll(".tela").forEach(el => el.classList.remove("ativa"));
   $(id).classList.add("ativa");
   document.querySelectorAll(".demo").forEach(el => el.hidden = !DEMO);
+  if (id === "#entrada") carregarRegistradas();
 }
 function mk(tag, cls, txt){
   const e = document.createElement(tag);
@@ -354,12 +393,35 @@ function mk(tag, cls, txt){
 }
 const letra = n => "BINGO"[Math.floor((n - 1) / 15)];
 const rotulo = n => letra(n) + n;
-function pop(el){ el.classList.remove("pop"); void el.offsetWidth; el.classList.add("pop"); }
+const COR = { B:"#2f7cf6", I:"#e5383b", N:"#b9b9d0", G:"#2fbf71", O:"#ff9f1c" };
+const corDe = n => COR[letra(n)];
+function setBola(el, n, animar){
+  let b = el.querySelector("b");
+  if (!b){ b = document.createElement("b"); el.appendChild(b); }
+  el.style.setProperty("--cor", n ? corDe(n) : "#4a3a6b");
+  b.textContent = n ? rotulo(n) : "–";
+  if (animar){ el.classList.remove("cai"); void el.offsetWidth; el.classList.add("cai"); }
+}
+function desenharPadrao(dest, modo, px){
+  dest.textContent = "";
+  dest.className = "padrao";
+  dest.style.setProperty("--p", px + "px");
+  const on = new Set(MODOS[modo].ver);
+  for (let i = 0; i < 25; i++) dest.appendChild(mk("span", "pc" + (on.has(i) ? " on" : "") + (i === 12 ? " livre" : "")));
+  dest.setAttribute("role", "img");
+  dest.setAttribute("aria-label", MODOS[modo].nome);
+}
+function normalizar(e){
+  if (!e.modo || !MODOS[e.modo]) e.modo = "horizontal";
+  if (!Array.isArray(e.sorteados)) e.sorteados = [];
+  if (!e.rodada) e.rodada = 1;
+  return e;
+}
 
 /* ---------- Camada de dados ---------- */
 async function getCartelas(){
   if (DEMO) return lerLS(LS_C, []);
-  const { data, error } = await db.from("bingo_cartelas").select("user_id,nome,fantasia,numeros,marcadas");
+  const { data, error } = await db.from("bingo_cartelas").select("user_id,numero,nome,fantasia,numeros,marcadas");
   if (error) throw error; return data;
 }
 async function getCartela(id){
@@ -369,11 +431,12 @@ async function getCartela(id){
 }
 async function criarCartela(c){
   if (DEMO){
-    const l = lerLS(LS_C, []).filter(x => x.user_id !== c.user_id); l.push(c);
-    localStorage.setItem(LS_C, JSON.stringify(l)); return;
+    const l = lerLS(LS_C, []);
+    const novo = { ...c, numero: l.reduce((m, x) => Math.max(m, x.numero || 0), 0) + 1 };
+    l.push(novo); localStorage.setItem(LS_C, JSON.stringify(l)); return novo;
   }
-  const { error } = await db.from("bingo_cartelas").insert(c);
-  if (error) throw error;
+  const { data, error } = await db.from("bingo_cartelas").insert(c).select().single();
+  if (error) throw error; return data;
 }
 async function atualizarCartela(id, campos){
   if (DEMO){
@@ -385,8 +448,13 @@ async function atualizarCartela(id, campos){
   if (error) throw error;
 }
 async function getEstado(){
-  if (DEMO) return { sorteados:[], modo:"linha", rodando:false, ...lerLS(LS_E, {}) };
-  const { data, error } = await db.from("bingo_estado").select("sorteados,modo,rodando").eq("id", 1).single();
+  if (DEMO) return normalizar({ sorteados:[], modo:"horizontal", rodando:false, rodada:1, ...lerLS(LS_E, {}) });
+  const { data, error } = await db.from("bingo_estado").select("sorteados,modo,rodando,rodada").eq("id", 1).single();
+  if (error) throw error; return normalizar(data);
+}
+async function getGanhadores(){
+  if (DEMO) return lerLS(LS_G, []);
+  const { data, error } = await db.from("bingo_ganhadores").select("*").order("id", { ascending:true });
   if (error) throw error; return data;
 }
 async function checarAdmin(s){
@@ -395,12 +463,36 @@ async function checarAdmin(s){
   if (error) throw error; return data === true;
 }
 async function gravarEstado(){
-  const e = { sorteados:estado.sorteados, modo:estado.modo, rodando:estado.rodando };
+  const e = { sorteados:estado.sorteados, modo:estado.modo, rodando:estado.rodando, rodada:estado.rodada };
   try {
     if (DEMO){ localStorage.setItem(LS_E, JSON.stringify(e)); return; }
     const { error } = await db.rpc("bingo_set_estado", { p_senha:senhaAdmin, p_sorteados:e.sorteados, p_modo:e.modo, p_rodando:e.rodando });
     if (error) throw error;
   } catch(err){ console.error(err); aviso("Não consegui salvar o sorteio. Confira a conexão."); }
+}
+async function registrarGanhadores(itens){
+  if (DEMO){
+    const est = await getEstado(), cs = lerLS(LS_C, []), g = lerLS(LS_G, []);
+    itens.forEach(it => {
+      const c = cs.find(x => x.user_id === it.user_id); if (!c) return;
+      if (g.some(x => x.rodada === est.rodada && x.user_id === it.user_id && x.modo === it.modo)) return;
+      g.push({ id:g.reduce((m, x) => Math.max(m, x.id), 0) + 1, rodada:est.rodada, user_id:c.user_id, nome:c.nome,
+               fantasia:c.fantasia, numero_cartela:c.numero, modo:it.modo, bola:it.bola });
+    });
+    localStorage.setItem(LS_G, JSON.stringify(g)); return;
+  }
+  const { error } = await db.rpc("bingo_registrar_ganhadores", { p_senha:senhaAdmin, p_itens:itens });
+  if (error) throw error;
+}
+async function novoJogo(){
+  if (DEMO){
+    const e = await getEstado();
+    localStorage.setItem(LS_E, JSON.stringify({ sorteados:[], modo:e.modo, rodando:false, rodada:e.rodada + 1 }));
+    const cs = lerLS(LS_C, []); cs.forEach(c => c.marcadas = []);
+    localStorage.setItem(LS_C, JSON.stringify(cs)); return;
+  }
+  const { error } = await db.rpc("bingo_novo_jogo", { p_senha:senhaAdmin });
+  if (error) throw error;
 }
 
 /* ---------- Regras do bingo ---------- */
@@ -416,14 +508,14 @@ function gerarNumeros(){
   }
   const g = [];
   for (let r = 0; r < 5; r++) for (let c = 0; c < 5; c++){
-    if (r === 2 && c === 2) g.push(0);                       // espaço livre
+    if (r === 2 && c === 2) g.push(0);
     else g.push(cols[c][(c === 2 && r > 2) ? r - 1 : r]);
   }
   return g;
 }
 function faltantes(numeros, saiu, modo){
   let melhor = null;
-  for (const p of PADROES[modo]){
+  for (const p of MODOS[modo].padroes){
     const f = [];
     for (const i of p){ const n = numeros[i]; if (n !== 0 && !saiu.has(n)) f.push(n); }
     if (!melhor || f.length < melhor.length) melhor = f;
@@ -435,18 +527,51 @@ function montarRanking(){
   return cartelas.map(c => { const f = faltantes(c.numeros, saiu, estado.modo); return { c, faltam:f.length, f }; })
     .sort((a, b) => a.faltam - b.faltam || a.c.nome.localeCompare(b.c.nome, "pt-BR"));
 }
+function vencedores(){ return estado.sorteados.length ? montarRanking().filter(r => r.faltam === 0) : []; }
+function novosVencedores(){
+  const ja = new Set(ganhadores.filter(g => g.rodada === estado.rodada && g.modo === estado.modo).map(g => g.user_id));
+  return vencedores().filter(r => !ja.has(r.c.user_id));
+}
 function desenharRanking(ol, lista, limite){
   ol.textContent = "";
   if (!lista.length){ ol.appendChild(mk("li", "vazio", "Nenhuma cartela ainda.")); return; }
   lista.slice(0, limite).forEach((r, i) => {
-    const li = mk("li", r.faltam === 0 ? "venceu" : "");
+    const li = mk("li", r.faltam === 0 && estado.sorteados.length ? "venceu" : "");
     const info = mk("div", "info");
     info.appendChild(mk("b", "", r.c.nome));
-    info.appendChild(mk("small", "", r.c.fantasia));
+    info.appendChild(mk("small", "", r.c.fantasia + " · Cartela " + fmtNum(r.c.numero)));
     if (r.faltam > 0 && r.faltam <= 3) info.appendChild(mk("div", "falta", "Falta: " + r.f.map(rotulo).join(", ")));
-    li.append(mk("span", "pos", String(i + 1)), info, mk("span", "chip", r.faltam === 0 ? "BINGO!" : "Faltam " + r.faltam));
+    li.append(mk("span", "pos", String(i + 1)), info, mk("span", "chip", r.faltam === 0 && estado.sorteados.length ? "BINGO!" : "Faltam " + r.faltam));
     ol.appendChild(li);
   });
+}
+function desenharGanhadores(ol, lista, vazio){
+  ol.textContent = "";
+  if (!lista.length){ ol.appendChild(mk("li", "vazio", vazio)); return; }
+  lista.forEach((g, i) => {
+    const li = mk("li", "venceu");
+    const info = mk("div", "info");
+    info.appendChild(mk("b", "", g.nome));
+    info.appendChild(mk("small", "", g.fantasia + " · Cartela " + fmtNum(g.numero_cartela) + (g.bola ? " · bola " + rotulo(g.bola) : "")));
+    li.append(mk("span", "pos", (i + 1) + "º"), info, mk("span", "chip", (MODOS[g.modo] || MODOS.horizontal).nome));
+    ol.appendChild(li);
+  });
+}
+
+/* ---------- Fantasias registradas (tela inicial) ---------- */
+async function carregarRegistradas(){
+  if (!ativa("#entrada")) return;
+  try {
+    const l = (await getCartelas()).slice().sort((a, b) => (a.numero || 0) - (b.numero || 0));
+    const box = $("#regBlocos"); box.textContent = "";
+    $("#regInfo").textContent = l.length ? l.length + (l.length === 1 ? " fantasia registrada" : " fantasias registradas") : "";
+    if (!l.length){ box.appendChild(mk("p", "vazio", "Ninguém se registrou ainda. Seja o primeiro!")); return; }
+    l.forEach(c => {
+      const d = mk("div", "bloco");
+      d.append(mk("span", "nro", fmtNum(c.numero)), mk("b", "", c.fantasia), mk("small", "", c.nome));
+      box.appendChild(d);
+    });
+  } catch(e){ console.error(e); }
 }
 
 /* ---------- Jogador ---------- */
@@ -454,7 +579,7 @@ function desenharCartela(){
   if (!cartela) return;
   const saiu = new Set(estado.sorteados), marc = new Set(cartela.marcadas || []);
   const g = $("#cartelaGrid"); g.textContent = "";
-  cartela.numeros.forEach((n, i) => {
+  cartela.numeros.forEach(n => {
     const b = mk("button", "celula");
     b.type = "button";
     if (n === 0){ b.classList.add("livre"); b.textContent = "🎃"; b.setAttribute("aria-label", "Espaço livre"); b.tabIndex = -1; }
@@ -477,11 +602,13 @@ async function marcar(n){
   catch(e){ console.error(e); aviso("Não consegui salvar sua marcação."); }
 }
 function renderJogo(){
-  if (!$("#cartela").classList.contains("ativa")) return;
-  const s = estado.sorteados, ult = s.length ? s[s.length - 1] : null;
-  $("#pUltimo").textContent = ult ? rotulo(ult) : "–";
-  if (ult !== ultimoVisto){ if (ult) pop($("#pUltimo")); ultimoVisto = ult; }
-  $("#pModo").textContent = "Modo: " + MODOS[estado.modo];
+  if (!ativa("#cartela")) return;
+  const s = estado.sorteados, ult = s.length ? s[s.length - 1] : null, m = MODOS[estado.modo];
+  setBola($("#pUltimo"), ult, ult !== ultimoVisto && ult != null);
+  ultimoVisto = ult;
+  $("#pModoNome").textContent = m.nome;
+  $("#pModoDesc").textContent = m.desc;
+  if (modoDesenhado !== estado.modo){ desenharPadrao($("#pPadrao"), estado.modo, 15); modoDesenhado = estado.modo; }
   const hist = $("#pHist"); hist.textContent = "";
   s.slice(-12, -1).reverse().forEach(n => hist.appendChild(mk("span", "", rotulo(n))));
   const st = $("#pStatus");
@@ -491,23 +618,116 @@ function renderJogo(){
     st.textContent = !s.length ? "O sorteio ainda não começou." : f === 0 ? "BINGO! Avise o admin!" : "Faltam " + f + " para o bingo.";
   }
   desenharCartela();
-  desenharRanking($("#pRank"), montarRanking(), 5);
+}
+
+/* ---------- Globo (animação com física) ---------- */
+const G = { cv:null, c:null, W:280, R:130, bolas:[], raf:null, dpr:1 };
+const REDUZIR = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+function iniciarGlobo(){
+  G.cv = $("#globoCanvas"); G.dpr = Math.min(window.devicePixelRatio || 1, 2);
+  G.cv.width = G.W * G.dpr; G.cv.height = G.W * G.dpr;
+  G.cv.style.width = G.W + "px"; G.cv.style.height = G.W + "px";
+  G.c = G.cv.getContext("2d"); G.c.setTransform(G.dpr, 0, 0, G.dpr, 0, 0);
+  sincronizarBolas();
+  if (!G.raf) loopGlobo();
+}
+function pararGlobo(){ cancelAnimationFrame(G.raf); G.raf = null; }
+function sincronizarBolas(){
+  const saiu = new Set(estado.sorteados);
+  G.bolas = G.bolas.filter(b => b.saindo || !saiu.has(b.n));
+  const dentro = new Set(G.bolas.map(b => b.n));
+  const restantes = [];
+  for (let n = 1; n <= 75; n++) if (!saiu.has(n) && !dentro.has(n)) restantes.push(n);
+  embaralhar(restantes);
+  const alvo = Math.min(26, 75 - estado.sorteados.length);
+  let ativas = G.bolas.filter(b => !b.saindo).length;
+  while (ativas < alvo && restantes.length){
+    const a = Math.random() * Math.PI * 2, d = Math.random() * 70;
+    G.bolas.push({ x:G.W/2 + Math.cos(a)*d, y:G.W/2 - 40 + Math.sin(a)*d*.5, vx:(Math.random()-.5)*2, vy:0, r:15, n:restantes.pop() });
+    ativas++;
+  }
+}
+function retirarBola(n){
+  const ativas = G.bolas.filter(b => !b.saindo);
+  const b = ativas.find(x => x.n === n) || ativas[Math.floor(Math.random() * ativas.length)];
+  if (b){ b.saindo = true; b.t = 0; b.n = n; }
+}
+function passoGlobo(){
+  const cx=G.W/2, cy=G.W/2, R=G.R, B=G.bolas;
+  const f = REDUZIR ? 0 : (girando ? 1 : estado.rodando ? .45 : 0);
+  const t = performance.now() / 1000;
+  B.forEach((b,i)=>{
+    if (b.saindo){
+      b.t++; b.x += (cx-b.x)*.22; b.y += (cy+R-b.r-b.y)*.22;
+      b.r = 15*Math.max(0,1-b.t/14); return;
+    }
+    // Movimento orbital suave enquanto o globo gira; repouso com leve flutuação.
+    if (f>0){
+      b.phase = (b.phase ?? Math.atan2(b.y-cy,b.x-cx)) + .012*f*(1+(i%4)*.12);
+      b.orbit = b.orbit ?? Math.min(R-20,Math.hypot(b.x-cx,b.y-cy));
+      const targetR = Math.max(24,Math.min(R-20,b.orbit + Math.sin(t*2.2+i)*12*f));
+      const tx=cx+Math.cos(b.phase)*targetR, ty=cy+Math.sin(b.phase)*targetR*.82;
+      b.x += (tx-b.x)*.08; b.y += (ty-b.y)*.08;
+    } else {
+      b.x += Math.sin(t*.65+i)*.025; b.y += Math.cos(t*.7+i)*.025;
+    }
+  });
+  G.bolas=B.filter(b=>!(b.saindo&&b.t>=14));
+}
+function desenharBolaCv(c, b){
+  if (b.r < .5) return;
+  c.save();
+  c.globalAlpha = b.saindo ? Math.max(0, 1 - b.t/14) : 1;
+  c.beginPath(); c.arc(b.x, b.y, b.r, 0, Math.PI*2); c.fillStyle = corDe(b.n); c.fill();
+  const sh = c.createRadialGradient(b.x - b.r*.35, b.y - b.r*.4, 1, b.x, b.y, b.r);
+  sh.addColorStop(0, "rgba(255,255,255,.65)"); sh.addColorStop(.4, "rgba(255,255,255,0)"); sh.addColorStop(1, "rgba(0,0,0,.4)");
+  c.fillStyle = sh; c.fill();
+  c.beginPath(); c.arc(b.x, b.y, b.r*.58, 0, Math.PI*2); c.fillStyle = "#fff"; c.fill();
+  c.fillStyle = "#1a0a00"; c.font = "800 " + (b.r*.6) + "px 'Bricolage Grotesque', sans-serif";
+  c.textAlign = "center"; c.textBaseline = "middle"; c.fillText(String(b.n), b.x, b.y + 1);
+  c.restore();
+}
+function desenharGlobo(){
+  const c = G.c, W = G.W; c.clearRect(0, 0, W, W);
+  G.bolas.forEach(b => desenharBolaCv(c, b));
+  const g = c.createRadialGradient(W*.33, W*.27, 6, W/2, W/2, G.R + 6);
+  g.addColorStop(0, "rgba(255,255,255,.38)"); g.addColorStop(.28, "rgba(255,255,255,.06)"); g.addColorStop(1, "rgba(255,255,255,0)");
+  c.fillStyle = g; c.beginPath(); c.arc(W/2, W/2, G.R + 4, 0, Math.PI*2); c.fill();
+}
+function loopGlobo(){
+  passoGlobo(); desenharGlobo();
+  G.raf = requestAnimationFrame(loopGlobo);
 }
 
 /* ---------- Admin ---------- */
-function vencedores(){ return montarRanking().filter(r => r.faltam === 0 && estado.sorteados.length); }
-function setGlobo(n, animar){
-  const g = $("#globoNumero"); g.textContent = n ? rotulo(n) : "–";
-  if (animar) pop(g);
+function construirModos(){
+  const box = $("#modosGrid"); box.textContent = "";
+  Object.keys(MODOS).forEach(k => {
+    const b = mk("button", "sec modoCard"); b.type = "button"; b.dataset.m = k;
+    const p = mk("div"); desenharPadrao(p, k, 13);
+    b.append(p, mk("span", "", MODOS[k].nome));
+    b.addEventListener("click", () => trocarModo(k));
+    box.appendChild(b);
+  });
+}
+async function trocarModo(k){
+  estado.modo = k;
+  await gravarEstado();
+  const novos = novosVencedores();
+  renderAdmin();
+  if (novos.length){
+    aviso("Com o modo " + MODOS[k].nome + ", " + novos.map(r => r.c.nome).join(", ") + " já completou a cartela.");
+    registrarNovos(novos, estado.sorteados[estado.sorteados.length - 1]);
+  }
 }
 function renderAdmin(){
-  if (!$("#admin").classList.contains("ativa")) return;
+  if (!ativa("#admin")) return;
   const s = estado.sorteados;
-  setGlobo(s.length ? s[s.length - 1] : null, false);
-  $("#aContador").textContent = s.length + " de 75 números · " + cartelas.length + (cartelas.length === 1 ? " cartela" : " cartelas");
+  setBola($("#bolaAtual"), s.length ? s[s.length - 1] : null, false);
+  $("#aContador").textContent = "Rodada " + estado.rodada + " · " + s.length + " de 75 números · " + cartelas.length + (cartelas.length === 1 ? " cartela" : " cartelas");
   $("#btnPlay").disabled = estado.rodando || s.length >= 75;
   $("#btnPause").disabled = !estado.rodando;
-  document.querySelectorAll("#modos button").forEach(b => b.classList.toggle("on", b.dataset.m === estado.modo));
+  document.querySelectorAll("#modosGrid .modoCard").forEach(b => b.classList.toggle("on", b.dataset.m === estado.modo));
   $("#aInfo").textContent = estado.rodando ? "Sorteio rodando" : "Sorteio pausado";
 
   const q = $("#quadro"); q.textContent = "";
@@ -515,35 +735,67 @@ function renderAdmin(){
   for (let l = 0; l < 5; l++){
     q.appendChild(mk("span", "l", "BINGO"[l]));
     for (let i = 1; i <= 15; i++){
-      const n = l*15 + i, c = mk("span", "n" + (set.has(n) ? " on" : "") + (n === ult ? " ult" : ""), String(n));
-      q.appendChild(c);
+      const n = l*15 + i;
+      q.appendChild(mk("span", "n" + (set.has(n) ? " on" : "") + (n === ult ? " ult" : ""), String(n)));
     }
   }
-  const rk = montarRanking();
-  desenharRanking($("#aRank"), rk, 10);
-  const v = rk.filter(r => r.faltam === 0 && s.length);
-  $("#aVenc").hidden = !v.length;
-  if (v.length) desenharRanking($("#aVencLista"), v, 20);
+  desenharRanking($("#aRank"), montarRanking(), 10);
+
+  $("#aGanhTit").textContent = "Ganhadores da rodada " + estado.rodada;
+  desenharGanhadores($("#aGanh"), ganhadores.filter(g => g.rodada === estado.rodada), "Ainda não teve ganhador nesta rodada.");
+  const totais = new Map();
+  ganhadores.forEach(g => {
+    const key = g.user_id || g.nome;
+    if (!totais.has(key)) totais.set(key, { nome:g.nome, fantasia:g.fantasia, cartela:g.numero_cartela, total:0 });
+    totais.get(key).total++;
+  });
+  const geral = [...totais.values()].sort((a,b)=>b.total-a.total || a.nome.localeCompare(b.nome,"pt-BR"));
+  const rg = $("#aRankGeral"); rg.textContent = "";
+  if (!geral.length) rg.appendChild(mk("li","vazio","O ranking será formado quando houver ganhadores."));
+  geral.forEach((g,i)=>{
+    const li=mk("li","venceu"), info=mk("div","info");
+    info.append(mk("b","",g.nome),mk("small","",g.fantasia+" · Cartela "+fmtNum(g.cartela)));
+    li.append(mk("span","pos",(i+1)+"º"),info,mk("span","chip",g.total+" "+(g.total===1?"vitória":"vitórias")));
+    rg.appendChild(li);
+  });
+  const antigas = [...new Set(ganhadores.filter(g => g.rodada !== estado.rodada).map(g => g.rodada))].sort((a, b) => b - a);
+  $("#aHistBox").hidden = !antigas.length;
+  const h = $("#aHist"); h.textContent = "";
+  antigas.forEach(r => {
+    h.appendChild(mk("p", "rodadaTit", "Rodada " + r));
+    const ol = mk("ol", "rank"); h.appendChild(ol);
+    desenharGanhadores(ol, ganhadores.filter(g => g.rodada === r), "");
+  });
+}
+async function registrarNovos(novos, bola){
+  try {
+    await registrarGanhadores(novos.map(r => ({ user_id:r.c.user_id, modo:estado.modo, bola })));
+    await carregarGanhadores();
+  } catch(e){ console.error(e); aviso("Não consegui registrar o ganhador. Confira a conexão."); }
 }
 function sortear(){
   const restantes = [];
   for (let n = 1; n <= 75; n++) if (!estado.sorteados.includes(n)) restantes.push(n);
-  if (!restantes.length){ estado.rodando = false; gravarEstado(); renderAdmin(); aviso("Todos os números já saíram."); return; }
+  if (!restantes.length){ estado.rodando = false; girando = false; gravarEstado(); renderAdmin(); aviso("Todos os números já saíram."); return; }
   const n = restantes[Math.floor(Math.random() * restantes.length)];
-  const antes = new Set(vencedores().map(r => r.c.user_id));
   estado.sorteados.push(n);
-  const novos = vencedores().filter(r => !antes.has(r.c.user_id));
+  retirarBola(n);
+  const novos = novosVencedores();
   if (novos.length || estado.sorteados.length >= 75) estado.rodando = false;
   gravarEstado();
-  setGlobo(n, true);
+  setBola($("#bolaAtual"), n, true);
+  sincronizarBolas();
   renderAdmin();
-  if (novos.length) aviso("BINGO! " + novos.map(r => r.c.nome).join(", ") + " completou a cartela. Sorteio pausado.");
+  if (novos.length){
+    registrarNovos(novos, n);
+    aviso("BINGO! " + novos.map(r => r.c.nome).join(", ") + " completou a cartela. Sorteio pausado.");
+  }
 }
 function ciclo(){
   if (!estado.rodando) return;
-  $("#globo").classList.add("girando");
+  girando = true;
   timer = setTimeout(() => {
-    $("#globo").classList.remove("girando");
+    girando = false;
     if (!estado.rodando) return;
     sortear();
     if (estado.rodando) timer = setTimeout(ciclo, 3100);
@@ -554,33 +806,59 @@ async function play(){
   estado.rodando = true; await gravarEstado(); renderAdmin(); ciclo();
 }
 async function pausar(){
-  estado.rodando = false; clearTimeout(timer); $("#globo").classList.remove("girando");
+  estado.rodando = false; girando = false; clearTimeout(timer);
   await gravarEstado(); renderAdmin();
 }
 async function resetar(){
-  if (estado.sorteados.length && !confirm("Zerar o sorteio? Todos os números sorteados serão apagados.")) return;
-  clearTimeout(timer); $("#globo").classList.remove("girando");
+  if (estado.sorteados.length && !confirm("Zerar os números do globo? Os ganhadores já registrados continuam na lista.")) return;
+  clearTimeout(timer); girando = false;
   estado.sorteados = []; estado.rodando = false;
-  await gravarEstado(); renderAdmin();
+  await gravarEstado(); sincronizarBolas(); renderAdmin();
+}
+async function novoJogoAdmin(){
+  if (!confirm("Começar um novo jogo?\n\nOs números sorteados e as marcações de todos os jogadores serão zerados. As cartelas continuam as mesmas e os ganhadores desta rodada vão para o histórico.")) return;
+  clearTimeout(timer); girando = false;
+  try {
+    await novoJogo();
+    estado = await getEstado(); ganhadores = await getGanhadores(); cartelas = await getCartelas();
+    sincronizarBolas(); renderAdmin();
+    aviso("Novo jogo pronto. Escolha o modo e dê Play.");
+  } catch(e){ console.error(e); aviso("Não consegui iniciar o novo jogo."); }
 }
 
 /* ---------- Carga e sincronização ---------- */
 async function carregarEstado(){
-  try { estado = await getEstado(); renderJogo(); } catch(e){ console.error(e); }
+  try {
+    const e = await getEstado();
+    const mudou = rodadaVista != null && e.rodada !== rodadaVista;
+    estado = e;
+    if (rodadaVista == null || mudou){
+      rodadaVista = e.rodada;
+      if (mudou && cartela && usuario){
+        const c = await getCartela(usuario.id); if (c) cartela = c;
+        aviso("Novo jogo! Suas marcações foram limpas.");
+      }
+    }
+    renderJogo();
+  } catch(e){ console.error(e); }
 }
 async function carregarCartelas(){
   try { cartelas = await getCartelas(); modoAdmin ? renderAdmin() : renderJogo(); } catch(e){ console.error(e); }
+}
+async function carregarGanhadores(){
+  try { ganhadores = await getGanhadores(); modoAdmin ? renderAdmin() : renderJogo(); } catch(e){ console.error(e); }
 }
 function iniciarSync(){
   pararSync();
   if (!DEMO){
     canal = db.channel("bingo")
       .on("postgres_changes", { event:"*", schema:"public", table:"bingo_cartelas" }, () => carregarCartelas())
+      .on("postgres_changes", { event:"*", schema:"public", table:"bingo_ganhadores" }, () => carregarGanhadores())
       .on("postgres_changes", { event:"*", schema:"public", table:"bingo_estado" }, () => { if (!modoAdmin) carregarEstado(); })
       .subscribe();
   }
-  polls = modoAdmin ? [setInterval(carregarCartelas, 6000)]
-                    : [setInterval(carregarEstado, 3000), setInterval(carregarCartelas, 9000)];
+  polls = modoAdmin ? [setInterval(carregarCartelas, 6000), setInterval(carregarGanhadores, 8000)]
+                    : [setInterval(carregarEstado, 3000), setInterval(carregarCartelas, 12000), setInterval(carregarGanhadores, 8000)];
 }
 function pararSync(){
   polls.forEach(clearInterval); polls = [];
@@ -599,32 +877,33 @@ async function entrarJogador(u){
 async function mostrarCartela(){
   $("#cNome").textContent = cartela.nome;
   $("#cFantasia").textContent = cartela.fantasia;
+  $("#cNumero").textContent = fmtNum(cartela.numero);
   tela("#cartela");
-  ultimoVisto = null;
-  try { estado = await getEstado(); cartelas = await getCartelas(); } catch(e){ console.error(e); }
+  ultimoVisto = null; modoDesenhado = null; rodadaVista = null;
+  try { estado = await getEstado(); cartelas = await getCartelas(); ganhadores = await getGanhadores(); rodadaVista = estado.rodada; }
+  catch(e){ console.error(e); }
   renderJogo();
   iniciarSync();
 }
 async function abrirAdmin(senha){
   modoAdmin = true; senhaAdmin = senha;
   sessionStorage.setItem(SS_ADMIN, senha);
-  try { estado = await getEstado(); cartelas = await getCartelas(); } catch(e){ console.error(e); }
+  try { estado = await getEstado(); cartelas = await getCartelas(); ganhadores = await getGanhadores(); } catch(e){ console.error(e); }
   estado.rodando = false;           // ao abrir o painel, o sorteio começa pausado
   await gravarEstado();
   tela("#admin");
+  construirModos();
+  iniciarGlobo();
   renderAdmin();
   iniciarSync();
 }
 function sairTudo(){
-  pausarSilencioso();
+  if (modoAdmin && estado.rodando){ estado.rodando = false; gravarEstado(); }
+  clearTimeout(timer); girando = false; pararGlobo();
   pararSync();
   localStorage.removeItem(LS_USER); sessionStorage.removeItem(SS_ADMIN);
   usuario = null; cartela = null; modoAdmin = false; senhaAdmin = null;
   $("#formEntrada").reset(); tela("#entrada");
-}
-function pausarSilencioso(){
-  clearTimeout(timer); $("#globo").classList.remove("girando");
-  if (modoAdmin && estado.rodando){ estado.rodando = false; gravarEstado(); }
 }
 
 /* ---------- Eventos ---------- */
@@ -641,8 +920,12 @@ $("#formFantasia").addEventListener("submit", async e => {
   if (f.length < 2){ $("#erroFantasia").textContent = "Escreva a sua fantasia."; return; }
   $("#erroFantasia").textContent = "";
   const nova = { user_id:usuario.id, nome:usuario.nome, fantasia:f, numeros:gerarNumeros(), marcadas:[] };
-  try { await criarCartela(nova); cartela = nova; await mostrarCartela(); }
-  catch(err){ console.error(err); $("#erroFantasia").textContent = "Não consegui criar sua cartela. Tente de novo."; }
+  try { cartela = await criarCartela(nova); await mostrarCartela(); }
+  catch(err){
+    console.error(err);
+    if (err && err.code === "23505"){ try { cartela = await getCartela(usuario.id); if (cartela){ await mostrarCartela(); return; } } catch(x){} }
+    $("#erroFantasia").textContent = "Não consegui criar sua cartela. Tente de novo.";
+  }
 });
 $("#fantasiaSair").addEventListener("click", sairTudo);
 $("#cSair").addEventListener("click", sairTudo);
@@ -660,27 +943,19 @@ $("#aSair").addEventListener("click", sairTudo);
 $("#btnPlay").addEventListener("click", play);
 $("#btnPause").addEventListener("click", pausar);
 $("#btnReset").addEventListener("click", resetar);
-document.querySelectorAll("#modos button").forEach(b => b.addEventListener("click", async () => {
-  estado.modo = b.dataset.m; await gravarEstado(); renderAdmin();
-}));
+$("#btnNovo").addEventListener("click", novoJogoAdmin);
 $("#btnLimpar").addEventListener("click", async () => {
   if (!cartela || !(cartela.marcadas || []).length) return;
   cartela.marcadas = []; desenharCartela();
   try { await atualizarCartela(usuario.id, { marcadas:[] }); } catch(e){ console.error(e); aviso("Não consegui salvar."); }
 });
-$("#btnNova").addEventListener("click", async () => {
-  if (estado.sorteados.length){ aviso("O sorteio já começou. Não dá mais para trocar a cartela."); return; }
-  if (!confirm("Gerar uma nova cartela? A atual será apagada.")) return;
-  cartela.numeros = gerarNumeros(); cartela.marcadas = [];
-  desenharCartela();
-  try { await atualizarCartela(usuario.id, { numeros:cartela.numeros, marcadas:[] }); await carregarCartelas(); }
-  catch(e){ console.error(e); aviso("Não consegui salvar a nova cartela."); }
-});
-window.addEventListener("beforeunload", () => { if (modoAdmin && estado.rodando){ estado.rodando = false; if (DEMO) localStorage.setItem(LS_E, JSON.stringify(estado)); } });
+window.addEventListener("beforeunload", () => { if (modoAdmin && estado.rodando && DEMO){ estado.rodando = false; localStorage.setItem(LS_E, JSON.stringify(estado)); } });
 
 /* ---------- Início ---------- */
 $("#tituloFesta").textContent = CONFIG.FESTA_NOME;
 document.title = CONFIG.FESTA_NOME;
+setInterval(carregarRegistradas, 10000);
+carregarRegistradas();
 (async () => {
   const sa = sessionStorage.getItem(SS_ADMIN);
   if (sa){ try { if (await checarAdmin(sa)){ abrirAdmin(sa); return; } } catch(e){} sessionStorage.removeItem(SS_ADMIN); }

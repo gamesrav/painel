@@ -465,10 +465,11 @@ async function checarAdmin(s){
 async function gravarEstado(){
   const e = { sorteados:estado.sorteados, modo:estado.modo, rodando:estado.rodando, rodada:estado.rodada };
   try {
-    if (DEMO){ localStorage.setItem(LS_E, JSON.stringify(e)); return; }
+    if (DEMO){ localStorage.setItem(LS_E, JSON.stringify(e)); return true; }
     const { error } = await db.rpc("bingo_set_estado", { p_senha:senhaAdmin, p_sorteados:e.sorteados, p_modo:e.modo, p_rodando:e.rodando });
     if (error) throw error;
-  } catch(err){ console.error(err); aviso("Não consegui salvar o sorteio. Confira a conexão."); }
+    return true;
+  } catch(err){ console.error(err); aviso("O modo não foi salvo no servidor. Confira a conexão, a senha admin e a função bingo_set_estado no Supabase."); return false; }
 }
 async function registrarGanhadores(itens){
   if (DEMO){
@@ -711,8 +712,10 @@ function construirModos(){
   });
 }
 async function trocarModo(k){
+  const modoAnterior = estado.modo;
   estado.modo = k;
-  await gravarEstado();
+  const salvo = await gravarEstado();
+  if (!salvo){ estado.modo = modoAnterior; renderAdmin(); return; }
   const novos = novosVencedores();
   renderAdmin();
   if (novos.length){

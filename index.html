@@ -508,13 +508,28 @@ const TITULOS = ["O Exorcista","O Iluminado","Psicose","Halloween","Tubarão","A
   "O Homem nas Trevas","O Nevoeiro","Cemitério Maldito","O Ritual","O Colecionador","A Colina Escarlate","O Segredo da Cabana","O Telefone Preto",
   "Sorria","Fale Comigo","Barbarian","X","Pearl","MaXXXine","Longlegs","Abigail","Imaculada","A Substância","Nosferatu","O Macaco","Terrifier",
   "A Morte Te Dá Parabéns"];
-const FILMES = TITULOS.map((t, i) => ({ key:String(i + 1), nums:[i + 1], txt:[t] }));
-const ITENS = { sequencia:SEQ, invertido:INV, filmes:FILMES };
+const comoItens = lista => lista.map((t, i) => ({ key:String(i + 1), nums:[i + 1], txt:[t] }));
+const FILMES = comoItens(TITULOS);
+const CALDEIRAO = comoItens(["Caldeirão","Varinha","Vassoura","Abóbora","Chapéu","Cristal","Grimório","Poção","Teia","Aranha",
+  "Morcego","Caveira","Ossos","Fantasma","Gato","Veneno","Candelabro","Vela","Lua","Corvo",
+  "Caixão","Corrente","Zumbi","Vampiro","Máscara","Lanterna","Chave","Ampulheta","Espelho","Portal",
+  "Esqueleto","Múmia","Lobisomem","Bruxa","Foice","Machado","Adaga","Cemitério","Lápide","Túmulo",
+  "Névoa","Raio","Relâmpago","Árvore","Galho","Rosa","Cogumelo","Mandrágora","Sapo","Lagarto",
+  "Escorpião","Rato","Cobra","Besouro","Mariposa","Mosca","Manto","Elmo","Relógio","Sino",
+  "Garrafa","Pêndulo","Máscara","Fungo","Cripta","Sarcófago","Chicote","Grilhão","Coroa","Tridente"]);
+const SMILES = comoItens(["spooky","scary","reaper","ghostmon","fear","viki","vampire","zwhack","boo","nightmare","spookies","susto",
+  "zombie","arachnid","graveyard","skull","scaryxmas","horrorgal","kdemon","kmoon","halloween","halloween2","allhallows","muertos",
+  "fright","ghosty","horror","trickortreat","witch","haunt","cemetery","morgana","carve","creepy","halloscroll","miedo","hallowneon",
+  "ungle","sins","monster","aliens","microbe","creature","sizfantasy","sadie","ali","Superscary","superhalloween"]);
+const ITENS = { sequencia:SEQ, invertido:INV, filmes:FILMES, caldeirao:CALDEIRAO, smiles:SMILES };
+/* texto:true = o bloco é uma palavra (a bola sorteada é o nº da posição na lista); pl = como chamar os itens */
 const GAMES = {
   cartela:   { nome:"Cartela",          pool:90 },
   sequencia: { nome:"Sequências",       pool:90, limite:1, titulo:"Sequências" },
   invertido: { nome:"Invertido",        pool:90, limite:1, titulo:"Invertido" },
-  filmes:    { nome:"Filmes de Terror", pool:FILMES.length, limite:2, titulo:"Filmes de Terror" }
+  filmes:    { nome:"Filmes de Terror", pool:FILMES.length,    limite:2, titulo:"Filmes de Terror", texto:true, pl:"filmes" },
+  caldeirao: { nome:"Caldeirão",        pool:CALDEIRAO.length, limite:2, titulo:"Caldeirão",        texto:true, pl:"blocos" },
+  smiles:    { nome:"Smiles",           pool:SMILES.length,    limite:2, titulo:"Jogo dos Smiles",  texto:true, pl:"smiles" }
 };
 const itemPorKey = (g, k) => ITENS[g].find(i => i.key === k);
 const rotuloItem = it => it.txt.join(" ");
@@ -790,7 +805,7 @@ $("#btnLimpar").addEventListener("click", async () => {
 /* Games de blocos */
 function renderBlocosJogador(j){
   const cfg = GAMES[jogoAtivo], itens = ITENS[jogoAtivo];
-  $("#bTitulo").textContent = cfg.titulo + (cfg.limite === 1 ? " · escolha 1 bloco" : " · escolha 2 filmes");
+  $("#bTitulo").textContent = cfg.titulo + (cfg.limite === 1 ? " · escolha 1 bloco" : " · escolha 2 " + (cfg.pl || "blocos"));
   const donos = new Map(escolhas.filter(e => e.jogo === jogoAtivo).map(e => [e.item, e.jogador_id]));
   const minhas = [...donos].filter(([, id]) => id === sessao.id).map(([k]) => k);
   const resumo = $("#bResumo"); resumo.textContent = "";
@@ -802,13 +817,13 @@ function renderBlocosJogador(j){
     btnCopiar.dataset.texto = textos.join(" e ");
     btnCopiar.hidden = false;
   } else {
-    resumo.textContent = cfg.limite === 1 ? "Você ainda não escolheu seu bloco." : "Você ainda não escolheu seus 2 filmes.";
+    resumo.textContent = cfg.limite === 1 ? "Você ainda não escolheu seu bloco." : "Você ainda não escolheu seus 2 " + (cfg.pl || "blocos") + ".";
     btnCopiar.hidden = true; btnCopiar.dataset.texto = "";
   }
   const travado = j.sorteados.length > 0;
   $("#bTravado").hidden = !travado;
   const grid = $("#bGrid"); grid.textContent = "";
-  grid.className = "blocosGrid" + (jogoAtivo === "filmes" ? " filmes" : "");
+  grid.className = "blocosGrid" + (cfg.texto ? " filmes" : "");
   itens.forEach(it => {
     const dono = donos.get(it.key), minha = dono === sessao.id, outro = dono != null && !minha;
     const b = mk("button", "blocoJogo" + (minha ? " minha" : outro ? " ocupado" : "")); b.type = "button";
@@ -835,7 +850,7 @@ function melhorGrade(n, W, H, asp, gap){
 function ajustarBlocos(){
   const area = $("#bArea"), grid = $("#bGrid");
   if ($("#gBlocos").hidden || !area.clientWidth) return;
-  const filmes = jogoAtivo === "filmes", n = ITENS[jogoAtivo].length, gap = 6;
+  const filmes = !!GAMES[jogoAtivo].texto, n = ITENS[jogoAtivo].length, gap = 6;
   const asp = filmes ? 2.3 : 1.7, minW = filmes ? 96 : 78, minH = filmes ? 54 : 44;
   let g = melhorGrade(n, area.clientWidth, area.clientHeight, asp, gap), rolar = false;
   if (g.w < minW || g.h < minH){
@@ -855,7 +870,7 @@ async function clicarBloco(key, minha){
   const cfg = GAMES[jogoAtivo];
   const MSG_ERRO = {
     ocupado:"Alguém acabou de pegar esse bloco. Escolha outro.",
-    limite: cfg.limite === 1 ? "Você já escolheu um bloco. Toque nele para soltar e escolher outro." : "Você já escolheu 2 filmes. Toque em um deles para soltar.",
+    limite: cfg.limite === 1 ? "Você já escolheu um bloco. Toque nele para soltar e escolher outro." : "Você já escolheu 2 " + (cfg.pl || "blocos") + ". Toque em um deles para soltar.",
     sorteio_iniciado:"O sorteio já começou. As escolhas estão travadas.", jogo_inativo:"Esse game não está mais ativo.",
     nao_autorizado:"Sua conta não está aprovada."
   };
@@ -917,7 +932,7 @@ function calcRanking(){
       const p = mapaJog.get(id) || { nome:"Jogador", fantasia:"" };
       const detalhe = itens.map(rotuloItem).join(" + ");
       res.push({ id, nome:p.nome, fantasia:p.fantasia, extra:detalhe, faltam:falt.length + semEscolher,
-                 faltantes:falt.map(n => jogoAtivo === "filmes" ? FILMES[n - 1].txt[0] : String(n)), detalhe });
+                 faltantes:falt.map(n => GAMES[jogoAtivo].texto ? ITENS[jogoAtivo][n - 1].txt[0] : String(n)), detalhe });
     });
   }
   return res.sort((a, b) => a.faltam - b.faltam || a.nome.localeCompare(b.nome, "pt-BR"));
@@ -1129,14 +1144,14 @@ async function registrarNovos(novos, bola){
 }
 function renderAdmin(){
   if (!ativa("#admin")) return;
-  const j = jogos[jogoAtivo], pool = GAMES[jogoAtivo].pool, s = j.sorteados, filmes = jogoAtivo === "filmes";
+  const j = jogos[jogoAtivo], pool = GAMES[jogoAtivo].pool, s = j.sorteados, filmes = !!GAMES[jogoAtivo].texto, plural = GAMES[jogoAtivo].pl || "números";
   document.querySelectorAll("#aGames .gamePill").forEach(b => b.classList.toggle("on", !espera && b.dataset.g === jogoAtivo));
   const ult = s.length ? s[s.length - 1] : null;
   setBola($("#bolaAtual"), ult, false);
-  $("#bolaTitulo").textContent = ult && filmes ? FILMES[ult - 1].txt[0] : "Bola sorteada";
+  $("#bolaTitulo").textContent = ult && filmes ? ITENS[jogoAtivo][ult - 1].txt[0] : "Bola sorteada";
   $("#aContador").textContent = espera
     ? "Tela dos jogadores em espera. Escolha um game para liberar."
-    : "Rodada " + j.rodada + " · " + s.length + " de " + pool + (filmes ? " filmes" : " números") + " sorteados";
+    : "Rodada " + j.rodada + " · " + s.length + " de " + pool + " " + plural + " sorteados";
   $("#btnPlay").disabled = j.rodando || s.length >= pool;
   $("#btnPause").disabled = !j.rodando;
   $("#btnEspera").disabled = espera;
@@ -1149,10 +1164,10 @@ function renderAdmin(){
   $("#modosBox").hidden = jogoAtivo !== "cartela";
   document.querySelectorAll("#modosGrid .modoCard").forEach(b => b.classList.toggle("on", b.dataset.m === j.modo));
 
-  $("#aQuadroTit").textContent = filmes ? "Filmes sorteados" : "Números sorteados";
+  $("#aQuadroTit").textContent = filmes ? plural.charAt(0).toUpperCase() + plural.slice(1) + " sorteados" : "Números sorteados";
   const q = $("#quadro"); q.textContent = ""; q.className = "quadro" + (filmes ? " lista" : "");
   const set = new Set(s);
-  if (filmes) FILMES.forEach((f, i) => q.appendChild(mk("span", "chipFilme" + (set.has(i + 1) ? " on" : "") + (i + 1 === ult ? " ult" : ""), (i + 1) + " · " + f.txt[0])));
+  if (filmes) ITENS[jogoAtivo].forEach((f, i) => q.appendChild(mk("span", "chipFilme" + (set.has(i + 1) ? " on" : "") + (i + 1 === ult ? " ult" : ""), (i + 1) + " · " + f.txt[0])));
   else for (let n = 1; n <= pool; n++) q.appendChild(mk("span", "n" + (set.has(n) ? " on" : "") + (n === ult ? " ult" : ""), String(n)));
 
   desenharRanking($("#aRank"), calcRanking(), 10);
@@ -1243,7 +1258,7 @@ async function novaSenha(p){
 }
 
 /* sorteio */
-function rotuloBola(n){ return jogoAtivo === "filmes" ? FILMES[n - 1].txt[0] : String(n); }
+function rotuloBola(n){ return GAMES[jogoAtivo].texto ? ITENS[jogoAtivo][n - 1].txt[0] : String(n); }
 function sortear(){
   const j = jogos[jogoAtivo], pool = GAMES[jogoAtivo].pool, restantes = [];
   for (let n = 1; n <= pool; n++) if (!j.sorteados.includes(n)) restantes.push(n);
